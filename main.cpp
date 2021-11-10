@@ -21,7 +21,7 @@ int main()
 	int set_read = 0;
 	while(1)
 	{
-		sleep(3);
+//		sleep(3);
 		signal(SIGINT, signal_kill);
 		server.build_select_list();
 

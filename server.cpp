@@ -94,12 +94,9 @@ void Server::build_select_list()
 
 int Server::get_read_socks()
 {
-	int readsocks;
-
 	this->timeout.tv_sec = 1;
 	this->timeout.tv_usec = 0;
-	readsocks = select( (this->highsock + 1 ), &this->reads, (fd_set *) 0, (fd_set *) 0 , &this->timeout);
-	return readsocks;
+	return select( (this->highsock + 1 ), &this->reads, (fd_set *) 0, (fd_set *) 0 , &this->timeout);
 }
 
 void Server::handle_new_connection()
@@ -141,16 +138,19 @@ void Server::deal_with_data(int listnum)
 {
 	char buffer[80];
 	char *cur_char;
+	int patata;
 
 	std::cout << "Read_socks:" << std::endl;
-	if (recv(this->_list_connected_user[listnum], buffer, 80, 0) == -1)
+	if ((patata = recv(this->_list_connected_user[listnum], buffer, 80, 0)) <= 0)
 	{
+		buffer[patata] = 0;
 		std::cout << std::endl << "Connection lost fd -> " << this->_list_connected_user[listnum] << " slot -> " <<  listnum << std::endl;
 		close(this->_list_connected_user[listnum]);
 		this->_list_connected_user[listnum] = 0;
 	}
 	else
 	{
+		buffer[patata] = 0;
 		//aqui parseo
 		std::cout << std::endl << "Received:  " << buffer << std::endl;
 		cur_char = buffer;
