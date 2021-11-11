@@ -80,12 +80,13 @@ void Server::build_select_list()
 	int listnum;
 
 	// std::cout << "build_select_list:" << std::endl;
-	FD_ZERO(&this->reads);
+	FD_ZERO(&this->reads);	
+	FD_ZERO(&this->writes);
 	FD_SET(this->listening_socket, &this->reads);
-
 	for (listnum = 0; listnum < FD_SETSIZE; listnum++) {
 		if (this->_list_connected_user[listnum] != 0) {
 			FD_SET(this->_list_connected_user[listnum],&this->reads);
+			FD_SET(this->_list_connected_user[listnum],&this->writes);
 			if (this->_list_connected_user[listnum] > this->highsock)
 				this->highsock = this->_list_connected_user[listnum];
 		}
@@ -96,7 +97,7 @@ int Server::get_read_socks()
 {
 	this->timeout.tv_sec = 1;
 	this->timeout.tv_usec = 0;
-	return select( (this->highsock + 1 ), &this->reads, (fd_set *) 0, (fd_set *) 0 , &this->timeout);
+	return select((this->highsock + 1 ), &this->reads, (fd_set *) 0, (fd_set *) 0 , &this->timeout);
 }
 
 void Server::handle_new_connection()
@@ -136,35 +137,39 @@ void Server::handle_new_connection()
 
 void Server::deal_with_data(int listnum)
 {
-	char buffer[80];
+	char buffer[5];
 	char *cur_char;
-	int patata;
+	std::string buff_input;
+	ssize_t verify;
 
-	std::cout << "Read_socks:" << std::endl;
-	if ((patata = recv(this->_list_connected_user[listnum], buffer, 80, 0)) <= 0)
+	std::cout << "read_socks:" << std::endl;
+	while ((verify = recv(this->_list_connected_user[listnum], buffer, 5, 0)) > 0)
 	{
-		buffer[patata] = 0;
-		std::cout << std::endl << "Connection lost fd -> " << this->_list_connected_user[listnum] << " slot -> " <<  listnum << std::endl;
-		close(this->_list_connected_user[listnum]);
-		this->_list_connected_user[listnum] = 0;
+		buff_input += buffer;
+		std::cout << buffer << std::endl;
 	}
-	else
-	{
-		buffer[patata] = 0;
-		//aqui parseo
-		std::cout << std::endl << "Received:  " << buffer << std::endl;
-		cur_char = buffer;
-		while(*cur_char)
-		{
-			*cur_char = toupper(*cur_char);
-			cur_char++;
-		}
-		send(this->_list_connected_user[listnum], buffer, strlen(buffer), 0);
-		send(this->_list_connected_user[listnum], (char *)"\n", strlen((char *)"\n"), 0);
-		// sock_puts(this->_list_connected_user[listnum], buffer);
-		// sock_puts(this->_list_connected_user[listnum], (char *)"\n");
-		std::cout << "Responded: " << buffer << std::endl;
-	}
+	if (verify < 0) // Puede q sea solo menor pero hay q hacer pruebecitas
+		perror("buffer: ");
+	std::cout << buff_input << std::endl;
+	std::cout << "hola" << std::endl;
+	
+	// else
+	// {
+	// 	buffer[patata] = 0;
+	// 	//aqui parseo
+	// 	std::cout << std::endl << "Received:  " << buffer << std::endl;
+	// 	cur_char = buffer;
+	// 	while(*cur_char)
+	// 	{
+	// 		*cur_char = toupper(*cur_char);
+	// 		cur_char++;
+	// 	}
+	// 	send(this->_list_connected_user[listnum], buffer, strlen(buffer), 0);
+	// 	send(this->_list_connected_user[listnum], (char *)"\n", strlen((char *)"\n"), 0);
+	// 	// sock_puts(this->_list_connected_user[listnum], buffer);
+	// 	// sock_puts(this->_list_connected_user[listnum], (char *)"\n");
+	// 	std::cout << "Responded: " << buffer << std::endl;
+	// }
 }
 
 void Server::read_socks()

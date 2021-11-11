@@ -18,15 +18,14 @@ class Server
 	private:
 		int					listening_socket;
 		fd_set				reads;
+		fd_set				writes;
 		int 				highsock;
 		struct timeval 		timeout;
-		// int					readsocks;
 		int					_list_connected_user[FD_SETSIZE];
 
 		char 				*ascport;
 		int 				port;
 		struct sockaddr_in 	server_address;
-		// int 				reuse_addr = 1;
 		Server(const Server &other);
 
 	public:
