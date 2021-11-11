@@ -24,7 +24,6 @@ int main()
 //		sleep(3);
 		signal(SIGINT, signal_kill);
 		server.build_select_list();
-
 		if((set_read = server.get_read_socks()) < 0)
 		{
 			perror("select");
