@@ -138,15 +138,23 @@ void Server::handle_new_connection()
 
 void Server::deal_with_data(int listnum)
 {
-	char buffer[5];
-	char *cur_char;
+	char buffer[512]; //N: 512 y sin lios -> IIRC at least znc crashes, other clients like xchat start having rendering issues and some (I think irssi) completely disregard content after the 512th byte
+
+//	char *cur_char;
 	std::string buff_input;
 	ssize_t verify;
+	std::string received;
+	std::vector<std::string> tokens;
+
 
 	std::cout << "read_socks:" << std::endl;
-	if ((verify = recv(this->_list_connected_user[listnum], buffer, 5, 0)) <= 0) //N: si es menor pierde conexion, si no hace cosas
+	while ((verify = recv(this->_list_connected_user[listnum], buffer, 512, 0)) > 0)
 	{
 		buffer[verify] = 0;
+		received += buffer;
+	}
+	if(received.length() <= 0)	//N: si es menor pierde conexion, si no hace cosas
+	{
 
 
 		//delete user?
@@ -163,25 +171,50 @@ void Server::deal_with_data(int listnum)
 //		perror("buffer: ");
 	else
 	{
-		buffer[verify] = 0;
 		//aqui parseo
+		std::istringstream ss(received);
+		std::string tmps;
+		while(ss >> tmps)
+			tokens.push_back(tmps);
+
+		std::cout << std::endl << "token0:  " << tokens[0] << std::endl;
+
+		if(tokens[0] == "USER")
+		{
+			std::cout << std::endl << "User:  " << tokens[1] << std::endl;
+		}
 
 		//USER <user> <mode> <unused> <realname>
 
 
+
+
+
+
+
+
+
+
+		std::cout << std::endl << "Received:  " << received << std::endl;
+
 		//old toupper
-		std::cout << std::endl << "Received:  " << buffer << std::endl;
-		cur_char = buffer;
+		/*//N: lo he pasao a string porque si
+		cur_char = received;
 		while(*cur_char)
 		{
 			*cur_char = toupper(*cur_char);
 			cur_char++;
 		}
-		send(this->_list_connected_user[listnum], buffer, strlen(buffer), 0);
+		*/
+		std::transform(received.begin(), received.end(), received.begin(), ::toupper);
+
+		send(this->_list_connected_user[listnum], received.c_str(), received.length(), 0);
 		send(this->_list_connected_user[listnum], (char *)"\n", strlen((char *)"\n"), 0);
+
 		// sock_puts(this->_list_connected_user[listnum], buffer);
 		// sock_puts(this->_list_connected_user[listnum], (char *)"\n");
-		std::cout << "Responded: " << buffer << std::endl;
+
+		std::cout << "Responded: " << received << std::endl;
 	}
 }
 

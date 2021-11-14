@@ -12,6 +12,10 @@
 # include <unistd.h>
 # include <string.h>
 # include <iostream>
+# include <algorithm>
+# include <string>
+# include <vector>
+# include <sstream>
 
 # include "user.hpp"
 
