@@ -13,6 +13,8 @@
 # include <string.h>
 # include <iostream>
 
+# include "user.hpp"
+
 class Server
 {
 	private:
@@ -22,6 +24,8 @@ class Server
 		int 				highsock;
 		struct timeval 		timeout;
 		int					_list_connected_user[FD_SETSIZE];
+		User				*list_users[FD_SETSIZE]; //N: cacoso hecho asi
+
 
 		char 				*ascport;
 		int 				port;
