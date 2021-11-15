@@ -179,12 +179,21 @@ void Server::deal_with_data(int listnum)
 
 		std::cout << std::endl << "token0:  " << tokens[0] << std::endl;
 
-		if(tokens[0] == "USER")
-		{
-			std::cout << std::endl << "User:  " << tokens[1] << std::endl;
-		}
 
 		//USER <user> <mode> <unused> <realname>
+		//USER guest 0 * :Ronnie Reagan
+			//el modo debe ser numerico una bitmask, con dos dos bits, bit 2 modo 'w' bit 3 modo 'i'
+			//el realname puede contener espacios
+		if(tokens[0] == "USER")
+		{
+			User *tmpuser;
+			tmpuser = this->list_users[this->_list_connected_user[listnum]];
+std::cout << "hacecosas" << std::endl;
+			tmpuser->set_nick(tokens[1]);
+			tmpuser->set_modes(std::stoi(tokens[2]));
+			tmpuser->set_user(tokens[4]);
+			std::cout << std::endl << "Nick:  " << tmpuser->get_nick() << "\nmodes:" << tmpuser->get_modes() << "\nUser: " << tmpuser->get_user() << std::endl;
+		}
 
 
 

@@ -31,6 +31,7 @@ class Server
 		User				*list_users[FD_SETSIZE]; //N: cacoso hecho asi
 
 
+
 		char 				*ascport;
 		int 				port;
 		struct sockaddr_in 	server_address;
