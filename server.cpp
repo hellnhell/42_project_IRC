@@ -80,7 +80,7 @@ void Server::build_select_list()
 	int listnum;
 
 	// std::cout << "build_select_list:" << std::endl;
-	FD_ZERO(&this->reads);	
+	FD_ZERO(&this->reads);
 	FD_ZERO(&this->writes);
 	FD_SET(this->listening_socket, &this->reads);
 	for (listnum = 0; listnum < FD_SETSIZE; listnum++) {
@@ -112,12 +112,13 @@ void Server::handle_new_connection()
 		exit(EXIT_FAILURE);
 	}
 	setnonblocking(connection);
-	for (size_t listnum = 0; (listnum < 5) && (connection != -1); listnum++)
+	for (size_t listnum = 0; (listnum < FD_SETSIZE) && (connection != -1); listnum++)
 	{
 		if(this->_list_connected_user[listnum] == 0)
 		{
 			printf("Connection accepted: fd=%d Slot=%lu\n", connection, listnum);
 			this->_list_connected_user[listnum] = connection;
+			this->list_users[connection] = new User(connection);
 			connection = -1;
 		}
 	}
@@ -137,39 +138,83 @@ void Server::handle_new_connection()
 
 void Server::deal_with_data(int listnum)
 {
-	char buffer[5];
-	char *cur_char;
+	char buffer[512]; //N: 512 y sin lios -> IIRC at least znc crashes, other clients like xchat start having rendering issues and some (I think irssi) completely disregard content after the 512th byte
+
+//	char *cur_char;
 	std::string buff_input;
 	ssize_t verify;
+	std::string received;
+	std::vector<std::string> tokens;
+
 
 	std::cout << "read_socks:" << std::endl;
-	while ((verify = recv(this->_list_connected_user[listnum], buffer, 5, 0)) > 0)
+	while ((verify = recv(this->_list_connected_user[listnum], buffer, 512, 0)) > 0)
 	{
-		buff_input += buffer;
-		std::cout << buffer << std::endl;
+		buffer[verify] = 0;
+		received += buffer;
 	}
-	if (verify < 0) // Puede q sea solo menor pero hay q hacer pruebecitas
-		perror("buffer: ");
-	std::cout << buff_input << std::endl;
-	std::cout << "hola" << std::endl;
-	
-	// else
-	// {
-	// 	buffer[patata] = 0;
-	// 	//aqui parseo
-	// 	std::cout << std::endl << "Received:  " << buffer << std::endl;
-	// 	cur_char = buffer;
-	// 	while(*cur_char)
-	// 	{
-	// 		*cur_char = toupper(*cur_char);
-	// 		cur_char++;
-	// 	}
-	// 	send(this->_list_connected_user[listnum], buffer, strlen(buffer), 0);
-	// 	send(this->_list_connected_user[listnum], (char *)"\n", strlen((char *)"\n"), 0);
-	// 	// sock_puts(this->_list_connected_user[listnum], buffer);
-	// 	// sock_puts(this->_list_connected_user[listnum], (char *)"\n");
-	// 	std::cout << "Responded: " << buffer << std::endl;
-	// }
+	if(received.length() <= 0)	//N: si es menor pierde conexion, si no hace cosas
+	{
+		//delete user?
+		delete (this->list_users[this->_list_connected_user[listnum]]);
+		//end delete user?
+
+
+		std::cout << std::endl << "Connection lost fd -> " << this->_list_connected_user[listnum] << " slot -> " <<  listnum << std::endl;
+		close(this->_list_connected_user[listnum]);
+		this->_list_connected_user[listnum] = 0;
+
+	}
+//	if (verify <= 0) // Puede q sea solo menor pero hay q hacer pruebecitas //N: testado que <= XD
+//		perror("buffer: ");
+	else
+	{
+		//aqui parseo
+		std::istringstream ss(received);
+		std::string tmps;
+		while(ss >> tmps)
+			tokens.push_back(tmps);
+
+		std::cout << std::endl << "token0:  " << tokens[0] << std::endl;
+
+
+		//USER <user> <mode> <unused> <realname>
+		//USER guest 0 * :Ronnie Reagan
+			//el modo debe ser numerico una bitmask, con dos dos bits, bit 2 modo 'w' bit 3 modo 'i'
+			//el realname puede contener espacios
+		if(tokens[0] == "USER")
+		{
+			User *tmpuser;
+			tmpuser = this->list_users[this->_list_connected_user[listnum]];
+			std::cout << "hacecosas" << std::endl;
+			tmpuser->set_nick(tokens[1]);
+			tmpuser->set_modes(std::stoi(tokens[2]));
+			tmpuser->set_user(tokens[4]);
+			std::cout << std::endl << "Nick:  " << tmpuser->get_nick() << "\nmodes:" << tmpuser->get_modes() << "\nUser: " << tmpuser->get_user() << std::endl;
+		}
+
+
+		std::cout << std::endl << "Received:  " << received << std::endl;
+
+		//old toupper
+		/*//N: lo he pasao a string porque si
+		cur_char = received;
+		while(*cur_char)
+		{
+			*cur_char = toupper(*cur_char);
+			cur_char++;
+		}
+		*/
+		std::transform(received.begin(), received.end(), received.begin(), ::toupper);
+
+		send(this->_list_connected_user[listnum], received.c_str(), received.length(), 0);
+		send(this->_list_connected_user[listnum], (char *)"\n", strlen((char *)"\n"), 0);
+
+		// sock_puts(this->_list_connected_user[listnum], buffer);
+		// sock_puts(this->_list_connected_user[listnum], (char *)"\n");
+
+		std::cout << "Responded: " << received << std::endl;
+	}
 }
 
 void Server::read_socks()

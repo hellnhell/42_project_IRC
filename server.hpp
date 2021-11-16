@@ -12,6 +12,12 @@
 # include <unistd.h>
 # include <string.h>
 # include <iostream>
+# include <algorithm>
+# include <string>
+# include <vector>
+# include <sstream>
+
+# include "user.hpp"
 
 class Server
 {
@@ -22,6 +28,9 @@ class Server
 		int 				highsock;
 		struct timeval 		timeout;
 		int					_list_connected_user[FD_SETSIZE];
+		User				*list_users[FD_SETSIZE]; //N: cacoso hecho asi
+
+
 
 		char 				*ascport;
 		int 				port;
