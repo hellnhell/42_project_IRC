@@ -14,9 +14,9 @@
 
 void   parse_message(std::string buffer)
 {
-    std::string                 toks;
     std::vector<std::string>    tokens;
     size_t                      i;
+	std::string                  tmps;    
    
     if (buffer.empty())
         tokens.push_back("");
@@ -24,39 +24,33 @@ void   parse_message(std::string buffer)
         buffer.erase(i, buffer.size() - i);
         // buffer.push_back('\0');
     }
-    std::stringstream           s(buffer);
+    std::istringstream ss(buffer);
+	while(ss >> tmps)
+    {
+        if (tmps.find(":") != std::string::npos)
+        {
+            tokens.insert(pos, end)
+        }
+        else
+		    tokens.push_back(tmps);
+    }
     if(buffer[0] == ':') // tokens[0] = prfx tokens[1] = comando
     {
-        while(getline(s, toks, ' '))
-            tokens.push_back(toks);
+        if(buffer[1] == ' ')
+            perror("Message : ");
         std::string command = tokens[1];
-        std::vector<std::string>::iterator it = tokens.begin();
-        while (it != tokens.end())
-        {
-            std::cout << *it << "/";
-            it++;                    
-        }
-        std::cout << std::endl;
     }
     else  // tokens[0] = cmmand tokens[1]
     {
-        while(getline(s, toks, ' '))
-            tokens.push_back(toks);
         std::string command = tokens[0];
-        //       std::vector<std::string>::iterator it = tokens.begin();
-        // while (it != tokens.end())
-        // {
-        //     std::cout << *it << "/" << std::endl;
-        //     it++;                    
-        // }
-    
+        std::cout << tokens[1];
     }
     return ;
 }
 
 int main()
 {
-    std::string buffer = ":prefix cmmd param1 param2 :todo junto aaa\r\n";
+    std::string buffer = ":prefix cmmd param1 param2 :todo junto aaa\n";
     parse_message(buffer);
     return 0;
 }
