@@ -12,34 +12,51 @@
 
 #include "server.hpp"
 
-std::vector<std::string>    parse_message(std::string buffer)
+void   parse_message(std::string buffer)
 {
     std::string                 toks;
     std::vector<std::string>    tokens;
-    int                         pos = 0;
-    
-    if(buffer[0] == ':')
+    size_t                      i;
+   
+    if (buffer.empty())
+        tokens.push_back("");
+    if (((i = buffer.find('\n')) != std::string::npos) || ((i = buffer.find('\r')) != std::string::npos)){
+        buffer.erase(i, buffer.size() - i);
+        // buffer.push_back('\0');
+    }
+    std::stringstream           s(buffer);
+    if(buffer[0] == ':') // tokens[0] = prfx tokens[1] = comando
     {
-        buffer.erase(buffer.begin());
-        std::stringstream           s(buffer);
         while(getline(s, toks, ' '))
-        {
             tokens.push_back(toks);
-            while()
+        std::string command = tokens[1];
+        std::vector<std::string>::iterator it = tokens.begin();
+        while (it != tokens.end())
+        {
+            std::cout << *it << "/";
+            it++;                    
         }
+        std::cout << std::endl;
     }
-    std::vector<std::string>::iterator it = tokens.begin();
-    while(it != tokens.end())
+    else  // tokens[0] = cmmand tokens[1]
     {
-        std::cout << *it << std::endl;;
-        it++;
+        while(getline(s, toks, ' '))
+            tokens.push_back(toks);
+        std::string command = tokens[0];
+        //       std::vector<std::string>::iterator it = tokens.begin();
+        // while (it != tokens.end())
+        // {
+        //     std::cout << *it << "/" << std::endl;
+        //     it++;                    
+        // }
+    
     }
-    return tokens;
-
+    return ;
 }
 
 int main()
 {
-    std::string buffer = ":prfijoe hfjhf trtru hf : e  blhjggkjh  g";
+    std::string buffer = ":prefix cmmd param1 param2 :todo junto aaa\r\n";
     parse_message(buffer);
+    return 0;
 }
