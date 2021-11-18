@@ -29,9 +29,6 @@ class Server
 		struct timeval 		timeout;
 		int					_list_connected_user[FD_SETSIZE];
 		User				*list_users[FD_SETSIZE]; //N: cacoso hecho asi
-
-
-
 		char 				*ascport;
 		int 				port;
 		struct sockaddr_in 	server_address;
@@ -42,11 +39,12 @@ class Server
 		~Server();
 		Server &operator=(const Server &other);
 
-		void	build_select_list();
-		int		get_read_socks();
-		void	read_socks();
-		void	handle_new_connection();
-		void	deal_with_data(int listnum);
+		void						build_select_list();
+		int							get_read_socks();
+		void						read_socks();
+		void						handle_new_connection();
+		void						deal_with_data(int listnum);
+		std::vector<std::string>	parse_message(std::string buffer);
 
 };
 
