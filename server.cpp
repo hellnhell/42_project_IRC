@@ -64,6 +64,10 @@ Server::Server()
 		exit(EXIT_FAILURE);
 	}
 	this->highsock = this->listening_socket;
+	this->cmd_list.push_back("USER");
+	this->cmd_list.push_back("NICK");
+	this->cmd_list.push_back("EXIT");
+
 }
 
 Server::~Server()
@@ -146,6 +150,7 @@ std::vector<std::string>   Server::parse_message(std::string buffer)
 	
     if (buffer.empty())
         tokens.push_back("");
+	//Puede que haya que gestionar q haya más de un espacio entre cmds
     if (((pos = buffer.find('\n')) != std::string::npos) || ((pos = buffer.find('\r')) != std::string::npos))
         buffer.erase(pos, buffer.size() - pos);
     while(getline(s, tmps, ':'))
@@ -165,6 +170,9 @@ std::vector<std::string>   Server::parse_message(std::string buffer)
             tokens.push_back(tmps);
         tokens.push_back(tok_tmp[1]);
     }
+	//El número de parámetros tiene q ser max 15
+	if (tokens.size() > 15)
+		perror("Too much parameters");
 	return tokens;
 }
 
@@ -172,7 +180,6 @@ void Server::deal_with_data(int listnum)
 {
 	char buffer[512]; //N: 512 y sin lios -> IIRC at least znc crashes, other clients like xchat start having rendering issues and some (I think irssi) completely disregard content after the 512th byte
 
-//	char *cur_char;
 	std::string buff_input;
 	ssize_t verify;
 	std::string recived;
@@ -202,6 +209,14 @@ void Server::deal_with_data(int listnum)
 			//el realname puede contener espacios
 			//Hacer pruebas con los tokens y gestión errores;
 		tokens = parse_message(recived);
+		if (tokens[0].empty())
+			return;
+		std::transform(tokens[0].begin(), tokens[0].end(),tokens[0].begin(), ::toupper);
+		if (std::find(cmd_list.begin(), cmd_list.end(), tokens[0]) == cmd_list.end())
+		{
+			perror("Unknow command error!"); //Hay q hacer gestion de errores
+			exit(EXIT_FAILURE);
+		} 
 		if(tokens[0] == "USER")
 		{
 			User *tmpuser;

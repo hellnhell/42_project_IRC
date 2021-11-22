@@ -15,6 +15,7 @@
 # include <algorithm>
 # include <string>
 # include <vector>
+# include <deque>
 # include <sstream>
 
 # include "user.hpp"
@@ -22,16 +23,18 @@
 class Server
 {
 	private:
-		int					listening_socket;
-		fd_set				reads;
-		fd_set				writes;
-		int 				highsock;
-		struct timeval 		timeout;
-		int					_list_connected_user[FD_SETSIZE];
-		User				*list_users[FD_SETSIZE]; //N: cacoso hecho asi
-		char 				*ascport;
-		int 				port;
-		struct sockaddr_in 	server_address;
+		int						listening_socket;
+		fd_set					reads;
+		fd_set					writes;
+		int 					highsock;
+		struct timeval 			timeout;
+		int						_list_connected_user[FD_SETSIZE];
+		User					*list_users[FD_SETSIZE]; //N: cacoso hecho asi
+		char 					*ascport;
+		int 					port;
+		struct sockaddr_in 		server_address;
+
+		std::deque<std::string> cmd_list;
 		Server(const Server &other);
 
 	public:
