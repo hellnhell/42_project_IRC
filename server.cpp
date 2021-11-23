@@ -20,7 +20,7 @@ static void setnonblocking(int sock)
 	return;
 }
 
-Server::Server()
+Server::Server(int port)
 {
 	std::cout << "Server Constructor:" << std::endl;
 	//creo socket
@@ -79,6 +79,12 @@ Server::~Server()
 	std::cout << "Destructor Server\n";
 }
 
+void Server::setPassword(std::string psswd) { this->password = psswd; }
+std::string	Server::getPassword() const { return this->password; };
+
+
+//SERVER CONST
+
 void Server::build_select_list()
 {
 	int listnum;
@@ -107,6 +113,7 @@ int Server::get_read_socks()
 void Server::handle_new_connection()
 {
 	int connection;
+	struct sockaddr_in client_address;
 
 	// std::cout << "handle_new_connection:" << std::endl;
 	connection = accept(this->listening_socket, NULL, NULL);
@@ -122,7 +129,9 @@ void Server::handle_new_connection()
 		{
 			printf("Connection accepted: fd=%d Slot=%lu\n", connection, listnum);
 			this->_list_connected_user[listnum] = connection;
-			this->list_users[connection] = new User(connection);
+			this->list_users[connection] = new User(connection, client_address);
+			if (this->getPassword().empty())
+				std::cout << "Password needed or not" << std::endl; // gestionar cositas
 			connection = -1;
 		}
 	}
@@ -161,18 +170,18 @@ std::vector<std::string>   Server::parse_message(std::string buffer)
         while(ss >> tmps)
             tokens.push_back(tmps);
         tokens.erase(tokens.begin());
-        tokens.push_back(tok_tmp[2]);
+		if (tokens.size() > 1)
+        	tokens.push_back(tok_tmp[2]);
     }
     else
     {
         ss.str(tok_tmp[0]);
         while(ss >> tmps)
             tokens.push_back(tmps);
-        tokens.push_back(tok_tmp[1]);
+		if (tokens.size() > 0)
+        	tokens.push_back(tok_tmp[1]);
     }
-	//El número de parámetros tiene q ser max 15
-	if (tokens.size() > 15)
-		perror("Too much parameters");
+	//El número de parámetros t
 	return tokens;
 }
 
@@ -180,12 +189,10 @@ void Server::deal_with_data(int listnum)
 {
 	char buffer[512]; //N: 512 y sin lios -> IIRC at least znc crashes, other clients like xchat start having rendering issues and some (I think irssi) completely disregard content after the 512th byte
 
-	std::string buff_input;
-	ssize_t verify;
-	std::string recived;
+	std::string		buff_input;
+	ssize_t			verify;
+	std::string 	recived;
 	std::vector<std::string> tokens;
-	std::string	command; //Meterlo en la clase pero no estoy inspirad para hacerlo bien
-
 
 	std::cout << "read_socks:" << std::endl;
 	while ((verify = recv(this->_list_connected_user[listnum], buffer, 512, 0)) > 0)
@@ -212,23 +219,23 @@ void Server::deal_with_data(int listnum)
 		if (tokens[0].empty())
 			return;
 		std::transform(tokens[0].begin(), tokens[0].end(),tokens[0].begin(), ::toupper);
-		if (std::find(cmd_list.begin(), cmd_list.end(), tokens[0]) == cmd_list.end())
+		if ((std::find(cmd_list.begin(), cmd_list.end(), tokens[0]) == cmd_list.end()))
 		{
 			perror("Unknow command error!"); //Hay q hacer gestion de errores
 			exit(EXIT_FAILURE);
 		} 
-		if(tokens[0] == "USER")
+		if(tokens[0] == "USER" || tokens[0] == "user")
 		{
 			User *tmpuser;
-			tmpuser = this->list_users[this->_list_connected_user[listnum]];
-			tmpuser->set_nick(tokens[1]);
-			tmpuser->set_modes(std::stoi(tokens[2])); //gestionar si no es int
 			std::cout << "hacecosas" << std::endl;
-			tmpuser->set_user(tokens[4]);
-			std::cout << std::endl << "Nick:  " << tmpuser->get_nick() << "\nmodes:" << tmpuser->get_modes() << "\nUser: " << tmpuser->get_user() << std::endl;
+			tmpuser = this->list_users[this->_list_connected_user[listnum]];
+			this->user_cmd(tokens, tmpuser);
+			// tmpuser->setNick(tokens[1]);
+			//tmpuser->set_modes(std::stoi(tokens[2])); //gestionar si no es int
+			// tmpuser->setUser(tokens[4]);
+			// std::cout << std::endl << "Nick:  " << tmpuser->getNick() << "\nmodes:" << tmpuser->get_modes() << "\nUser: " << tmpuser->get_user() << std::endl;
 		}
 		std::cout << std::endl << "Received:  " << recived << std::endl;
-		std::transform(recived.begin(), recived.end(), recived.begin(), ::toupper);
 		send(this->_list_connected_user[listnum], recived.c_str(), recived.length(), 0);
 		send(this->_list_connected_user[listnum], (char *)"\n", strlen((char *)"\n"), 0);
 		// sock_puts(this->_list_connected_user[listnum], buffer);
@@ -248,3 +255,4 @@ void Server::read_socks()
 			deal_with_data(listnum);
 	}
 }
+

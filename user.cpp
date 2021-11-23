@@ -19,7 +19,7 @@ static void user_modes_init(t_user_modes *modes)
 	modes->Z = 0;
 }
 
-User::User(int &_fd) : fd(_fd)
+User::User(int &_fd, struct sockaddr_in const &client_addrs) : fd(_fd)
 {
 	std::cout << "User created with fd: " << this->fd << std::endl;
 	this->user = "";
@@ -36,28 +36,21 @@ User::~User()
 
 
 //getters setters
-std::string User::get_user() {return (this->user);}
+std::string User::getUser() { return (this->user); }
 
-void User::set_user(std::string _user)
+void User::setUser(std::string _user)
 {
 	this->user = _user;
 }
 
-std::string User::get_nick() {return (this->nick);}
+std::string User::getNick() { return (this->nick); }
 
-void User::set_nick(std::string _nick)
+void User::setNick(std::string _nick)
 {
 	this->nick = _nick;
 }
 
-std::string User::get_pass() {return (this->password);}
-
-void User::set_pass(std::string _pass)
-{
-	this->password = _pass;
-}
-
-std::string User::get_modes()
+std::string User::getModes()
 {
 	std::string ret;
 
@@ -92,7 +85,7 @@ std::string User::get_modes()
 	return (ret);
 }
 
-void User::set_modes(int modes)
+void User::setModes(int modes)
 {
 	std::bitset<16> modesbit(modes);
 

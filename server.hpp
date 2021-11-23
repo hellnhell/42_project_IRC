@@ -16,6 +16,7 @@
 # include <string>
 # include <vector>
 # include <deque>
+# include <map>
 # include <sstream>
 
 # include "user.hpp"
@@ -29,7 +30,7 @@ class Server
 		int 					highsock;
 		struct timeval 			timeout;
 		int						_list_connected_user[FD_SETSIZE];
-		User					*list_users[FD_SETSIZE]; //N: cacoso hecho asi
+		std::map<int, User*> 	list_users;
 		char 					*ascport;
 		int 					port;
 		struct sockaddr_in 		server_address;
@@ -37,8 +38,10 @@ class Server
 		std::deque<std::string> cmd_list;
 		Server(const Server &other);
 
+		std::string				password;
+
 	public:
-		Server();
+		Server(int port);
 		~Server();
 		Server &operator=(const Server &other);
 
@@ -48,6 +51,13 @@ class Server
 		void						handle_new_connection();
 		void						deal_with_data(int listnum);
 		std::vector<std::string>	parse_message(std::string buffer);
+
+		void						setPassword(std::string psswd);
+		std::string					getPassword() const;
+
+		void						user_cmd(std::vector<std::string> const &tokens, User *usr);
+
+
 
 };
 
