@@ -17,9 +17,17 @@
 # include <vector>
 # include <deque>
 # include <map>
+# include <list>
 # include <sstream>
-
 # include "user.hpp"
+
+
+//ERRORS
+# define ERR_NOPASSWD				"002"
+# define ERR_ALREADYREGISTRED		"462"
+# define ERR_NEEDMOREPARAMS			"461"
+
+
 
 class Server
 {
@@ -38,6 +46,7 @@ class Server
 		std::deque<std::string> cmd_list;
 		Server(const Server &other);
 
+		std::list<User *>		users_on;
 		std::string				password;
 
 	public:
@@ -56,6 +65,7 @@ class Server
 		std::string					getPassword() const;
 
 		void						user_cmd(std::vector<std::string> const &tokens, User *usr);
+		void 						pass(std::vector<std::string> const& tokens, User* usr);
 
 
 

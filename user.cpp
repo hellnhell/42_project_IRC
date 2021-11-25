@@ -19,13 +19,13 @@ static void user_modes_init(t_user_modes *modes)
 	modes->Z = 0;
 }
 
-User::User(int &_fd, struct sockaddr_in const &client_addrs) : fd(_fd)
+User::User(int &_fd, struct sockaddr_in const &client_addr) : fd(_fd)
 {
-	std::cout << "User created with fd: " << this->fd << std::endl;
 	this->user = "";
 	this->nick = "";
 	this->password = "";
-
+	this->address = client_addr;
+	std::cout << "User created with fd: " << this->fd  <<std::endl;
 	user_modes_init(&this->modes);
 }
 
@@ -97,3 +97,6 @@ void User::setModes(int modes)
 	this->modes.Z = 1;
 
 }
+
+bool	User::getConnectionPswd() const { return (this->connection_pswd); }
+void	User::setConnectionPswd(bool cp) { this->connection_pswd = cp; }

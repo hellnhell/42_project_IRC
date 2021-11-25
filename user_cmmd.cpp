@@ -14,7 +14,8 @@
 
 void Server::user_cmd(std::vector<std::string> const &tokens, User *usr)
 {
+    if (!usr->getConnectionPswd())
+        perror(ERR_NOPASSWD);
     usr->setUser(tokens[1]);
-    this->.push_back(usr);
-    std::cout << "User created " << usr << std::endl;
+    this->users_on.push_back(usr);
 }

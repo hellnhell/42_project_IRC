@@ -64,6 +64,7 @@ Server::Server(int port)
 		exit(EXIT_FAILURE);
 	}
 	this->highsock = this->listening_socket;
+	this->cmd_list.push_back("PASS");
 	this->cmd_list.push_back("USER");
 	this->cmd_list.push_back("NICK");
 	this->cmd_list.push_back("EXIT");
@@ -127,11 +128,13 @@ void Server::handle_new_connection()
 	{
 		if(this->_list_connected_user[listnum] == 0)
 		{
-			printf("Connection accepted: fd=%d Slot=%lu\n", connection, listnum);
 			this->_list_connected_user[listnum] = connection;
 			this->list_users[connection] = new User(connection, client_address);
 			if (this->getPassword().empty())
-				std::cout << "Password needed or not" << std::endl; // gestionar cositas
+				this->list_users[connection]->setConnectionPswd(1);
+			else
+				this->list_users[connection]->setConnectionPswd(0);
+			printf("Connection accepted: fd=%d Slot=%lu\n", connection, listnum);
 			connection = -1;
 		}
 	}
@@ -158,30 +161,30 @@ std::vector<std::string>   Server::parse_message(std::string buffer)
     std::istringstream          ss;
 	
     if (buffer.empty())
-        tokens.push_back("");
-	//Puede que haya que gestionar q haya más de un espacio entre cmds
+        tokens.push_back(""); //Empty messages are silently ignored, which permits use of the sequence CR-LF between messages??
     if (((pos = buffer.find('\n')) != std::string::npos) || ((pos = buffer.find('\r')) != std::string::npos))
         buffer.erase(pos, buffer.size() - pos);
     while(getline(s, tmps, ':'))
         tok_tmp.push_back(tmps);
     if(buffer[0] == ':')
 	{
+		//gestionar espacio después de :
         ss.str(tok_tmp[1]);
         while(ss >> tmps)
             tokens.push_back(tmps);
         tokens.erase(tokens.begin());
-		if (tokens.size() > 1)
-        	tokens.push_back(tok_tmp[2]);
+		if (tok_tmp.size() > 2)
+        	tokens.push_back(tok_tmp[2]); //trailing
     }
     else
     {
         ss.str(tok_tmp[0]);
         while(ss >> tmps)
             tokens.push_back(tmps);
-		if (tokens.size() > 0)
-        	tokens.push_back(tok_tmp[1]);
+		if (tok_tmp.size() > 1)
+        	tokens.push_back(tok_tmp[1]); //triling
     }
-	//El número de parámetros t
+	//parámetros = max 15;
 	return tokens;
 }
 
@@ -210,6 +213,8 @@ void Server::deal_with_data(int listnum)
 	}
 	else
 	{
+		User *tmpuser = this->list_users[listnum];
+
 		//USER <user> <mode> <unused> <realname>
 		//USER guest 0 * :Ronnie Reagan
 			//el modo debe ser numerico una bitmask, con dos dos bits, bit 2 modo 'w' bit 3 modo 'i'
@@ -226,14 +231,16 @@ void Server::deal_with_data(int listnum)
 		} 
 		if(tokens[0] == "USER" || tokens[0] == "user")
 		{
-			User *tmpuser;
-			std::cout << "hacecosas" << std::endl;
 			tmpuser = this->list_users[this->_list_connected_user[listnum]];
 			this->user_cmd(tokens, tmpuser);
 			// tmpuser->setNick(tokens[1]);
 			//tmpuser->set_modes(std::stoi(tokens[2])); //gestionar si no es int
 			// tmpuser->setUser(tokens[4]);
 			// std::cout << std::endl << "Nick:  " << tmpuser->getNick() << "\nmodes:" << tmpuser->get_modes() << "\nUser: " << tmpuser->get_user() << std::endl;
+		}
+		else if(tokens[0] == "PASS" || tokens[0] == "pass")
+		{
+			this->pass(tokens, tmpuser);
 		}
 		std::cout << std::endl << "Received:  " << recived << std::endl;
 		send(this->_list_connected_user[listnum], recived.c_str(), recived.length(), 0);

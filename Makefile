@@ -10,23 +10,26 @@
 #                                                                              #
 # **************************************************************************** #
 
+#No me va en linux para variar
+NAME			= irc-server
 
-NAME		= irc-server
-SRCS 		= main.cpp 	server.cpp user.cpp user_cmmd.cpp
-OBJS 		= $(SRCS:.cpp=.o)
-C++			= clang++ 
-C++FLAGS	= -Wall -Werror -Wextra -std=c++98 #-g3 -fsanitize=address
+SRCS			= main.cpp server.cpp user.cpp user_cmmd.cpp
+OBJS			= $(SRCS:.cpp=.o)
+CC				= clang++ 
+RM				= rm -f
+CFLAGS			= -g -Wall -Wextra -Werror -I.
 
+all:			$(NAME)
 
-all:		$(NAME)
-$(NAME):	$(OBJS)
-			$(C++) $(C++FLAGS) -o $(NAME) $(OBJS)
+$(NAME):		$(OBJS)
+				${CC} ${CFLAGS} -o ${NAME} ${OBJS} ${LIBS}
+
 clean:
-			-@rm -f $(OBJS)
+				$(RM) $(OBJS)
 
-fclean: 	clean
-			-@rm -f $(NAME)
+fclean:			clean
+				$(RM) $(NAME)
 
-re:			fclean all
+re:				fclean $(NAME)
 
-.PHONY: all clea fclean re test
+.PHONY:			all clean fclean re
