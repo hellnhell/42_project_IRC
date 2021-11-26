@@ -5,6 +5,9 @@
 # include <string.h>
 # include <string>
 # include <bitset>
+# include <arpa/inet.h>
+
+
 
 typedef struct s_user_modes //esto copiado de freenode
 {
@@ -29,31 +32,38 @@ typedef struct s_user_modes //esto copiado de freenode
 class User
 {
 	private:
-		int		fd;
-		std::string	user;
-		std::string	nick;
-		std::string	password;
-		t_user_modes modes;
+		int					fd;
+		std::string			user;
+		std::string			nick;
+		std::string			password;
+		t_user_modes 		modes;
+		struct sockaddr_in	address;
+
+		bool				connection_pswd;
 
 		User();
 		User(const User &other);
 
 	public:
-		User(int &_fd);
+		User(int &_fd, struct sockaddr_in const &client_addrs);
 		~User();
 		User &operator=(const User &other);
 
-		std::string	get_user();
-		void	set_user(std::string _user);
+		std::string	getUser();
+		void	setUser(std::string _user);
 
-		std::string	get_nick();
-		void	set_nick(std::string _nick);
+		std::string	getNick();
+		void	setNick(std::string _nick);
 
-		std::string	get_pass();
-		void	set_pass(std::string _nick);
+		std::string	getPass();
+		void	setPass(std::string _nick);
 
-		std::string get_modes();
-		void	set_modes(int modes);
+		std::string getModes();
+		void	setModes(int modes);
+
+		bool		getConnectionPswd()	const;
+		void		setConnectionPswd(bool cp);
+
 
 };
 

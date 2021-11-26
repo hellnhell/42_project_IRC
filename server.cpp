@@ -20,7 +20,7 @@ static void setnonblocking(int sock)
 	return;
 }
 
-Server::Server()
+Server::Server(int port)
 {
 	std::cout << "Server Constructor:" << std::endl;
 	//creo socket
@@ -64,6 +64,11 @@ Server::Server()
 		exit(EXIT_FAILURE);
 	}
 	this->highsock = this->listening_socket;
+	this->cmd_list.push_back("PASS");
+	this->cmd_list.push_back("USER");
+	this->cmd_list.push_back("NICK");
+	this->cmd_list.push_back("EXIT");
+
 }
 
 Server::~Server()
@@ -74,6 +79,12 @@ Server::~Server()
 	memset( (char *) &this->server_address, 0 , sizeof( this->server_address ) );
 	std::cout << "Destructor Server\n";
 }
+
+void Server::setPassword(std::string psswd) { this->password = psswd; }
+std::string	Server::getPassword() const { return this->password; };
+
+
+//SERVER CONST
 
 void Server::build_select_list()
 {
@@ -103,6 +114,7 @@ int Server::get_read_socks()
 void Server::handle_new_connection()
 {
 	int connection;
+	struct sockaddr_in client_address;
 
 	// std::cout << "handle_new_connection:" << std::endl;
 	connection = accept(this->listening_socket, NULL, NULL);
@@ -116,9 +128,13 @@ void Server::handle_new_connection()
 	{
 		if(this->_list_connected_user[listnum] == 0)
 		{
-			printf("Connection accepted: fd=%d Slot=%lu\n", connection, listnum);
 			this->_list_connected_user[listnum] = connection;
-			this->list_users[connection] = new User(connection);
+			this->list_users[connection] = new User(connection, client_address);
+			if (this->getPassword().empty())
+				this->list_users[connection]->setConnectionPswd(1);
+			else
+				this->list_users[connection]->setConnectionPswd(0);
+			printf("Connection accepted: fd=%d Slot=%lu\n", connection, listnum);
 			connection = -1;
 		}
 	}
@@ -135,95 +151,103 @@ void Server::handle_new_connection()
 // 	send(sockfd, str, strlen(str), 0);
 // }
 
+std::vector<std::string>   Server::parse_message(std::string buffer)
+{
+    std::vector<std::string>    tok_tmp;
+    std::vector<std::string>    tokens;
+    size_t                      pos;
+	std::string                 tmps;
+    std::stringstream           s(buffer);
+    std::istringstream          ss;
+
+    if (buffer.empty())
+        tokens.push_back(""); //Empty messages are silently ignored, which permits use of the sequence CR-LF between messages??
+    if (((pos = buffer.find('\n')) != std::string::npos) || ((pos = buffer.find('\r')) != std::string::npos))
+        buffer.erase(pos, buffer.size() - pos);
+    while(getline(s, tmps, ':'))
+        tok_tmp.push_back(tmps);
+    if(buffer[0] == ':')
+	{
+		//gestionar espacio después de :
+        ss.str(tok_tmp[1]);
+        while(ss >> tmps)
+            tokens.push_back(tmps);
+        tokens.erase(tokens.begin());
+		if (tok_tmp.size() > 2)
+        	tokens.push_back(tok_tmp[2]); //trailing
+    }
+    else
+    {
+        ss.str(tok_tmp[0]);
+        while(ss >> tmps)
+            tokens.push_back(tmps);
+		if (tok_tmp.size() > 1)
+        	tokens.push_back(tok_tmp[1]); //triling
+    }
+	//parámetros = max 15;
+	return tokens;
+}
 
 void Server::deal_with_data(int listnum)
 {
 	char buffer[512]; //N: 512 y sin lios -> IIRC at least znc crashes, other clients like xchat start having rendering issues and some (I think irssi) completely disregard content after the 512th byte
 
-//	char *cur_char;
-	std::string buff_input;
-	ssize_t verify;
-	std::string received;
+	std::string		buff_input;
+	ssize_t			verify;
+	std::string 	recived;
 	std::vector<std::string> tokens;
-
 
 	std::cout << "read_socks:" << std::endl;
 	while ((verify = recv(this->_list_connected_user[listnum], buffer, 512, 0)) > 0)
 	{
 		buffer[verify] = 0;
-		received += buffer;
+		recived += buffer;
 	}
-	if(received.length() <= 0)	//N: si es menor pierde conexion, si no hace cosas
+	if(recived.length() <= 0)	//N: si es menor pierde conexion, si no hace cosas
 	{
-
-
 		//delete user?
 		delete (this->list_users[this->_list_connected_user[listnum]]);
-		//end delete user?
-
-
 		std::cout << std::endl << "Connection lost fd -> " << this->_list_connected_user[listnum] << " slot -> " <<  listnum << std::endl;
 		close(this->_list_connected_user[listnum]);
 		this->_list_connected_user[listnum] = 0;
-
 	}
-//	if (verify <= 0) // Puede q sea solo menor pero hay q hacer pruebecitas //N: testado que <= XD
-//		perror("buffer: ");
 	else
 	{
-		//aqui parseo
-		std::istringstream ss(received);
-		std::string tmps;
-		while(ss >> tmps)
-			tokens.push_back(tmps);
-
-		std::cout << std::endl << "token0:  " << tokens[0] << std::endl;
-
+		User *tmpuser = this->list_users[listnum];
 
 		//USER <user> <mode> <unused> <realname>
 		//USER guest 0 * :Ronnie Reagan
 			//el modo debe ser numerico una bitmask, con dos dos bits, bit 2 modo 'w' bit 3 modo 'i'
 			//el realname puede contener espacios
-		if(tokens[0] == "USER")
+			//Hacer pruebas con los tokens y gestión errores;
+		tokens = parse_message(recived);
+		if (tokens[0].empty())
+			return;
+		std::transform(tokens[0].begin(), tokens[0].end(),tokens[0].begin(), ::toupper);
+		if ((std::find(cmd_list.begin(), cmd_list.end(), tokens[0]) == cmd_list.end()))
 		{
-			User *tmpuser;
+			perror("Unknow command error!"); //Hay q hacer gestion de errores
+			exit(EXIT_FAILURE);
+		}
+		if(tokens[0] == "USER" || tokens[0] == "user")
+		{
 			tmpuser = this->list_users[this->_list_connected_user[listnum]];
-std::cout << "hacecosas" << std::endl;
-			tmpuser->set_nick(tokens[1]);
-			tmpuser->set_modes(std::stoi(tokens[2]));
-			tmpuser->set_user(tokens[4]);
-			std::cout << std::endl << "Nick:  " << tmpuser->get_nick() << "\nmodes:" << tmpuser->get_modes() << "\nUser: " << tmpuser->get_user() << std::endl;
+			this->user_cmd(tokens, tmpuser);
+			// tmpuser->setNick(tokens[1]);
+			//tmpuser->set_modes(std::stoi(tokens[2])); //gestionar si no es int
+			// tmpuser->setUser(tokens[4]);
+			// std::cout << std::endl << "Nick:  " << tmpuser->getNick() << "\nmodes:" << tmpuser->get_modes() << "\nUser: " << tmpuser->get_user() << std::endl;
 		}
-
-
-
-
-
-
-
-
-
-
-		std::cout << std::endl << "Received:  " << received << std::endl;
-
-		//old toupper
-		/*//N: lo he pasao a string porque si
-		cur_char = received;
-		while(*cur_char)
+		else if(tokens[0] == "PASS" || tokens[0] == "pass")
 		{
-			*cur_char = toupper(*cur_char);
-			cur_char++;
+//			this->pass(tokens, tmpuser); //N: esto no está definido
 		}
-		*/
-		std::transform(received.begin(), received.end(), received.begin(), ::toupper);
-
-		send(this->_list_connected_user[listnum], received.c_str(), received.length(), 0);
+		std::cout << std::endl << "Received:  " << recived << std::endl;
+		send(this->_list_connected_user[listnum], recived.c_str(), recived.length(), 0);
 		send(this->_list_connected_user[listnum], (char *)"\n", strlen((char *)"\n"), 0);
-
 		// sock_puts(this->_list_connected_user[listnum], buffer);
 		// sock_puts(this->_list_connected_user[listnum], (char *)"\n");
-
-		std::cout << "Responded: " << received << std::endl;
+		std::cout << "Responded: " << recived << std::endl;
 	}
 }
 
@@ -238,3 +262,4 @@ void Server::read_socks()
 			deal_with_data(listnum);
 	}
 }
+
