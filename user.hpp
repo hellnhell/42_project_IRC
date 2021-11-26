@@ -34,6 +34,7 @@ class User
 	private:
 		int					fd;
 		std::string			user;
+		std::string			realName;
 		std::string			nick;
 		std::string			password;
 		t_user_modes 		modes;
@@ -49,16 +50,21 @@ class User
 		~User();
 		User &operator=(const User &other);
 
-		std::string	getUser();
+		int getFD();
+
+		const std::string	getUser() const;
 		void	setUser(std::string _user);
 
-		std::string	getNick();
+		const std::string	getRealName() const;
+		void	setRealName(std::string _nick);
+
+		const std::string	getNick() const;
 		void	setNick(std::string _nick);
 
-		std::string	getPass();
+		const std::string	getPass() const;
 		void	setPass(std::string _nick);
 
-		std::string getModes();
+		const std::string	getModes() const;
 		void	setModes(int modes);
 
 		bool		getConnectionPswd()	const;

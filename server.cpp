@@ -224,11 +224,15 @@ void Server::deal_with_data(int listnum)
 		if (tokens[0].empty())
 			return;
 		std::transform(tokens[0].begin(), tokens[0].end(),tokens[0].begin(), ::toupper);
+
+		//N: no llego a entender why esto es mas eficiente que hacer los ifs de comandos else esto, no es doble check?
 		if ((std::find(cmd_list.begin(), cmd_list.end(), tokens[0]) == cmd_list.end()))
 		{
 			perror("Unknow command error!"); //Hay q hacer gestion de errores
-			exit(EXIT_FAILURE);
+//			exit(EXIT_FAILURE); //N: tmp no exit
 		}
+
+
 		if(tokens[0] == "USER" || tokens[0] == "user")
 		{
 			tmpuser = this->list_users[this->_list_connected_user[listnum]];
@@ -238,10 +242,17 @@ void Server::deal_with_data(int listnum)
 			// tmpuser->setUser(tokens[4]);
 			// std::cout << std::endl << "Nick:  " << tmpuser->getNick() << "\nmodes:" << tmpuser->get_modes() << "\nUser: " << tmpuser->get_user() << std::endl;
 		}
+		else if(tokens[0] == "NICK" || tokens[0] == "nick")
+		{
+			tmpuser = this->list_users[this->_list_connected_user[listnum]];
+			this->nick_cmd(tokens, tmpuser);
+		}
 		else if(tokens[0] == "PASS" || tokens[0] == "pass")
 		{
 //			this->pass(tokens, tmpuser); //N: esto no está definido
 		}
+
+
 		std::cout << std::endl << "Received:  " << recived << std::endl;
 		send(this->_list_connected_user[listnum], recived.c_str(), recived.length(), 0);
 		send(this->_list_connected_user[listnum], (char *)"\n", strlen((char *)"\n"), 0);

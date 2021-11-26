@@ -3,19 +3,19 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+         #
+#    By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/22 11:59:14 by emartin-          #+#    #+#              #
-#    Updated: 2021/11/23 12:50:46 by emartin-         ###   ########.fr        #
+#    Updated: 2021/11/26 21:24:20 by nazurmen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #No me va en linux para variar
 NAME			= irc-server
 
-SRCS			= main.cpp server.cpp user.cpp user_cmmd.cpp
+SRCS			= main.cpp server.cpp user.cpp user_cmmd.cpp nick_cmmd.cpp
 OBJS			= $(SRCS:.cpp=.o)
-CC				= clang++ 
+CC				= clang++
 RM				= rm -f
 CFLAGS			= -g -Wall -Wextra -Werror -I.
 

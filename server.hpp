@@ -65,6 +65,7 @@ class Server
 		std::string					getPassword() const;
 
 		void						user_cmd(std::vector<std::string> const &tokens, User *usr);
+		void						nick_cmd(std::vector<std::string> const &tokens, User *usr);
 		void 						pass(std::vector<std::string> const& tokens, User* usr);
 
 
