@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 12:35:45 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/11/26 22:23:33 by nazurmen         ###   ########.fr       */
+/*   Updated: 2021/11/26 22:31:34 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void Server::nick_cmd(std::vector<std::string> const &tokens, User *usr)
 			}
 		}
 	}
+
 	usr->setNick(tokens[1]);
 	std::cout << std::endl << "Nick: " << usr->getNick();
 }
