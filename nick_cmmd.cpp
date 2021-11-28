@@ -6,17 +6,37 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 12:35:45 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/11/26 22:31:34 by nazurmen         ###   ########.fr       */
+/*   Updated: 2021/11/28 22:07:47 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "server.hpp"
 
 // NICK <nickname>
+
+/*
+A through to Z. (Lowercase and uppercase.)
+0 through to 9.
+`|^_-{}[] and \
+
+And a name cannot start with a number or hyphen.  '-'-
+*/
 void Server::nick_cmd(std::vector<std::string> const &tokens, User *usr)
 {
     // check valid nick
 	std::map<int, User*>::iterator it;
+
+	if (!usr->getConnectionPswd())
+		return perror(ERR_NOPASSWD);
+	if(tokens.size() != 2)
+		return perror("NICK: error: wrong number of parameters\n");
+	if(tokens[1] == usr->getNick())
+		return perror("NICK: error: same nickname\n");
+	if(tokens[1].size() > 9)
+		return perror("NICK: error: nick lenght greater than 9\n");
+	if(tokens[1][0] == '-' ||
+		tokens[1].find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789`|^_-{}[]\\") != std::string::npos)
+		return perror("NICK: error: Erroneous Nickname\n");
 
 	for(it = this->list_users.begin(); it != this->list_users.end(); it++)
 	{
