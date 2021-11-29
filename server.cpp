@@ -198,6 +198,7 @@ void Server::deal_with_data(int listnum)
 	std::string 	recived;
 	std::string 	dt;
 	std::vector<std::string> tokens;
+	std::string                 message;    
 
 	std::cout << "read_socks:" << std::endl;
 	while ((verify = recv(this->_list_connected_user[listnum], buffer, 512, 0)) > 0)
@@ -248,7 +249,12 @@ void Server::deal_with_data(int listnum)
 		{
 			time_t ttime = time(0);
 			dt = ctime(&ttime);
-			send(this->_list_connected_user[listnum], dt.c_str(), dt.length(), 0); //Funciona, falta comprobar si un cliente lo gestiona correctamente.
+			message.assign(":IRC ");
+			message.append(" ");
+			message.append("NICK_PLACEHOLDER");
+			message.append(" :");
+			message.append(dt);
+			send(this->_list_connected_user[listnum], message.c_str(), message.length(), 0); //Funciona, falta comprobar si un cliente lo gestiona correctamente.
 		}
 		std::cout << std::endl << "Received:  " << recived << std::endl;
 		send(this->_list_connected_user[listnum], recived.c_str(), recived.length(), 0);
