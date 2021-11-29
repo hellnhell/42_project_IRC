@@ -68,6 +68,7 @@ Server::Server(int port)
 	this->cmd_list.push_back("USER");
 	this->cmd_list.push_back("NICK");
 	this->cmd_list.push_back("EXIT");
+	this->cmd_list.push_back("TIME");
 
 }
 
@@ -195,6 +196,7 @@ void Server::deal_with_data(int listnum)
 	std::string		buff_input;
 	ssize_t			verify;
 	std::string 	recived;
+	std::string 	dt;
 	std::vector<std::string> tokens;
 
 	std::cout << "read_socks:" << std::endl;
@@ -241,6 +243,12 @@ void Server::deal_with_data(int listnum)
 		else if(tokens[0] == "PASS" || tokens[0] == "pass")
 		{
 			this->pass(tokens, tmpuser);
+		}
+		else if(tokens[0] == "TIME" || tokens[0] == "time")
+		{
+			time_t ttime = time(0);
+			dt = ctime(&ttime);
+			send(this->_list_connected_user[listnum], dt.c_str(), dt.length(), 0); //Funciona, falta comprobar si un cliente lo gestiona correctamente.
 		}
 		std::cout << std::endl << "Received:  " << recived << std::endl;
 		send(this->_list_connected_user[listnum], recived.c_str(), recived.length(), 0);
