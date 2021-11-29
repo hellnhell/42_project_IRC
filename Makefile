@@ -13,7 +13,7 @@
 #No me va en linux para variar
 NAME			= irc-server
 
-SRCS			= main.cpp server.cpp user.cpp user_cmmd.cpp
+SRCS			= main.cpp server.cpp user.cpp user_cmmd.cpp pass.cpp
 OBJS			= $(SRCS:.cpp=.o)
 CC				= clang++ 
 RM				= rm -f
