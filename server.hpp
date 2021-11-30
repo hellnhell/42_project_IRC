@@ -60,14 +60,14 @@ class Server
 		void						handle_new_connection();
 		void						deal_with_data(int listnum);
 		std::vector<std::string>	parse_message(std::string buffer);
+		void						error_msg(std::string err, std::string str, User *usr);
 
 		void						setPassword(std::string psswd);
 		std::string					getPassword() const;
 
 		void						user_cmd(std::vector<std::string> const &tokens, User *usr);
 		void 						pass(std::vector<std::string> const& tokens, User* usr);
-
-
+		void 						nick(std::vector<std::string> const &tokens, User *usr);
 
 };
 

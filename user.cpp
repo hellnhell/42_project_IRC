@@ -36,11 +36,21 @@ User::~User()
 
 
 //getters setters
+
+int User::getFD() {  return (this->fd); }
+
 std::string User::getUser() { return (this->user); }
 
 void User::setUser(std::string _user)
 {
 	this->user = _user;
+}
+
+const std::string User::getRealName() const { return (this->realName); }
+
+void User::setRealName(std::string _realName)
+{
+	this->realName = _realName;
 }
 
 std::string User::getNick() { return (this->nick); }
@@ -100,3 +110,5 @@ void User::setModes(int modes)
 
 bool	User::getConnectionPswd() const { return (this->connection_pswd); }
 void	User::setConnectionPswd(bool cp) { this->connection_pswd = cp; }
+
+

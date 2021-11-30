@@ -226,8 +226,7 @@ void Server::deal_with_data(int listnum)
 		std::transform(tokens[0].begin(), tokens[0].end(),tokens[0].begin(), ::toupper);
 		if ((std::find(cmd_list.begin(), cmd_list.end(), tokens[0]) == cmd_list.end()))
 		{
-			perror("Unknow command error!"); //Hay q hacer gestion de errores
-			exit(EXIT_FAILURE);
+			error_msg(ERR_ALREADYREGISTRED, "probando probando", tmpuser);
 		} 
 		if(tokens[0] == "USER" || tokens[0] == "user")
 		{
