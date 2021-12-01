@@ -216,7 +216,7 @@ void Server::deal_with_data(int listnum)
 	}
 	else
 	{
-		User *tmpuser = this->list_users[listnum];
+		User *tmpuser = this->list_users[this->_list_connected_user[listnum]];
 
 		//USER <user> <mode> <unused> <realname>
 		//USER guest 0 * :Ronnie Reagan
