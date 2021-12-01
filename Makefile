@@ -3,33 +3,48 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+         #
+#    By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/22 11:59:14 by emartin-          #+#    #+#              #
-#    Updated: 2021/11/23 12:50:46 by emartin-         ###   ########.fr        #
+#    Updated: 2021/12/01 18:29:08 by javrodri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #No me va en linux para variar
 NAME			= irc-server
 
+SRCS_DIR= ./
+
 SRCS			= main.cpp server.cpp user.cpp user_cmmd.cpp pass.cpp
-OBJS			= $(SRCS:.cpp=.o)
+
+OBJS_DIR = objects/
+OBJ = $(SRCS:.cpp=.o)
+OBJS = $(addprefix $(OBJS_DIR), $(OBJ))
+
 CC				= clang++ 
-RM				= rm -f
+RM				= rm -rf
 CFLAGS			= -g -Wall -Wextra -Werror -I.
 
-all:			$(NAME)
-
+$(OBJS_DIR)%.o : $(SRCS_DIR)%.cpp
+	@mkdir -p $(OBJS_DIR)
+	@echo "\033[0;33mCompiling: $<\033[0m"
+	@${CC} $(FLAGS) -c $< -o $@
+	
+# $(NAME): $(OBJS)
+# 	$(CC) $(FLAGS) -o $(NAME) $(SRCS)
 $(NAME):		$(OBJS)
 				${CC} ${CFLAGS} -o ${NAME} ${OBJS} ${LIBS}
+				
+all: $(NAME)
 
 clean:
-				$(RM) $(OBJS)
+	@echo "Cleaning: $(OBJS_DIR)"
+	@$(RM) $(OBJS_DIR)
 
-fclean:			clean
-				$(RM) $(NAME)
+fclean: clean
+	@echo "Cleaning: $(NAME)"
+	@$(RM) $(NAME)
 
-re:				fclean $(NAME)
+re: fclean all
 
 .PHONY:			all clean fclean re
