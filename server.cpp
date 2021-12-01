@@ -1,13 +1,10 @@
 #include "server.hpp"
 
-# define PORT 6667
-
 static void setnonblocking(int sock)
 {
 	int opts;
 
-	// std::cout << "set_non_blocking:" << std::endl;
-	opts = fcntl(sock, F_GETFL); //Return (as the function result) the file access mode and the file status flags
+	opts = fcntl(sock, F_GETFL);
 	if (opts < 0) {
 		perror("fcntl(F_GETFL)");
 		exit(EXIT_FAILURE);
@@ -20,10 +17,14 @@ static void setnonblocking(int sock)
 	return;
 }
 
+const char* Server::ServerException::what() const throw ()
+{
+	return "Server Exception: Something went wrong\n";
+}
+
 Server::Server(int port)
 {
 	std::cout << "Server Constructor:" << std::endl;
-	//creo socket
 	int reuse_addr = 1;
 	FD_ZERO(&this->reads);
 	this->highsock = 0;
@@ -32,43 +33,32 @@ Server::Server(int port)
 	if(this->listening_socket < 0)
 	{
 		perror("Socket");
-		exit(EXIT_FAILURE);
+		throw Server::ServerException(); 
 	}
-	//bzero usuarios
-
-
-	//establezco opciones de socket
 	setnonblocking(this->listening_socket);
 	memset(this->_list_connected_user, 0 , sizeof( this->_list_connected_user));
-
-	//aqui pilla el puerto de argv pero test con gon 6667 y lo bindea
 	memset((char *)&this->server_address, 0, sizeof(this->server_address));
 	this->server_address.sin_family = AF_INET;
 	this->server_address.sin_addr.s_addr = htonl(INADDR_ANY);
 	this->server_address.sin_port = htons(PORT);
-	// std::cout << "me bindeo al listening socket:" << std::endl;
-	//Permite que te puedas conectar a la red cada vez que ejecutes sin q aparezca q está en uso
 	setsockopt(this->listening_socket, SOL_SOCKET, SO_REUSEADDR, &reuse_addr, sizeof(int));
 	if(bind(this->listening_socket, (struct sockaddr *) &this->server_address, sizeof(this->server_address)) == -1 )
 	{
 		perror("bind");
 		close(this->listening_socket);
-		exit(EXIT_FAILURE);
+		throw Server::ServerException(); 
 	}
-
-	//poseso
-	if(listen(this->listening_socket, 5) == -1)
+	if(listen(this->listening_socket, FD_SETSIZE) == -1)
 	{
 		perror("listening");
 		close(this->listening_socket);
-		exit(EXIT_FAILURE);
+		throw Server::ServerException(); 
 	}
 	this->highsock = this->listening_socket;
 	this->cmd_list.push_back("PASS");
 	this->cmd_list.push_back("USER");
 	this->cmd_list.push_back("NICK");
 	this->cmd_list.push_back("EXIT");
-
 }
 
 Server::~Server()
@@ -80,17 +70,10 @@ Server::~Server()
 	std::cout << "Destructor Server\n";
 }
 
-void Server::setPassword(std::string psswd) { this->password = psswd; }
-std::string	Server::getPassword() const { return this->password; };
-
-
-//SERVER CONST
-
 void Server::build_select_list()
 {
 	int listnum;
 
-	// std::cout << "build_select_list:" << std::endl;
 	FD_ZERO(&this->reads);
 	FD_ZERO(&this->writes);
 	FD_SET(this->listening_socket, &this->reads);
@@ -116,7 +99,6 @@ void Server::handle_new_connection()
 	int connection;
 	struct sockaddr_in client_address;
 
-	// std::cout << "handle_new_connection:" << std::endl;
 	connection = accept(this->listening_socket, NULL, NULL);
 	if (connection < 0)
 	{
@@ -144,66 +126,20 @@ void Server::handle_new_connection()
 	}
 }
 
-// ES LO MISMO Q EL SEND PERO DEJAMOS LA FX X SI NOS DA X METER MÄS COSAS
-// static void sock_puts(int sockfd, char *str)
-// {
-// 	std::cout << "Sockputs:" << std::endl;
-// 	send(sockfd, str, strlen(str), 0);
-// }
-
-std::vector<std::string>   Server::parse_message(std::string buffer)
-{
-    std::vector<std::string>    tok_tmp;
-    std::vector<std::string>    tokens;
-    size_t                      pos;
-	std::string                 tmps;    
-    std::stringstream           s(buffer);
-    std::istringstream          ss;
-	
-    if (buffer.empty())
-        tokens.push_back(""); //Empty messages are silently ignored, which permits use of the sequence CR-LF between messages??
-    if (((pos = buffer.find('\n')) != std::string::npos) || ((pos = buffer.find('\r')) != std::string::npos))
-        buffer.erase(pos, buffer.size() - pos);
-    while(getline(s, tmps, ':'))
-        tok_tmp.push_back(tmps);
-    if(buffer[0] == ':')
-	{
-		//gestionar espacio después de :
-        ss.str(tok_tmp[1]);
-        while(ss >> tmps)
-            tokens.push_back(tmps);
-        tokens.erase(tokens.begin());
-		if (tok_tmp.size() > 2)
-        	tokens.push_back(tok_tmp[2]); //trailing
-    }
-    else
-    {
-        ss.str(tok_tmp[0]);
-        while(ss >> tmps)
-            tokens.push_back(tmps);
-		if (tok_tmp.size() > 1)
-        	tokens.push_back(tok_tmp[1]); //triling
-    }
-	//parámetros = max 15;
-	return tokens;
-}
-
 void Server::deal_with_data(int listnum)
 {
-	char buffer[512]; //N: 512 y sin lios -> IIRC at least znc crashes, other clients like xchat start having rendering issues and some (I think irssi) completely disregard content after the 512th byte
-
+	char 			buffer[512];
 	std::string		buff_input;
 	ssize_t			verify;
 	std::string 	recived;
 	std::vector<std::string> tokens;
 
-	std::cout << "read_socks:" << std::endl;
 	while ((verify = recv(this->_list_connected_user[listnum], buffer, 512, 0)) > 0)
 	{
 		buffer[verify] = 0;
 		recived += buffer;
 	}
-	if(recived.length() <= 0)	//N: si es menor pierde conexion, si no hace cosas
+	if(recived.length() <= 0)
 	{
 		//delete user?
 		delete (this->list_users[this->_list_connected_user[listnum]]);
@@ -214,20 +150,12 @@ void Server::deal_with_data(int listnum)
 	else
 	{
 		User *tmpuser = this->list_users[listnum];
-
-		//USER <user> <mode> <unused> <realname>
-		//USER guest 0 * :Ronnie Reagan
-			//el modo debe ser numerico una bitmask, con dos dos bits, bit 2 modo 'w' bit 3 modo 'i'
-			//el realname puede contener espacios
-			//Hacer pruebas con los tokens y gestión errores;
 		tokens = parse_message(recived);
 		if (tokens[0].empty())
 			return;
 		std::transform(tokens[0].begin(), tokens[0].end(),tokens[0].begin(), ::toupper);
 		if ((std::find(cmd_list.begin(), cmd_list.end(), tokens[0]) == cmd_list.end()))
-		{
-			error_msg(ERR_ALREADYREGISTRED, "probando probando", tmpuser);
-		} 
+			return error_msg(ERR_ALREADYREGISTRED, tokens[0] + " :Unkown", tmpuser);
 		if(tokens[0] == "USER" || tokens[0] == "user")
 		{
 			tmpuser = this->list_users[this->_list_connected_user[listnum]];
@@ -262,3 +190,5 @@ void Server::read_socks()
 	}
 }
 
+void Server::setPassword(std::string psswd) { this->password = psswd; }
+std::string	Server::getPassword() const { return this->password; };

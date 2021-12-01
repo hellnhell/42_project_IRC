@@ -6,7 +6,7 @@
 #    By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/22 11:59:14 by emartin-          #+#    #+#              #
-#    Updated: 2021/11/30 13:17:20 by emartin-         ###   ########.fr        #
+#    Updated: 2021/12/01 13:09:33 by emartin-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ SRCS			= 	main.cpp 		\
 				 	server.cpp		\
 				 	user.cpp		\
 					replies.cpp		\
+					parse.cpp		\
 				 	commands/user_cmmd.cpp	\
 					commands/pass.cpp		\
 					commands/nick.cpp	

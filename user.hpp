@@ -6,6 +6,7 @@
 # include <string>
 # include <bitset>
 # include <arpa/inet.h>
+# include <vector>
 
 
 
@@ -33,6 +34,7 @@ class User
 {
 	private:
 		int					fd;
+		bool				connection_pswd;
 		std::string			user;
 		std::string			realName;
 		std::string			nick;
@@ -40,7 +42,8 @@ class User
 		t_user_modes 		modes;
 		struct sockaddr_in	address;
 
-		bool				connection_pswd;
+		std::vector<std::string>		reply;
+
 
 		User();
 		User(const User &other);
@@ -58,7 +61,7 @@ class User
 		const std::string	getRealName() const;
 		void	setRealName(std::string _nick);
 
-		std::string	getNick();
+		std::string const &getNick() const;
 		void	setNick(std::string _nick);
 
 		std::string	getPass();

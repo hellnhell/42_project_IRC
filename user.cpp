@@ -21,12 +21,9 @@ static void user_modes_init(t_user_modes *modes)
 
 User::User(int &_fd, struct sockaddr_in const &client_addr) : fd(_fd)
 {
-	this->user = "";
-	this->nick = "";
-	this->password = "";
+	user_modes_init(&this->modes);
 	this->address = client_addr;
 	std::cout << "User created with fd: " << this->fd  <<std::endl;
-	user_modes_init(&this->modes);
 }
 
 User::~User()
@@ -40,25 +37,15 @@ User::~User()
 int User::getFD() {  return (this->fd); }
 
 std::string User::getUser() { return (this->user); }
-
-void User::setUser(std::string _user)
-{
-	this->user = _user;
-}
+void User::setUser(std::string _user) {	this->user = _user; }
 
 const std::string User::getRealName() const { return (this->realName); }
+void User::setRealName(std::string _realName) {	this->realName = _realName; }
 
-void User::setRealName(std::string _realName)
-{
-	this->realName = _realName;
-}
+std::string const &User::getNick() const { return (this->nick); }
+void User::setNick(std::string _nick) {	this->nick = _nick; }
 
-std::string User::getNick() { return (this->nick); }
 
-void User::setNick(std::string _nick)
-{
-	this->nick = _nick;
-}
 
 std::string User::getModes()
 {
@@ -111,4 +98,14 @@ void User::setModes(int modes)
 bool	User::getConnectionPswd() const { return (this->connection_pswd); }
 void	User::setConnectionPswd(bool cp) { this->connection_pswd = cp; }
 
-
+void 			User::setReply(std::string const &msg) { this->reply.push_back(msg); }
+std::string 	User::getReply()
+{
+	std::string temp;
+	if (this->reply.size())
+	{
+		temp = this->reply[0];
+		this->reply.erase(this->reply.begin());
+	}
+	return temp;
+}

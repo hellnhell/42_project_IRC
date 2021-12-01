@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 13:15:28 by emartin-          #+#    #+#             */
-/*   Updated: 2021/11/30 13:17:48 by emartin-         ###   ########.fr       */
+/*   Updated: 2021/12/01 11:53:55 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void Server::nick(std::vector<std::string> const &tokens, User *usr)
 			}
 		}
 	}
-
 	usr->setNick(tokens[1]);
 	std::cout << std::endl << "Nick: " << usr->getNick();
 }

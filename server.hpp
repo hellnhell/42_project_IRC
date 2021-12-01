@@ -21,6 +21,7 @@
 # include <sstream>
 # include "user.hpp"
 
+# define PORT 6667
 
 //ERRORS
 # define ERR_NOPASSWD				"002"
@@ -53,6 +54,12 @@ class Server
 		Server(int port);
 		~Server();
 		Server &operator=(const Server &other);
+
+		class ServerException : public std::exception
+		{
+			public:
+				virtual const char* what() const throw ();
+		};
 
 		void						build_select_list();
 		int							get_read_socks();
