@@ -149,21 +149,18 @@ void Server::deal_with_data(int listnum)
 	}
 	else
 	{
-		User *tmpuser = this->list_users[listnum];
+		User *tmpuser = this->list_users[this->_list_connected_user[listnum]];
 		tokens = parse_message(recived);
 		if (tokens[0].empty())
 			return;
+		std::cout << "eins" << std::endl;
 		std::transform(tokens[0].begin(), tokens[0].end(),tokens[0].begin(), ::toupper);
 		if ((std::find(cmd_list.begin(), cmd_list.end(), tokens[0]) == cmd_list.end()))
-			return error_msg(ERR_ALREADYREGISTRED, tokens[0] + " :Unkown", tmpuser);
+			return error_msg(ERR_ALREADYREGISTRED, tokens[0] + " :Unkown", tmpuser, listnum);
 		if(tokens[0] == "USER" || tokens[0] == "user")
 		{
 			tmpuser = this->list_users[this->_list_connected_user[listnum]];
 			this->user_cmd(tokens, tmpuser);
-			// tmpuser->setNick(tokens[1]);
-			//tmpuser->set_modes(std::stoi(tokens[2])); //gestionar si no es int
-			// tmpuser->setUser(tokens[4]);
-			// std::cout << std::endl << "Nick:  " << tmpuser->getNick() << "\nmodes:" << tmpuser->get_modes() << "\nUser: " << tmpuser->get_user() << std::endl;
 		}
 		else if(tokens[0] == "PASS" || tokens[0] == "pass")
 		{
