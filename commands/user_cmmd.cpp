@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 12:35:45 by emartin-          #+#    #+#             */
-/*   Updated: 2021/11/30 14:13:23 by emartin-         ###   ########.fr       */
+/*   Updated: 2021/12/02 11:59:56 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void Server::user_cmd(std::vector<std::string> const &tokens, User *usr)
 		return perror("USER: error: user already registered\n");
 	if(!isalnum(tokens[1][0]))
 		return perror("USER: error: username not valid\n");
-	if(!std::isdigit(tokens[2][0]))
+	if(!std::isdigit(tokens[2][0])) //E:si es asterisco tiene q ir
 		return perror("USER: error: mode not valid\n");
 
 	usr->setUser(tokens[1]);

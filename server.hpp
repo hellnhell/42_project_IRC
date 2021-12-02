@@ -125,7 +125,7 @@ class Server
 		void						handle_new_connection();
 		void						deal_with_data(int listnum);
 		std::vector<std::string>	parse_message(std::string buffer);
-		void						error_msg(std::string err, std::string str, User *usr);
+		void						error_msg(std::string err, std::string str, User *usr, int listnum);
 
 		void						setPassword(std::string psswd);
 		std::string					getPassword() const;
