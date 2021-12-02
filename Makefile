@@ -3,41 +3,55 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+         #
+#    By: javier <javier@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/22 11:59:14 by emartin-          #+#    #+#              #
-#    Updated: 2021/12/01 13:09:33 by emartin-         ###   ########.fr        #
+#    Updated: 2021/12/02 12:14:57 by javier           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #No me va en linux para variar
 NAME			= irc-server
 
-SRCS			= 	main.cpp 		\
-				 	server.cpp		\
-				 	user.cpp		\
-					replies.cpp		\
-					parse.cpp		\
-				 	commands/user_cmmd.cpp	\
-					commands/pass.cpp		\
-					commands/nick.cpp	
-					
-OBJS			= $(SRCS:.cpp=.o)
-CC				= clang++ 
-RM				= rm -f
+SRCS_DIR= ./
+
+SRCS			= main.cpp \
+					server.cpp \
+					user.cpp \
+					parse.cpp \
+					replies.cpp \
+					commands/user_cmmd.cpp \
+					commands/nick.cpp \
+					command/pass.cpp
+
+OBJS_DIR = objects/
+OBJ = $(SRCS:.cpp=.o)
+OBJS = $(addprefix $(OBJS_DIR), $(OBJ))
+
+CC				= g++ 
+RM				= rm -rf
 CFLAGS			= -g -Wall -Wextra -Werror -I.
 
-all:			$(NAME)
-
+$(OBJS_DIR)%.o : $(SRCS_DIR)%.cpp
+	@mkdir -p $(OBJS_DIR)
+	@echo "\033[0;33mCompiling: $<\033[0m"
+	@${CC} $(FLAGS) -c $< -o $@
+	
+# $(NAME): $(OBJS)
+# 	$(CC) $(FLAGS) -o $(NAME) $(SRCS)
 $(NAME):		$(OBJS)
 				${CC} ${CFLAGS} -o ${NAME} ${OBJS} ${LIBS}
+				
+all: $(NAME)
 
 clean:
-				$(RM) $(OBJS)
+	@echo "Cleaning: $(OBJS_DIR)"
+	@$(RM) $(OBJS_DIR)
 
-fclean:			clean
-				$(RM) $(NAME)
+fclean: clean
+	@echo "Cleaning: $(NAME)"
+	@$(RM) $(NAME)
 
-re:				fclean $(NAME)
+re: fclean all
 
 .PHONY:			all clean fclean re
