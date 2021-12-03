@@ -153,10 +153,9 @@ void Server::deal_with_data(int listnum)
 		tokens = parse_message(recived);
 		if (tokens[0].empty())
 			return;
-		std::cout << "eins" << std::endl;
 		std::transform(tokens[0].begin(), tokens[0].end(),tokens[0].begin(), ::toupper);
 		if ((std::find(cmd_list.begin(), cmd_list.end(), tokens[0]) == cmd_list.end()))
-			return error_msg(ERR_ALREADYREGISTRED, tokens[0] + " :Unkown", tmpuser, listnum);
+			return error_msg(ERR_ALREADYREGISTRED, tokens[0] + " :Unkown", tmpuser); 
 		if(tokens[0] == "USER" || tokens[0] == "user")
 		{
 			tmpuser = this->list_users[this->_list_connected_user[listnum]];

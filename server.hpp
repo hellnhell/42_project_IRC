@@ -26,7 +26,6 @@
 //ERRORS
 //Error replies are found in the range from 400 to 599.
 
-# define ERR_NOPASSWD              "002"
 # define ERR_ALREADYREGISTRED      "462"
 # define ERR_NEEDMOREPARAMS        "461"
 # define ERR_NOSUCHNICK            "401"       //"<nickname> :No such nick/channel"        - Used to indicate the nickname parameter supplied to a command is currently unused.
@@ -125,7 +124,7 @@ class Server
 		void						handle_new_connection();
 		void						deal_with_data(int listnum);
 		std::vector<std::string>	parse_message(std::string buffer);
-		void						error_msg(std::string err, std::string str, User *usr, int listnum);
+		void						error_msg(std::string err, std::string str, User *usr);
 
 		void						setPassword(std::string psswd);
 		std::string					getPassword() const;

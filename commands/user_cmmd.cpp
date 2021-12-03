@@ -15,7 +15,7 @@
 void Server::user_cmd(std::vector<std::string> const &tokens, User *usr)
 {
 	if (!usr->getConnectionPswd())
-		return perror(ERR_NOPASSWD);
+		return perror(ERR_PASSWDMISMATCH);
 	if(tokens.size() < 5)
 		return perror("USER: error: not enought parameters\n"); //N: cambiar por errn pero no se si son aleatorios o tienen un criterio
 	if(usr->getUser()[0])

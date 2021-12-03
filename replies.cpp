@@ -12,11 +12,11 @@
 
 #include "server.hpp"
 
-void	Server::error_msg(std::string err, std::string str, User *usr, int listnum)
+void	Server::error_msg(std::string err, std::string str, User *usr)
 {
     std::string error;
     
     error = ":ft_irc.com " + err  + " "  + usr->getNick() + " " + str + "\r\n";
     std::cout << error << std::endl;
-    send(this->_list_connected_user[listnum], error.c_str(), error.length(), 0);
+    usr->setReply(error);
 }

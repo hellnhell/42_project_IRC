@@ -15,10 +15,10 @@
 void Server::pass(std::vector<std::string> const& tokens, User* usr)
 {
     std::cout << usr << std::endl; 
-    if (usr->getConnectionPswd()) //SEG FAULT
-        std::cout << ERR_ALREADYREGISTRED << "ALREADY_REGISTER" << std::endl;
+    if (usr->getConnectionPswd())
+        error_msg(ERR_ALREADYREGISTRED, "ALREADY_REGISTER", usr);
     if (tokens.empty())
-        perror(ERR_NEEDMOREPARAMS);
+        error_msg(ERR_NEEDMOREPARAMS, "NEED MORE PARAMS", usr);
     if ( tokens[1] != this->getPassword())
-        perror("Incorrect passwd");
+        error_msg(ERR_PASSWDMISMATCH ,"Incorrect passwd", usr);
 }

@@ -19,7 +19,7 @@ void Server::nick(std::vector<std::string> const &tokens, User *usr)
 	std::map<int, User*>::iterator it;
 
 	if (!usr->getConnectionPswd())
-		return perror(ERR_NOPASSWD);
+		return perror(ERR_PASSWDMISMATCH);
 	if(tokens.size() != 2)
 		return perror("NICK: error: wrong number of parameters\n");
 	if(tokens[1] == usr->getNick())

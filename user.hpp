@@ -75,6 +75,8 @@ class User
 
 		std::string	getReply();
 		void		setReply(std::string const &msg);
+
+		
 };
 
 #endif
