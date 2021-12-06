@@ -36,4 +36,4 @@ server
 a.out
 .vscode
 irc-server
-objects/
+/objects
