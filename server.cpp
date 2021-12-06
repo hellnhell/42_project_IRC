@@ -59,6 +59,8 @@ Server::Server(int port)
 	this->cmd_list.push_back("USER");
 	this->cmd_list.push_back("NICK");
 	this->cmd_list.push_back("EXIT");
+	this->cmd_list.push_back("TIME");
+	this->cmd_list.push_back("PRIVMSG");
 }
 
 Server::~Server()
@@ -132,6 +134,7 @@ void Server::deal_with_data(int listnum)
 	std::string		buff_input;
 	ssize_t			verify;
 	std::string 	recived;
+	std::string 	dt;
 	std::vector<std::string> tokens;
 
 	while ((verify = recv(this->_list_connected_user[listnum], buffer, 512, 0)) > 0)
@@ -165,12 +168,20 @@ void Server::deal_with_data(int listnum)
 		{
 			this->pass(tokens, tmpuser);
 		}
-		std::cout << std::endl << "Received:  " << recived << std::endl;
+		else if(tokens[0] == "TIME" || tokens[0] == "time")
+		{
+			time_t ttime = time(0);
+			std::string message;
+			dt = ctime(&ttime);
+			message = ":ft_irc.com 391 " + tmpuser->getNick() + "*.ft_irc.com: " + dt + " " + "\r\n";
+			send(this->_list_connected_user[listnum], message.c_str(), message.length(), 0); //Funciona, falta comprobar si un cliente lo gestiona correctamente.
+		}
+		//std::cout << std::endl << "Received:  " << recived << std::endl;
 		send(this->_list_connected_user[listnum], recived.c_str(), recived.length(), 0);
 		send(this->_list_connected_user[listnum], (char *)"\n", strlen((char *)"\n"), 0);
 		// sock_puts(this->_list_connected_user[listnum], buffer);
 		// sock_puts(this->_list_connected_user[listnum], (char *)"\n");
-		std::cout << "Responded: " << recived << std::endl;
+		//std::cout << "Responded: " << recived << std::endl;
 	}
 }
 

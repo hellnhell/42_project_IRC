@@ -20,6 +20,7 @@
 # include <list>
 # include <sstream>
 # include "user.hpp"
+# include <ctime>
 
 # define PORT 6667
 
