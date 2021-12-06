@@ -51,6 +51,7 @@
 # define ERR_NOMOTD	              "422"       //":MOTD File is missing" - Server's MOTD file could not be opened by the server.
 # define ERR_NOADMININFO	       "423"	    //"<server> :No administrative info available"- Returned by a server in response to an ADMIN message when there is an error in finding the appropriate information.
 # define ERR_FILEERROR	       "424"       //":File error doing <file op> on <file>"- Generic error message used to report a failed file operation during the processing of a message.
+# define ERR_TOOMANYAWAY		"429"
 # define ERR_NONICKNAMEGIVEN	"431"       //":No nickname given" - Returned when a nickname parameter expected for a command and isn't found.
 # define ERR_ERRONEUSNICKNAME	"432"       //"<nick> :Erroneous nickname"- Returned after receiving a NICK message which contains characters which do not fall in the defined set.  See section 2.3.1 for details on valid nicknames.
 # define ERR_NICKNAMEINUSE	       "433"       //"<nick> :Nickname is already in use" - Returned when a NICK message is processed that results in an attempt to change to a currently existing nickname.

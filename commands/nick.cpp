@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 13:15:28 by emartin-          #+#    #+#             */
-/*   Updated: 2021/12/01 11:53:55 by emartin-         ###   ########.fr       */
+/*   Updated: 2021/12/06 14:23:29 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,16 @@ void Server::nick(std::vector<std::string> const &tokens, User *usr)
 	std::map<int, User*>::iterator it;
 
 	if (!usr->getConnectionPswd())
-		return perror(ERR_PASSWDMISMATCH);
+        return error_msg(ERR_PASSWDMISMATCH ,"Password mismatch", usr);
 	if(tokens.size() != 2)
-		return perror("NICK: error: wrong number of parameters\n");
+		return error_msg(ERR_NEEDMOREPARAMS, "Wrong number of parameters", usr);
 	if(tokens[1] == usr->getNick())
-		return perror("NICK: error: same nickname\n");
+		return error_msg(ERR_NICKNAMEINUSE, "Nickname in use", usr);
 	if(tokens[1].size() > 9)
-		return perror("NICK: error: nick lenght greater than 9\n");
+		return error_msg(ERR_ERRONEUSNICKNAME,"Erroneus nickname (Size greateer than 9)", usr);
 	if(tokens[1][0] == '-' ||
 		tokens[1].find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789`|^_-{}[]\\") != std::string::npos)
-		return perror("NICK: error: Erroneous Nickname\n");
+		return error_msg(ERR_ERRONEUSNICKNAME,"Erroneus nickname", usr);
 
 	for(it = this->list_users.begin(); it != this->list_users.end(); it++)
 	{
@@ -37,7 +37,7 @@ void Server::nick(std::vector<std::string> const &tokens, User *usr)
 		{
 			if((*it).second->getNick() == tokens[1])
 			{
-				std::cout << "Error nickname " << tokens[1] << " isnt valid" << std::endl;
+				std::cout << "Error nickname " << tokens[1] << " is invalid" << std::endl;
 				send(usr->getFD(), "Not a valid nickname\n", 21, 0); //esto no cumple nada pero por ver algo en el cliente
 				std::cout << std::endl << "Nick: " << usr->getNick();
 				return ;
