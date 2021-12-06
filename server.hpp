@@ -23,6 +23,7 @@
 # include <ctime>
 
 # define PORT 6667
+# define SERVER_MASK "*.ft_irc.com "
 
 //ERRORS
 //Error replies are found in the range from 400 to 599.
@@ -80,13 +81,15 @@
 # define ERR_NOCHANMODES	       "477"       //"<channel> :Channel doesn't support modes"
 # define ERR_BANLISTFULL	       "478"       //"<channel> <char> :Channel list is full"
 # define ERR_NOPRIVILEGES	       "481"       //":Permission Denied- You're not an IRC operator" - Any command requiring operator privileges to operate MUST return this error to indicate the attempt was unsuccessful.
-# define ERR_CHANOPRIVSNEEDED	"482"       //"<channel> :You're not channel operator" - Any command requiring 'chanop' privileges (such as MODE messages) MUST return this error if the client making the attempt is not a chanop on the specified channel.
+# define ERR_CHANOPRIVSNEEDED		"482"       //"<channel> :You're not channel operator" - Any command requiring 'chanop' privileges (such as MODE messages) MUST return this error if the client making the attempt is not a chanop on the specified channel.
 # define ERR_CANTKILLSERVER        "483"       //":You can't kill a server!"- Any attempts to use the KILL command on a server are to be refused and this error returned directly to the client.
 # define ERR_RESTRICTED            "484"       //":Your connection is restricted!"- Sent by the server to a user upon connection to indicate the restricted nature of the connection (user mode "+r").
 # define ERR_UNIQOPPRIVSNEEDED     "485"       //":You're not the original channel operator" - Any MODE requiring "channel creator" privileges MUST return this error if the client making the attempt is not a chanop on the specified channel.
 # define ERR_NOOPERHOST            "491"       //":No O-lines for your host" - If a client sends an OPER message and the server has not been configured to allow connections from the client's host as an operator, this error MUST be returned.
 # define ERR_UMODEUNKNOWNFLAG      "501"       //":Unknown MODE flag"- Returned by the server to indicate that a MODE message was sent with a nickname parameter and that the a mode flag sent was not recognized.
 # define ERR_USERSDONTMATCH        "502"       //":Cannot change mode for other users"- Error sent to any user trying to view or change the user mode for a user other than themselves.
+
+# define RPL_TIME 					"391"		//"<server> :<string showing server's local time>""
 
 class Server
 {

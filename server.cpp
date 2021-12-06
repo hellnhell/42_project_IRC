@@ -170,11 +170,16 @@ void Server::deal_with_data(int listnum)
 		}
 		else if(tokens[0] == "TIME" || tokens[0] == "time")
 		{
-			time_t ttime = time(0);
-			std::string message;
-			dt = ctime(&ttime);
-			message = ":ft_irc.com 391 " + tmpuser->getNick() + "*.ft_irc.com: " + dt + " " + "\r\n";
-			send(this->_list_connected_user[listnum], message.c_str(), message.length(), 0); //Funciona, falta comprobar si un cliente lo gestiona correctamente.
+			if (this->list_users[this->_list_connected_user[listnum]] == NULL){
+				time_t ttime = time(0);
+				std::string message;
+				dt = ctime(&ttime);
+				message.append(RPL_TIME);
+				message = ":ft_irc.com " + tmpuser->getUser() + SERVER_MASK + dt + " " + "\r\n";
+				send(this->_list_connected_user[listnum], message.c_str(), message.length(), 0); //Funciona, falta comprobar si un cliente lo gestiona correctamente.
+			}
+			else
+				return error_msg(ERR_NOTREGISTERED, "TIME :You have not registered.", tmpuser);
 		}
 		//std::cout << std::endl << "Received:  " << recived << std::endl;
 		send(this->_list_connected_user[listnum], recived.c_str(), recived.length(), 0);
