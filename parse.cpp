@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 12:56:36 by emartin-          #+#    #+#             */
-/*   Updated: 2021/12/02 13:50:09 by emartin-         ###   ########.fr       */
+/*   Updated: 2021/12/07 14:19:56 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ std::vector<std::string>   Server::parse_message(std::string buffer)
         tok_tmp.push_back(tmps);
     if(buffer[0] == ':')
 	{
+
 		//gestionar espacio después de :
         ss.str(tok_tmp[1]);
         while(ss >> tmps)

@@ -137,6 +137,7 @@ class Server
 		void 						pass(std::vector<std::string> const& tokens, User* usr);
 		void 						nick(std::vector<std::string> const &tokens, User *usr);
 		void						time_cmd(User *usr, int fd_usr);
+		void						privmsg(std::vector<std::string> const& tokens, User* usr);
 };
 
 #endif

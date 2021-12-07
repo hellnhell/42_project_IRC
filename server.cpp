@@ -167,6 +167,10 @@ void Server::deal_with_data(int listnum)
 		{
 			this->pass(tokens, tmpuser);
 		}
+		else if(tokens[0] == "PRIVMSG" || tokens[0] == "PRIVMSG")
+		{
+			this->privmsg(tokens, tmpuser);
+		}
 		else if(tokens[0] == "TIME" || tokens[0] == "time")
 		{
 			if (this->list_users[this->_list_connected_user[listnum]] == NULL)
