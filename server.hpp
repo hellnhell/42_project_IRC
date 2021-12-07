@@ -21,6 +21,7 @@
 # include <list>
 # include <sstream>
 # include "user.hpp"
+# include "utils.hpp"
 
 # define PORT 6667
 # define SERVER_MASK "*.ft_irc.com "
@@ -29,7 +30,7 @@
 //ERRORS
 //Error replies are found in the range from 400 to 599.
 
-# define ERR_ALREADYREGISTRED      "462"
+# define ERR_ALREADYREGISTRED      "462"		// - Returned by the server to any link which tries to change part of the registered details (such as password or user details from second USER message)
 # define ERR_NEEDMOREPARAMS        "461"
 # define ERR_NOSUCHNICK            "401"       //"<nickname> :No such nick/channel"        - Used to indicate the nickname parameter supplied to a command is currently unused.
 # define ERR_NOSUCHSERVER          "402"       //"<server name> :No such server"           - Used to indicate the server name given currently does not exist.

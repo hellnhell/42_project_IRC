@@ -16,7 +16,7 @@ void	Server::reply_msg(std::string rep, std::string str, User *usr)
 {
     std::string msg;
     
-    msg = ":ft_irc.com " + rep  + " "  + usr->getNick() + " " + str + "\r\n";
+    msg = SERVER_MASK + rep  + " "  + usr->getNick() + " " + str + "\r\n";
 	send(usr->getFD(), msg.c_str(), msg.length(), 0);
     // usr->setReply(error);
 }

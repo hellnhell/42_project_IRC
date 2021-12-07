@@ -16,13 +16,9 @@ void Server::pass(std::vector<std::string> const& tokens, User* usr)
 {
     std::cout << usr << std::endl; 
     if (usr->getConnectionPswd())
-        return reply_msg(ERR_ALREADYREGISTRED, "Already register", usr);
+		return reply_msg(ERR_ALREADYREGISTRED, ": Unauthorized command (already registered)", usr); //?
     if (tokens.empty())
-        return reply_msg(ERR_NEEDMOREPARAMS, "Nedd more params", usr);
-    if ( tokens[1] != this->getPassword())
-    {
-        std::cout << "aux : |" << tokens[1] << "|\n";
-		std::cout << "pass : |" << this->getPassword() << "|\n";
-        return reply_msg(ERR_PASSWDMISMATCH ,"Password mismatch", usr);
-    }
+		return reply_msg(ERR_NEEDMOREPARAMS, tokens[0] + ": Not enough parameters", usr);
+    if (tokens[1] != this->getPassword())
+        return reply_msg(ERR_PASSWDMISMATCH ,"Password mismatch", usr); //NO se si hace falta
 }

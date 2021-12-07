@@ -74,7 +74,7 @@ int main(int argc, char **argv)
 			if(set_read == 0)
 			{
 				std::cout << "\r";
-				display();
+				timerDisplay();
 				std::cout.flush();
 			} else
 				server.read_socks();

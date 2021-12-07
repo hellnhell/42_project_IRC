@@ -116,7 +116,9 @@ void Server::handle_new_connection()
 				this->list_users[connection]->setConnectionPswd(1);
 			else
 				this->list_users[connection]->setConnectionPswd(0);
-			printf("Connection accepted: fd=%d Slot=%lu\n", connection, listnum);
+			// printf("Connection accepted: fd=%d Slot=%lu\n", connection, listnum);
+			actionDisplay("Connection accepted", "", list_users[connection]);
+			
 			connection = -1;
 		}
 	}
@@ -142,8 +144,9 @@ void Server::deal_with_data(int listnum)
 	if(recived.length() <= 0)
 	{
 		//delete user?
+		actionDisplay("Connection lost", "", this->list_users[this->_list_connected_user[listnum]]);
 		delete (this->list_users[this->_list_connected_user[listnum]]);
-		std::cout << std::endl << "Connection lost fd -> " << this->_list_connected_user[listnum] << " slot -> " <<  listnum << std::endl;
+		// std::cout << std::endl << "Connection lost fd -> " << this->_list_connected_user[listnum] << " slot -> " <<  listnum << std::endl;
 		close(this->_list_connected_user[listnum]);
 		this->_list_connected_user[listnum] = 0;
 	}
@@ -154,6 +157,7 @@ void Server::deal_with_data(int listnum)
 		if (tokens[0].empty())
 			return;
 		std::transform(tokens[0].begin(), tokens[0].end(),tokens[0].begin(), ::toupper);
+		actionDisplay("Attend client", " CMD:" + tokens[0], tmpuser);
 		if ((std::find(cmd_list.begin(), cmd_list.end(), tokens[0]) == cmd_list.end()))
 			return reply_msg(ERR_UNKNOWNCOMMAND, tokens[0] + " :Unkown command", tmpuser); 
 		if(tokens[0] == "USER" || tokens[0] == "user")
@@ -176,7 +180,6 @@ void Server::deal_with_data(int listnum)
 
 void Server::read_socks()
 {
-	std::cout << "Read_socks:" << std::endl;
 	if(FD_ISSET(this->listening_socket, &this->reads))
 		this->handle_new_connection();
 	for(size_t listnum = 0; listnum < 5; listnum++)
