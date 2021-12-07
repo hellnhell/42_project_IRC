@@ -12,6 +12,7 @@
 # include <unistd.h>
 # include <string.h>
 # include <iostream>
+# include <iomanip>
 # include <algorithm>
 # include <string>
 # include <vector>
@@ -22,6 +23,8 @@
 # include "user.hpp"
 
 # define PORT 6667
+# define SERVER_MASK "*.ft_irc.com "
+
 
 //ERRORS
 //Error replies are found in the range from 400 to 599.
@@ -88,6 +91,10 @@
 # define ERR_UMODEUNKNOWNFLAG      "501"       //":Unknown MODE flag"- Returned by the server to indicate that a MODE message was sent with a nickname parameter and that the a mode flag sent was not recognized.
 # define ERR_USERSDONTMATCH        "502"       //":Cannot change mode for other users"- Error sent to any user trying to view or change the user mode for a user other than themselves.
 
+# define RPL_TIME 					"391"		//"<server> :<string showing server's local time>""
+
+
+
 class Server
 {
 	private:
@@ -125,7 +132,9 @@ class Server
 		void						handle_new_connection();
 		void						deal_with_data(int listnum);
 		std::vector<std::string>	parse_message(std::string buffer);
-		void						error_msg(std::string err, std::string str, User *usr);
+		void						reply_msg(std::string rep, std::string str, User *usr);
+
+		void						display();
 
 		void						setPassword(std::string psswd);
 		std::string					getPassword() const;
@@ -133,6 +142,8 @@ class Server
 		void						user_cmd(std::vector<std::string> const &tokens, User *usr);
 		void 						pass(std::vector<std::string> const& tokens, User* usr);
 		void 						nick(std::vector<std::string> const &tokens, User *usr);
+		void						time_cmd(User *usr, int fd_usr);
+
 
 };
 

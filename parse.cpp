@@ -6,14 +6,13 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 12:56:36 by emartin-          #+#    #+#             */
-/*   Updated: 2021/12/06 14:35:37 by emartin-         ###   ########.fr       */
+/*   Updated: 2021/12/07 14:05:27 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "server.hpp"
 
 bool 						BothAreSpaces(char lhs, char rhs) { return (lhs == rhs) && (lhs == ' '); }
-
 
 std::vector<std::string>   Server::parse_message(std::string buffer)
 {
@@ -55,7 +54,7 @@ std::vector<std::string>   Server::parse_message(std::string buffer)
         	tokens.push_back(tok_tmp[1]); //triling
     }
     if (tokens.size() > 16)
-        error_msg(ERR_)
-	//parámetros = max 15;
+        perror("Too many params\n");
 	return tokens;
 }
+

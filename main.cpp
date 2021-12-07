@@ -1,5 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/07 14:11:46 by emartin-          #+#    #+#             */
+/*   Updated: 2021/12/07 14:14:30 by emartin-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "server.hpp"
 #include <iostream>
+#include "utils.hpp"
 
 Server *gservptr;
 
@@ -60,7 +73,8 @@ int main(int argc, char **argv)
 				throw Server::ServerException();
 			if(set_read == 0)
 			{
-				std::cout << ".";
+				std::cout << "\r";
+				display();
 				std::cout.flush();
 			} else
 				server.read_socks();

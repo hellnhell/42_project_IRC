@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+         #
+#    By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/22 11:59:14 by emartin-          #+#    #+#              #
-#    Updated: 2021/12/03 12:15:35 by javrodri         ###   ########.fr        #
+#    Updated: 2021/12/07 14:12:08 by emartin-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ SRCS			= main.cpp \
 					user.cpp \
 					parse.cpp \
 					replies.cpp \
+					utils.cpp \
 					commands/user_cmmd.cpp \
 					commands/nick.cpp \
 					commands/pass.cpp

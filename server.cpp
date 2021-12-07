@@ -155,7 +155,7 @@ void Server::deal_with_data(int listnum)
 			return;
 		std::transform(tokens[0].begin(), tokens[0].end(),tokens[0].begin(), ::toupper);
 		if ((std::find(cmd_list.begin(), cmd_list.end(), tokens[0]) == cmd_list.end()))
-			return error_msg(ERR_ALREADYREGISTRED, tokens[0] + " :Unkown", tmpuser); 
+			return reply_msg(ERR_UNKNOWNCOMMAND, tokens[0] + " :Unkown command", tmpuser); 
 		if(tokens[0] == "USER" || tokens[0] == "user")
 		{
 			tmpuser = this->list_users[this->_list_connected_user[listnum]];

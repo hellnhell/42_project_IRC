@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 13:15:28 by emartin-          #+#    #+#             */
-/*   Updated: 2021/12/06 14:23:29 by emartin-         ###   ########.fr       */
+/*   Updated: 2021/12/07 13:08:40 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,16 @@ void Server::nick(std::vector<std::string> const &tokens, User *usr)
 	std::map<int, User*>::iterator it;
 
 	if (!usr->getConnectionPswd())
-        return error_msg(ERR_PASSWDMISMATCH ,"Password mismatch", usr);
+        return reply_msg(ERR_PASSWDMISMATCH ,"Password mismatch", usr);
 	if(tokens.size() != 2)
-		return error_msg(ERR_NEEDMOREPARAMS, "Wrong number of parameters", usr);
+		return reply_msg(ERR_NEEDMOREPARAMS, "Wrong number of parameters", usr);
 	if(tokens[1] == usr->getNick())
-		return error_msg(ERR_NICKNAMEINUSE, "Nickname in use", usr);
+		return reply_msg(ERR_NICKNAMEINUSE, "Nickname in use", usr);
 	if(tokens[1].size() > 9)
-		return error_msg(ERR_ERRONEUSNICKNAME,"Erroneus nickname (Size greateer than 9)", usr);
+		return reply_msg(ERR_ERRONEUSNICKNAME,"Erroneus nickname (Size greateer than 9)", usr);
 	if(tokens[1][0] == '-' ||
 		tokens[1].find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789`|^_-{}[]\\") != std::string::npos)
-		return error_msg(ERR_ERRONEUSNICKNAME,"Erroneus nickname", usr);
+		return reply_msg(ERR_ERRONEUSNICKNAME,"Erroneus nickname", usr);
 
 	for(it = this->list_users.begin(); it != this->list_users.end(); it++)
 	{
