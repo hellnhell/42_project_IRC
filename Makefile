@@ -6,7 +6,7 @@
 #    By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/22 11:59:14 by emartin-          #+#    #+#              #
-#    Updated: 2021/12/03 12:15:35 by javrodri         ###   ########.fr        #
+#    Updated: 2021/12/07 12:31:12 by javrodri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,8 @@ SRCS			= main.cpp \
 					replies.cpp \
 					commands/user_cmmd.cpp \
 					commands/nick.cpp \
-					commands/pass.cpp
+					commands/pass.cpp	\
+					commands/time.cpp
 
 OBJS_DIR = objects/
 OBJ = $(SRCS:.cpp=.o)

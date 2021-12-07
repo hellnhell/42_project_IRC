@@ -37,7 +37,7 @@ class User
 		bool				connection_pswd;
 		std::string			user;
 		std::string			realName;
-		std::string			nicK;
+		std::string			nick;
 		std::string			password;
 		t_user_modes 		modes;
 		struct sockaddr_in	address;
