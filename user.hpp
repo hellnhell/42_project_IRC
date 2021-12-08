@@ -37,10 +37,10 @@ class User
 		std::string			realName;
 		std::string			nick;
 		std::string			password;
+		bool				connection_pswd;
 		t_user_modes 		modes;
 		struct sockaddr_in	address;
 
-		bool				connection_pswd;
 
 		User();
 		User(const User &other);
@@ -67,8 +67,9 @@ class User
 		const std::string	getModes() const;
 		void	setModes(int modes);
 
-		bool		getConnectionPswd()	const;
+		bool		getConnectionPswd() const;
 		void		setConnectionPswd(bool cp);
+
 
 
 };

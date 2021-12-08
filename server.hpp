@@ -20,6 +20,7 @@
 # include <list>
 # include <sstream>
 # include "user.hpp"
+# include "channel.hpp"
 
 
 //ERRORS
@@ -44,10 +45,13 @@ class Server
 		struct sockaddr_in 		server_address;
 
 		std::deque<std::string> cmd_list;
-		Server(const Server &other);
 
 		std::list<User *>		users_on;
 		std::string				password;
+
+		std::vector<Channel *>	channels;
+
+		Server(const Server &other);
 
 	public:
 		Server(int port);
@@ -66,7 +70,8 @@ class Server
 
 		void						user_cmd(std::vector<std::string> const &tokens, User *usr);
 		void						nick_cmd(std::vector<std::string> const &tokens, User *usr);
-		void 						pass(std::vector<std::string> const& tokens, User* usr);
+		void						pass(std::vector<std::string> const &tokens, User* usr);
+		void						join_cmd(std::vector<std::string> const &tokens, User* usr);
 
 
 

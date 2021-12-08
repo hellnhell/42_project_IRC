@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 12:35:45 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/11/28 22:07:47 by nazurmen         ###   ########.fr       */
+/*   Updated: 2021/12/08 18:10:20 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void Server::nick_cmd(std::vector<std::string> const &tokens, User *usr)
 		return perror("NICK: error: nick lenght greater than 9\n");
 	if(tokens[1][0] == '-' ||
 		tokens[1].find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789`|^_-{}[]\\") != std::string::npos)
+		return perror("NICK: error: Erroneous Nickname\n");
+	if(tokens[1] == "anonymous")
 		return perror("NICK: error: Erroneous Nickname\n");
 
 	for(it = this->list_users.begin(); it != this->list_users.end(); it++)

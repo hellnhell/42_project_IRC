@@ -26,6 +26,7 @@ User::User(int &_fd, struct sockaddr_in const &client_addr) : fd(_fd)
 	this->password = "";
 	this->realName = "";
 	this->address = client_addr;
+	this->connection_pswd = 0;
 	std::cout << "User created with fd: " << this->fd  <<std::endl;
 	user_modes_init(&this->modes);
 }
@@ -108,5 +109,16 @@ void User::setModes(int modes)
 
 }
 
-bool	User::getConnectionPswd() const { return (this->connection_pswd); }
-void	User::setConnectionPswd(bool cp) { this->connection_pswd = cp; }
+//setter for connection_pswd
+void User::setConnectionPswd(bool _connection_pswd)
+{
+	this->connection_pswd = _connection_pswd;
+	std::cout << "cosaquepeta2: " << this->connection_pswd << std::endl;
+	std::cout << "cosaquepeta3: " << this->getNick() << std::endl;
+}
+
+//getter for user connection_pswd
+bool	User::getConnectionPswd() const
+{
+	return (this->connection_pswd);
+}

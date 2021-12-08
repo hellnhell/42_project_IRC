@@ -142,6 +142,14 @@ void Server::handle_new_connection()
 		printf("\n No room left for new client.\n");
 		close(connection);
 	}
+
+std::map<int, User*>::iterator it;
+
+for(it = this->list_users.begin(); it != this->list_users.end(); it++)
+{
+	std::cout << it->first << " fds chekeados en handle" << std::endl;
+}
+
 }
 
 // ES LO MISMO Q EL SEND PERO DEJAMOS LA FX X SI NOS DA X METER MÄS COSAS
@@ -213,7 +221,8 @@ void Server::deal_with_data(int listnum)
 	}
 	else
 	{
-		User *tmpuser = this->list_users[listnum];
+//		User *tmpuser = this->list_users[listnum];
+		User *tmpuser = this->list_users[this->_list_connected_user[listnum]];
 
 		//USER <user> <mode> <unused> <realname>
 		//USER guest 0 * :Ronnie Reagan
@@ -249,7 +258,11 @@ void Server::deal_with_data(int listnum)
 		}
 		else if(tokens[0] == "PASS" || tokens[0] == "pass")
 		{
-//			this->pass(tokens, tmpuser); //N: esto no está definido
+			this->pass(tokens, tmpuser); //N: esto no está definido
+		}
+		else if(tokens[0] == "JOIN" || tokens[0] == "join")
+		{
+			this->join_cmd(tokens, tmpuser);
 		}
 
 
@@ -267,7 +280,7 @@ void Server::read_socks()
 	std::cout << "Read_socks:" << std::endl;
 	if(FD_ISSET(this->listening_socket, &this->reads))
 		this->handle_new_connection();
-	for(size_t listnum = 0; listnum < 5; listnum++)
+	for(size_t listnum = 0; listnum < FD_SETSIZE; listnum++)
 	{
 		if(FD_ISSET(this->_list_connected_user[listnum], &this->reads))
 			deal_with_data(listnum);
