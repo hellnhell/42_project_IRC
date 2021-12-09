@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:41 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/08 20:51:46 by nazurmen         ###   ########.fr       */
+/*   Updated: 2021/12/09 21:25:18 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,6 @@ void Server::join_cmd(std::vector<std::string> const &tokens, User* usr)
 		{
 			//salirse de todos los canales
 		}
+		i++;
 	}
 }
