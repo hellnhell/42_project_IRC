@@ -30,8 +30,4 @@ void	timerDisplay()
 		<< PINK_C << std::setw(2) << ltm.tm_min << ":"   
 		<< PINK<< std::setw(2) << ltm.tm_sec  << " - "
 		<< WHITE << std::setfill(' ') << std::setw(5);
-    // std::cout << " : " <<  log.substr(0,25);
-	// std::cout << " IP: " <<  usr->getIp();
-	// std::cout << " Socket: " << usr->getsockfd();
-	// std::cout << cmd << std::endl;
 }

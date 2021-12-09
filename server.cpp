@@ -22,7 +22,7 @@ const char* Server::ServerException::what() const throw ()
 	return "Server Exception: Something went wrong\n";
 }
 
-Server::Server(int port)
+Server::Server()
 {
 	std::cout << "Server Constructor:" << std::endl;
 	int reuse_addr = 1;
@@ -165,6 +165,11 @@ void Server::deal_with_data(int listnum)
 			tmpuser = this->list_users[this->_list_connected_user[listnum]];
 			this->user_cmd(tokens, tmpuser);
 		}
+		else if(tokens[0] == "NICK" || tokens[0] == "nick")
+		{
+			tmpuser = this->list_users[this->_list_connected_user[listnum]];
+			this->nick(tokens, tmpuser);
+		}
 		else if(tokens[0] == "PASS" || tokens[0] == "pass")
 		{
 			this->pass(tokens, tmpuser);
@@ -191,3 +196,10 @@ void Server::read_socks()
 
 void Server::setPassword(std::string psswd) { this->password = psswd; }
 std::string	Server::getPassword() const { return this->password; };
+
+void Server::setHosting(std::string hosting) { this->host = hosting; }
+std::string	Server::getHosting() const { return this->host; };
+void Server::setPortNt(int portnt) { this->port_network = portnt; }
+int	Server::getPortNt() const { return this->port_network; };
+void Server::setPassNt(std::string psswnt) { this->pssw_network = psswnt; }
+std::string	Server::getPassNt() const { return this->pssw_network; };

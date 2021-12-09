@@ -27,6 +27,65 @@ int	getPort(std::string str)
 	return ret;
 }
 
+Server *parse_params(int argc, char **argv, Server &sv)
+{
+	int 						port;
+	std::string 				psswd;
+	std::string 				tmp;
+	std::istringstream 			host(argv[1]);
+	std::vector<std::string>  	host_info;
+
+	if (argc < 2 || argc > 4)
+	{
+		std::cout << "Incorrect number of arguments" << std::endl;
+		std::cout << "Input can content:" <<std::endl;
+		std::cout << "- [host:port_network:password_network] <port> <password>" <<std::endl;
+		std::cout << "- [host:port_network:password_network] <port> " <<std::endl;
+		std::cout << "- <port> <password>" <<std::endl;
+		std::cout << "- <port>" <<std::endl;
+
+	}
+	if (argc == 2)
+	{
+	 	port = getPort(argv[1]);
+	 	sv.setHosting(HOST);
+	 	sv.setPortNt(PORTNT);
+	 	sv.setPassNt(PSSWNT);
+	}
+	else 
+	{
+		if (argc == 4)
+		{
+			while(getline(host, tmp, ':'))
+				host_info.push_back(tmp);
+			port = getPort(argv[2]);
+			psswd = (std::string)argv[3];
+			
+		}
+		else if ( argc == 3)
+		{
+			if (argv[1][0] == '[')
+			{
+				while(getline(host, tmp, ':'))
+					host_info.push_back(tmp);
+				port = getPort(argv[2]);
+			}
+			else
+			{
+				port = getPort(argv[1]);
+				psswd = (std::string)argv[2];
+			}
+		}
+		if (psswd.size() > 20)
+			perror("Password too long");
+		sv.setPassword(psswd);
+		sv.setHosting(host_info[0]);
+		sv.setPortNt(host_info[1]);
+		sv.setPassNt(host_info[2]);
+	}
+	return &sv;
+}
+
 void signal_kill ( int number )
 {
 	if ( number == SIGINT ) //  number == SIGQUIT || number == SIGTERM???
@@ -39,32 +98,13 @@ void signal_kill ( int number )
 
 int main(int argc, char **argv)
 {
-
 	//try de todo??
-	int	port;
-	std::string psswd;
-	if (argc < 2 || argc > 3)
-	{
-		std::cout << "Incorrect number of arguments" << std::endl;
-		std::cout << "Input must content: <port> or <port> <password>" <<std::endl;
-		return 0;
-	}
-	if (argc == 3)
-	{
-		psswd = (std::string)argv[2];
-		if (psswd.size() > 20)
-		{
-			std::cout << "Password cannot exceed 20 characters" << std::endl;
-			return 0;
-		}
-	}
 	try
 	{
-		port = getPort(argv[1]);
-		Server server(port);
-		gservptr = &server;
+		Server server;
+		gservptr = &server; //??
 		int set_read = 0;
-		server.setPassword(psswd);
+		parse_params(argc, argv, server);
 		while(1)
 		{
 			signal(SIGINT, signal_kill);
@@ -76,7 +116,8 @@ int main(int argc, char **argv)
 				std::cout << "\r";
 				timerDisplay();
 				std::cout.flush();
-			} else
+			}
+			else
 				server.read_socks();
 		}
 		return(0);

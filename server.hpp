@@ -24,6 +24,9 @@
 # include "utils.hpp"
 
 # define PORT 6667
+# define PORTNT 6667
+# define HOST "127.0.01"
+# define PSSWNT "bitches"
 # define SERVER_MASK "*.ft_irc.com "
 
 
@@ -116,8 +119,12 @@ class Server
 		std::list<User *>		users_on;
 		std::string				password;
 
+		std::string host;
+		int			port_network;
+		std::string pssw_network;
+
 	public:
-		Server(int port);
+		Server();
 		~Server();
 		Server &operator=(const Server &other);
 
@@ -139,6 +146,13 @@ class Server
 
 		void						setPassword(std::string psswd);
 		std::string					getPassword() const;
+
+		void						setHosting(std::string hosting);
+		std::string					getHosting() const;
+		void						setPortNt(int portnt);
+		int							getPortNt() const;
+		void						setPassNt(std::string psswnt);
+		std::string					getPassNt() const;
 
 		void						user_cmd(std::vector<std::string> const &tokens, User *usr);
 		void 						pass(std::vector<std::string> const& tokens, User* usr);
