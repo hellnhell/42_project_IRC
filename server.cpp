@@ -22,7 +22,7 @@ const char* Server::ServerException::what() const throw ()
 	return "Server Exception: Something went wrong\n";
 }
 
-Server::Server(int port)
+Server::Server()
 {
 	std::cout << "Server Constructor:" << std::endl;
 	int reuse_addr = 1;
@@ -118,7 +118,9 @@ void Server::handle_new_connection()
 				this->list_users[connection]->setConnectionPswd(1);
 			else
 				this->list_users[connection]->setConnectionPswd(0);
-			printf("Connection accepted: fd=%d Slot=%lu\n", connection, listnum);
+			// printf("Connection accepted: fd=%d Slot=%lu\n", connection, listnum);
+			actionDisplay("Connection accepted", "", list_users[connection]);
+			
 			connection = -1;
 		}
 	}
@@ -144,8 +146,9 @@ void Server::deal_with_data(int listnum)
 	if(recived.length() <= 0)
 	{
 		//delete user?
+		actionDisplay("Connection lost", "", this->list_users[this->_list_connected_user[listnum]]);
 		delete (this->list_users[this->_list_connected_user[listnum]]);
-		std::cout << std::endl << "Connection lost fd -> " << this->_list_connected_user[listnum] << " slot -> " <<  listnum << std::endl;
+		// std::cout << std::endl << "Connection lost fd -> " << this->_list_connected_user[listnum] << " slot -> " <<  listnum << std::endl;
 		close(this->_list_connected_user[listnum]);
 		this->_list_connected_user[listnum] = 0;
 	}
@@ -156,8 +159,9 @@ void Server::deal_with_data(int listnum)
 		if (tokens[0].empty())
 			return;
 		std::transform(tokens[0].begin(), tokens[0].end(),tokens[0].begin(), ::toupper);
+		actionDisplay("Attend client", " CMD:" + tokens[0], tmpuser);
 		if ((std::find(cmd_list.begin(), cmd_list.end(), tokens[0]) == cmd_list.end()))
-			return error_msg(ERR_ALREADYREGISTRED, tokens[0] + " :Unkown", tmpuser); 
+			return reply_msg(ERR_UNKNOWNCOMMAND, tokens[0] + " :Unkown command", tmpuser); 
 		if(tokens[0] == "USER" || tokens[0] == "user")
 		{
 			tmpuser = this->list_users[this->_list_connected_user[listnum]];
@@ -179,17 +183,22 @@ void Server::deal_with_data(int listnum)
 			 	return error_msg(ERR_NOTREGISTERED, "TIME :You have not registered.", tmpuser);
 		}
 		//std::cout << std::endl << "Received:  " << recived << std::endl;
+		else if(tokens[0] == "NICK" || tokens[0] == "nick")
+		{
+			tmpuser = this->list_users[this->_list_connected_user[listnum]];
+			this->nick(tokens, tmpuser);
+		}
+		std::cout << std::endl << "Received:  " << recived << std::endl;
 		send(this->_list_connected_user[listnum], recived.c_str(), recived.length(), 0);
 		send(this->_list_connected_user[listnum], (char *)"\n", strlen((char *)"\n"), 0);
 		// sock_puts(this->_list_connected_user[listnum], buffer);
 		// sock_puts(this->_list_connected_user[listnum], (char *)"\n");
-		//std::cout << "Responded: " << recived << std::endl;
+		std::cout << "Responded: " << recived << std::endl;
 	}
 }
 
 void Server::read_socks()
 {
-	std::cout << "Read_socks:" << std::endl;
 	if(FD_ISSET(this->listening_socket, &this->reads))
 		this->handle_new_connection();
 	for(size_t listnum = 0; listnum < 5; listnum++)
@@ -201,3 +210,10 @@ void Server::read_socks()
 
 void Server::setPassword(std::string psswd) { this->password = psswd; }
 std::string	Server::getPassword() const { return this->password; };
+
+void Server::setHosting(std::string hosting) { this->host = hosting; }
+std::string	Server::getHosting() const { return this->host; };
+void Server::setPortNt(int portnt) { this->port_network = portnt; }
+int	Server::getPortNt() const { return this->port_network; };
+void Server::setPassNt(std::string psswnt) { this->pssw_network = psswnt; }
+std::string	Server::getPassNt() const { return this->pssw_network; };

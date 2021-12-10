@@ -6,14 +6,13 @@
 /*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 12:56:36 by emartin-          #+#    #+#             */
-/*   Updated: 2021/12/07 14:19:56 by javrodri         ###   ########.fr       */
+/*   Updated: 2021/12/10 10:25:46 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "server.hpp"
 
 bool 						BothAreSpaces(char lhs, char rhs) { return (lhs == rhs) && (lhs == ' '); }
-
 
 std::vector<std::string>   Server::parse_message(std::string buffer)
 {
@@ -34,7 +33,6 @@ std::vector<std::string>   Server::parse_message(std::string buffer)
         tok_tmp.push_back(tmps);
     if(buffer[0] == ':')
 	{
-
 		//gestionar espacio después de :
         ss.str(tok_tmp[1]);
         while(ss >> tmps)
@@ -55,6 +53,8 @@ std::vector<std::string>   Server::parse_message(std::string buffer)
 		if (tok_tmp.size() > 1)
         	tokens.push_back(tok_tmp[1]); //triling
     }
-	//parámetros = max 15;
+    if (tokens.size() > 16)
+        perror("Too many params\n");
 	return tokens;
 }
+

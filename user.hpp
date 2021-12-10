@@ -6,6 +6,8 @@
 # include <string>
 # include <bitset>
 # include <arpa/inet.h>
+# include <netinet/in.h>
+# include <sys/socket.h>
 # include <vector>
 
 

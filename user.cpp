@@ -23,13 +23,9 @@ User::User(int &_fd, struct sockaddr_in const &client_addr) : fd(_fd)
 {
 	user_modes_init(&this->modes);
 	this->address = client_addr;
-	std::cout << "User created with fd: " << this->fd  <<std::endl;
 }
 
-User::~User()
-{
-	std::cout << "User destroyed with fd: " << this->fd << std::endl;
-}
+User::~User() {} //Puedes meter aquí el actionDispl
 
 
 //getters setters

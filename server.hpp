@@ -12,6 +12,7 @@
 # include <unistd.h>
 # include <string.h>
 # include <iostream>
+# include <iomanip>
 # include <algorithm>
 # include <string>
 # include <vector>
@@ -22,13 +23,25 @@
 # include "user.hpp"
 # include <ctime>
 
-# define PORT 6667
-# define SERVER_MASK "*.ft_irc.com "
+
 
 //ERRORS
 //Error replies are found in the range from 400 to 599.
 
-# define ERR_ALREADYREGISTRED      "462"
+
+# include "utils.hpp"
+
+# define PORT 6667
+# define PORTNT 6667
+# define HOST "127.0.01"
+# define PSSWNT "bitches"
+# define SERVER_MASK "*.ft_irc.com "
+
+
+//ERRORS
+//Error replies are found in the range from 400 to 599.
+
+# define ERR_ALREADYREGISTRED      "462"		// - Returned by the server to any link which tries to change part of the registered details (such as password or user details from second USER message)
 # define ERR_NEEDMOREPARAMS        "461"
 # define ERR_NOSUCHNICK            "401"       //"<nickname> :No such nick/channel"        - Used to indicate the nickname parameter supplied to a command is currently unused.
 # define ERR_NOSUCHSERVER          "402"       //"<server name> :No such server"           - Used to indicate the server name given currently does not exist.
@@ -53,6 +66,7 @@
 # define ERR_NOMOTD	              "422"       //":MOTD File is missing" - Server's MOTD file could not be opened by the server.
 # define ERR_NOADMININFO	       "423"	    //"<server> :No administrative info available"- Returned by a server in response to an ADMIN message when there is an error in finding the appropriate information.
 # define ERR_FILEERROR	       "424"       //":File error doing <file op> on <file>"- Generic error message used to report a failed file operation during the processing of a message.
+# define ERR_TOOMANYAWAY		"429"
 # define ERR_NONICKNAMEGIVEN	"431"       //":No nickname given" - Returned when a nickname parameter expected for a command and isn't found.
 # define ERR_ERRONEUSNICKNAME	"432"       //"<nick> :Erroneous nickname"- Returned after receiving a NICK message which contains characters which do not fall in the defined set.  See section 2.3.1 for details on valid nicknames.
 # define ERR_NICKNAMEINUSE	       "433"       //"<nick> :Nickname is already in use" - Returned when a NICK message is processed that results in an attempt to change to a currently existing nickname.
@@ -81,7 +95,7 @@
 # define ERR_NOCHANMODES	       "477"       //"<channel> :Channel doesn't support modes"
 # define ERR_BANLISTFULL	       "478"       //"<channel> <char> :Channel list is full"
 # define ERR_NOPRIVILEGES	       "481"       //":Permission Denied- You're not an IRC operator" - Any command requiring operator privileges to operate MUST return this error to indicate the attempt was unsuccessful.
-# define ERR_CHANOPRIVSNEEDED		"482"       //"<channel> :You're not channel operator" - Any command requiring 'chanop' privileges (such as MODE messages) MUST return this error if the client making the attempt is not a chanop on the specified channel.
+# define ERR_CHANOPRIVSNEEDED	"482"       //"<channel> :You're not channel operator" - Any command requiring 'chanop' privileges (such as MODE messages) MUST return this error if the client making the attempt is not a chanop on the specified channel.
 # define ERR_CANTKILLSERVER        "483"       //":You can't kill a server!"- Any attempts to use the KILL command on a server are to be refused and this error returned directly to the client.
 # define ERR_RESTRICTED            "484"       //":Your connection is restricted!"- Sent by the server to a user upon connection to indicate the restricted nature of the connection (user mode "+r").
 # define ERR_UNIQOPPRIVSNEEDED     "485"       //":You're not the original channel operator" - Any MODE requiring "channel creator" privileges MUST return this error if the client making the attempt is not a chanop on the specified channel.
@@ -90,6 +104,8 @@
 # define ERR_USERSDONTMATCH        "502"       //":Cannot change mode for other users"- Error sent to any user trying to view or change the user mode for a user other than themselves.
 
 # define RPL_TIME 					"391"		//"<server> :<string showing server's local time>""
+
+
 
 class Server
 {
@@ -111,8 +127,12 @@ class Server
 		std::list<User *>		users_on;
 		std::string				password;
 
+		std::string host;
+		int			port_network;
+		std::string pssw_network;
+
 	public:
-		Server(int port);
+		Server();
 		~Server();
 		Server &operator=(const Server &other);
 
@@ -129,9 +149,19 @@ class Server
 		void						deal_with_data(int listnum);
 		std::vector<std::string>	parse_message(std::string buffer);
 		void						error_msg(std::string err, std::string str, User *usr);
+		void						reply_msg(std::string rep, std::string str, User *usr);
+
+		void						display();
 
 		void						setPassword(std::string psswd);
 		std::string					getPassword() const;
+
+		void						setHosting(std::string hosting);
+		std::string					getHosting() const;
+		void						setPortNt(int portnt);
+		int							getPortNt() const;
+		void						setPassNt(std::string psswnt);
+		std::string					getPassNt() const;
 
 		void						user_cmd(std::vector<std::string> const &tokens, User *usr);
 		void 						pass(std::vector<std::string> const& tokens, User* usr);
