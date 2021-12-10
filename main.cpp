@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 14:11:46 by emartin-          #+#    #+#             */
-/*   Updated: 2021/12/10 12:25:07 by emartin-         ###   ########.fr       */
+/*   Updated: 2021/12/10 12:35:04 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	getPort(std::string str)
 	}
 	return ret;
 }
+
 
 void signal_kill ( int number )
 {
@@ -59,8 +60,8 @@ int main(int argc, char **argv)
 	try
 	{
 		port = getPort(argv[1]);
-		Server server(port);
-		gservptr = &server;
+		Server server;
+		gservptr = &server; //??
 		int set_read = 0;
 		server.setPassword(psswd);
 		while(1)
@@ -74,7 +75,8 @@ int main(int argc, char **argv)
 				std::cout << "\r";
 				timerDisplay();
 				std::cout.flush();
-			} else
+			}
+			else
 				server.read_socks();
 		}
 		return(0);

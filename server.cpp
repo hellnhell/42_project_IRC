@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:52 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/10 12:26:58 by emartin-         ###   ########.fr       */
+/*   Updated: 2021/12/10 12:32:21 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ const char* Server::ServerException::what() const throw ()
 	return "Server Exception: Something went wrong\n";
 }
 
-Server::Server(int port)
+Server::Server()
 {
 	std::cout << "Server Constructor:" << std::endl;
 	int reuse_addr = 1;

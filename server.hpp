@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:50 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/10 12:23:27 by emartin-         ###   ########.fr       */
+/*   Updated: 2021/12/10 12:33:06 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@
 # include "user.hpp"
 # include <ctime>
 # include "channel.hpp"
+# include "utils.hpp"
 
 
 
@@ -42,7 +43,6 @@
 //Error replies are found in the range from 400 to 599.
 
 
-# include "utils.hpp"
 
 # define PORT 6667
 # define SERVER_MASK "*.ft_irc.com "
@@ -147,7 +147,7 @@ class Server
 		Server(const Server &other);
 
 	public:
-		Server(int port);
+		Server();
 		~Server();
 		Server &operator=(const Server &other);
 
@@ -170,6 +170,13 @@ class Server
 
 		void						setPassword(std::string psswd);
 		std::string					getPassword() const;
+
+		void						setHosting(std::string hosting);
+		std::string					getHosting() const;
+		void						setPortNt(int portnt);
+		int							getPortNt() const;
+		void						setPassNt(std::string psswnt);
+		std::string					getPassNt() const;
 
 		void						user_cmd(std::vector<std::string> const &tokens, User *usr);
 
