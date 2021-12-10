@@ -12,19 +12,22 @@
 
 #include "utils.hpp"
 
-void display()
+void	actionDisplay(std::string const &action, std::string const &cmd, User *usr)
+{
+	// timerDisplay();
+	std::cout << action.substr(0,25);
+	// std::cout << " IP: " <<  usr->getIp();
+	std::cout << " Socket: " << usr->getFD();
+	std::cout << cmd << std::endl;
+}
+
+void	timerDisplay()
 {
     time_t tzero = time(0);
     
     tm ltm = *localtime(&tzero);
-    std::cout << GREEN"" << std::setfill('0') << "[" << (ltm.tm_year + 1900) << "/"
-			  << std::setw(2) << ltm.tm_mon + 1 << "/"
-			  << std::setw(2) << ltm.tm_mday << "_"
-			  << std::setw(2) << ltm.tm_hour << ":"
-			  << std::setw(2) << ltm.tm_min << ":"
-			  << std::setw(2) << ltm.tm_sec << "] "WHITE;
-    // std::cout << " : " <<  log.substr(0,25);
-	// std::cout << " IP: " <<  usr->getIp();
-	// std::cout << " Socket: " << usr->getsockfd();
-	// std::cout << cmd << std::endl;
+		std::cout << PINK_B << std::setfill('0') << std::setw(2) << ltm.tm_hour << ":" 
+		<< PINK_C << std::setw(2) << ltm.tm_min << ":"   
+		<< PINK<< std::setw(2) << ltm.tm_sec  << " - "
+		<< WHITE << std::setfill(' ') << std::setw(5);
 }

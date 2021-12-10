@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 14:11:46 by emartin-          #+#    #+#             */
-/*   Updated: 2021/12/07 14:14:30 by emartin-         ###   ########.fr       */
+/*   Updated: 2021/12/10 12:25:07 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ void signal_kill ( int number )
 
 int main(int argc, char **argv)
 {
-
-	//try de todo??
 	int	port;
 	std::string psswd;
 	if (argc < 2 || argc > 3)
@@ -74,7 +72,7 @@ int main(int argc, char **argv)
 			if(set_read == 0)
 			{
 				std::cout << "\r";
-				display();
+				timerDisplay();
 				std::cout.flush();
 			} else
 				server.read_socks();
@@ -87,6 +85,7 @@ int main(int argc, char **argv)
 	}
 	
 }
+
 
 
 

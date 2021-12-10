@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   server.hpp                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/08 20:43:50 by nazurmen          #+#    #+#             */
+/*   Updated: 2021/12/10 12:23:27 by emartin-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef SERVER_HPP
 # define SERVER_HPP
 
@@ -21,15 +33,28 @@
 # include <list>
 # include <sstream>
 # include "user.hpp"
+# include <ctime>
+# include "channel.hpp"
 
-# define PORT 6667
-# define SERVER_MASK "*.ft_irc.com "
 
 
 //ERRORS
 //Error replies are found in the range from 400 to 599.
 
-# define ERR_ALREADYREGISTRED      "462"
+
+# include "utils.hpp"
+
+# define PORT 6667
+# define SERVER_MASK "*.ft_irc.com "
+// # define PORTNT 6667
+// # define HOST "127.0.01"
+// # define PSSWNT "bitches"
+
+
+//ERRORS
+//Error replies are found in the range from 400 to 599.
+
+# define ERR_ALREADYREGISTRED      "462"		// - Returned by the server to any link which tries to change part of the registered details (such as password or user details from second USER message)
 # define ERR_NEEDMOREPARAMS        "461"
 # define ERR_NOSUCHNICK            "401"       //"<nickname> :No such nick/channel"        - Used to indicate the nickname parameter supplied to a command is currently unused.
 # define ERR_NOSUCHSERVER          "402"       //"<server name> :No such server"           - Used to indicate the server name given currently does not exist.
@@ -110,10 +135,16 @@ class Server
 		struct sockaddr_in 		server_address;
 
 		std::deque<std::string> cmd_list;
-		Server(const Server &other);
 
 		std::list<User *>		users_on;
 		std::string				password;
+
+		std::string host;
+		int			port_network;
+		std::string pssw_network;
+		std::vector<Channel *>	channels;
+
+		Server(const Server &other);
 
 	public:
 		Server(int port);
@@ -132,6 +163,7 @@ class Server
 		void						handle_new_connection();
 		void						deal_with_data(int listnum);
 		std::vector<std::string>	parse_message(std::string buffer);
+		void						error_msg(std::string err, std::string str, User *usr);
 		void						reply_msg(std::string rep, std::string str, User *usr);
 
 		void						display();
@@ -140,9 +172,13 @@ class Server
 		std::string					getPassword() const;
 
 		void						user_cmd(std::vector<std::string> const &tokens, User *usr);
-		void 						pass(std::vector<std::string> const& tokens, User* usr);
-		void 						nick(std::vector<std::string> const &tokens, User *usr);
+
 		void						time_cmd(User *usr, int fd_usr);
+		void						privmsg(std::vector<std::string> const& tokens, User* usr);
+		void						nick_cmd(std::vector<std::string> const &tokens, User *usr);
+		void						pass(std::vector<std::string> const &tokens, User* usr);
+		void						join_cmd(std::vector<std::string> const &tokens, User* usr);
+
 
 
 };

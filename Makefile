@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+         #
+#    By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/22 11:59:14 by emartin-          #+#    #+#              #
-#    Updated: 2021/12/07 14:12:08 by emartin-         ###   ########.fr        #
+#    Updated: 2021/12/10 12:07:15 by javrodri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,10 +21,14 @@ SRCS			= main.cpp \
 					user.cpp \
 					parse.cpp \
 					replies.cpp \
-					utils.cpp \
+					channel.cpp \
 					commands/user_cmmd.cpp \
 					commands/nick.cpp \
-					commands/pass.cpp
+					commands/pass.cpp	\
+					commands/time.cpp	\
+					commands/privmsg.cpp \
+					commands/join_cmmd.cpp \
+					utils.cpp 
 
 OBJS_DIR = objects/
 OBJ = $(SRCS:.cpp=.o)

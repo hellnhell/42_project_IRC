@@ -21,33 +21,34 @@ static void user_modes_init(t_user_modes *modes)
 
 User::User(int &_fd, struct sockaddr_in const &client_addr) : fd(_fd)
 {
+	this->user = "";
+	this->nick = "";
+	this->password = "";
+	this->realName = "";
+	this->address = client_addr;
+	this->connection_pswd = 0;
+	std::cout << "User created with fd: " << this->fd  <<std::endl;
 	user_modes_init(&this->modes);
 	this->address = client_addr;
-	std::cout << "User created with fd: " << this->fd  <<std::endl;
 }
 
-User::~User()
-{
-	std::cout << "User destroyed with fd: " << this->fd << std::endl;
-}
+User::~User() {} //Puedes meter aquí el actionDispl
 
 
 //getters setters
 
 int User::getFD() {  return (this->fd); }
 
-std::string User::getUser() { return (this->user); }
+const std::string User::getUser() const { return (this->user); }
 void User::setUser(std::string _user) {	this->user = _user; }
 
 const std::string User::getRealName() const { return (this->realName); }
 void User::setRealName(std::string _realName) {	this->realName = _realName; }
 
-std::string const &User::getNick() const { return (this->nick); }
+const std::string User::getNick() const { return (this->nick); }
 void User::setNick(std::string _nick) {	this->nick = _nick; }
 
-
-
-std::string User::getModes()
+const std::string User::getModes() const
 {
 	std::string ret;
 

@@ -32,10 +32,26 @@
 # include <vector>
 # include <list>
 
-# define GREEN	"\033[1;32m"
+# define PINK_B	"\033[2;35m"
+# define PINK_C	"\033[1;35m"
+# define PINK	"\033[0;35m"
+
 # define WHITE	"\033[0;37m"
 # define YELLOW	"\033[1;33m"
 
-void						display( void );
+// green=$'\e[0;92;40m'
+// green_b=$'\e[0;30;102m'
+// green_d=$'\e[0;2;92;40m'
+// red=$'\e[0;92;31m'
+// green_b=$'\e[0;92;102m'
+// blue=$'\e[0;34;40m'
+// cyan=$'\e[0;1;36;40m'
+// magenta=$'\e[0;1;95;40m'
+// yellow=$'\e[0;92;33m'
+// nc=$'\e[0m'
+
+void						timerDisplay( void );
+void	                    actionDisplay(std::string const &action, std::string const &cmd, User *usr);
+
 
 #endif
