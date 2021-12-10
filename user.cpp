@@ -110,3 +110,11 @@ std::string 	User::getReply()
 	}
 	return temp;
 }
+
+std::string User::getClientAdd(  ) const 
+{
+	struct in_addr clientIP;
+	clientIP = this->address.sin_addr;
+	char ipStr[INET_ADDRSTRLEN];
+	return inet_ntop(AF_INET, &clientIP, ipStr, INET_ADDRSTRLEN);
+}

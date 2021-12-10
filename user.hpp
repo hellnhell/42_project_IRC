@@ -78,6 +78,8 @@ class User
 		std::string	getReply();
 		void		setReply(std::string const &msg);
 
+		std::string getClientAdd() const;
+
 };
 
 #endif

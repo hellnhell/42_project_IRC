@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:52 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/10 12:32:21 by emartin-         ###   ########.fr       */
+/*   Updated: 2021/12/10 13:34:51 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ Server::Server()
 	this->cmd_list.push_back("TIME");
 	this->cmd_list.push_back("JOIN");
 	this->cmd_list.push_back("PRIVMSG");
+	this->cmd_list.push_back("MOTD");
+
 }
 
 Server::~Server()
@@ -217,6 +219,10 @@ void Server::deal_with_data(int listnum)
 		else if(tokens[0] == "JOIN" || tokens[0] == "join")
 		{
 			this->join_cmd(tokens, tmpuser);
+		}
+		else if(tokens[0] == "MOTD" || tokens[0] == "motd")
+		{
+			this->motd_cmmd(listnum);
 		}
 
 

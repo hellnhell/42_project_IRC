@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:50 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/10 12:33:06 by emartin-         ###   ########.fr       */
+/*   Updated: 2021/12/10 13:21:42 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,16 @@
 # define ERR_UMODEUNKNOWNFLAG      "501"       //":Unknown MODE flag"- Returned by the server to indicate that a MODE message was sent with a nickname parameter and that the a mode flag sent was not recognized.
 # define ERR_USERSDONTMATCH        "502"       //":Cannot change mode for other users"- Error sent to any user trying to view or change the user mode for a user other than themselves.
 
+
+# define RPL_WELCOME				"001"
+# define RPL_YOURHOST				"002"
+# define RPL_CREATE					"003"
+# define RPL_MYINFO					"004"
+
+# define RPL_MOTD					"372"
+# define RPL_MOTDSTART				"375"
+# define RPL_ENDOFMOTD				"376"
+
 # define RPL_TIME 					"391"		//"<server> :<string showing server's local time>""
 
 
@@ -185,6 +195,8 @@ class Server
 		void						nick_cmd(std::vector<std::string> const &tokens, User *usr);
 		void						pass(std::vector<std::string> const &tokens, User* usr);
 		void						join_cmd(std::vector<std::string> const &tokens, User* usr);
+		void						motd_cmmd(int const & fd);
+
 
 
 

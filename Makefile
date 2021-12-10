@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+         #
+#    By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/22 11:59:14 by emartin-          #+#    #+#              #
-#    Updated: 2021/12/10 12:07:15 by javrodri         ###   ########.fr        #
+#    Updated: 2021/12/10 13:34:31 by emartin-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ SRCS			= main.cpp \
 					commands/time.cpp	\
 					commands/privmsg.cpp \
 					commands/join_cmmd.cpp \
+					commands/motd.cpp	\
 					utils.cpp 
 
 OBJS_DIR = objects/

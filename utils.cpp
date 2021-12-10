@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 14:04:16 by emartin-          #+#    #+#             */
-/*   Updated: 2021/12/07 14:11:02 by emartin-         ###   ########.fr       */
+/*   Updated: 2021/12/10 14:29:14 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	actionDisplay(std::string const &action, std::string const &cmd, User *usr)
 {
 	// timerDisplay();
 	std::cout << action.substr(0,25);
-	// std::cout << " IP: " <<  usr->getIp();
+	std::cout << " IP: " <<  usr->getClientAdd();
 	std::cout << " Socket: " << usr->getFD();
 	std::cout << cmd << std::endl;
 }
