@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:52 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/10 12:32:21 by emartin-         ###   ########.fr       */
+/*   Updated: 2021/12/10 14:26:24 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,12 +220,12 @@ void Server::deal_with_data(int listnum)
 		}
 
 
-		std::cout << std::endl << "Received:  " << recived << std::endl;
-		send(this->_list_connected_user[listnum], recived.c_str(), recived.length(), 0);
-		send(this->_list_connected_user[listnum], (char *)"\n", strlen((char *)"\n"), 0);
+		//std::cout << std::endl << "Received:  " << recived << std::endl;
+		// send(this->_list_connected_user[listnum], recived.c_str(), recived.length(), 0);
+		// send(this->_list_connected_user[listnum], (char *)"\n", strlen((char *)"\n"), 0);
 		// sock_puts(this->_list_connected_user[listnum], buffer);
 		// sock_puts(this->_list_connected_user[listnum], (char *)"\n");
-		std::cout << "Responded: " << recived << std::endl;
+		//std::cout << "Responded: " << recived << std::endl;
 	}
 }
 

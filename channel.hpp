@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:47 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/08 20:43:48 by nazurmen         ###   ########.fr       */
+/*   Updated: 2021/12/10 13:24:32 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@
 //       1 -> & local server
 //       2 -> + modeless channel
 //       3 -> ! timestamped channel en no timestamped network
+
+typedef std::list<std::string>::iterator		it_str_list;
+typedef std::list<User *>::iterator				it_usr_list;
 
 typedef struct s_modes
 {
