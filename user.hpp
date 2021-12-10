@@ -41,6 +41,7 @@ class User
 		std::string			realName;
 		std::string			nick;
 		std::string			password;
+		bool				connection_pswd;
 		t_user_modes 		modes;
 		struct sockaddr_in	address;
 
@@ -57,28 +58,27 @@ class User
 
 		int getFD();
 
-		std::string	getUser();
+		const std::string	getUser() const;
 		void	setUser(std::string _user);
 
 		const std::string	getRealName() const;
 		void	setRealName(std::string _nick);
 
-		std::string const &getNick() const;
+		const std::string	getNick() const;
 		void	setNick(std::string _nick);
 
-		std::string	getPass();
+		const std::string	getPass() const;
 		void	setPass(std::string _nick);
 
-		std::string getModes();
+		const std::string	getModes() const;
 		void	setModes(int modes);
 
-		bool		getConnectionPswd()	const;
+		bool		getConnectionPswd() const;
 		void		setConnectionPswd(bool cp);
 
 		std::string	getReply();
 		void		setReply(std::string const &msg);
 
-		
 };
 
 #endif

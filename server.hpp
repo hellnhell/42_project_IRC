@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   server.hpp                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/08 20:43:50 by nazurmen          #+#    #+#             */
+/*   Updated: 2021/12/10 11:52:43 by javrodri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef SERVER_HPP
 # define SERVER_HPP
 
@@ -22,6 +34,7 @@
 # include <sstream>
 # include "user.hpp"
 # include <ctime>
+# include "channel.hpp"
 
 
 
@@ -122,7 +135,6 @@ class Server
 		struct sockaddr_in 		server_address;
 
 		std::deque<std::string> cmd_list;
-		Server(const Server &other);
 
 		std::list<User *>		users_on;
 		std::string				password;
@@ -130,6 +142,9 @@ class Server
 		std::string host;
 		int			port_network;
 		std::string pssw_network;
+		std::vector<Channel *>	channels;
+
+		Server(const Server &other);
 
 	public:
 		Server();
@@ -164,10 +179,15 @@ class Server
 		std::string					getPassNt() const;
 
 		void						user_cmd(std::vector<std::string> const &tokens, User *usr);
-		void 						pass(std::vector<std::string> const& tokens, User* usr);
-		void 						nick(std::vector<std::string> const &tokens, User *usr);
+
 		void						time_cmd(User *usr, int fd_usr);
 		void						privmsg(std::vector<std::string> const& tokens, User* usr);
+		void						nick_cmd(std::vector<std::string> const &tokens, User *usr);
+		void						pass(std::vector<std::string> const &tokens, User* usr);
+		void						join_cmd(std::vector<std::string> const &tokens, User* usr);
+
+
+
 };
 
 #endif

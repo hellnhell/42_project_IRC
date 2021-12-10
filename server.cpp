@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   server.cpp                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/08 20:43:52 by nazurmen          #+#    #+#             */
+/*   Updated: 2021/12/10 11:51:06 by javrodri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "server.hpp"
 
 static void setnonblocking(int sock)
@@ -128,6 +140,14 @@ void Server::handle_new_connection()
 		printf("\n No room left for new client.\n");
 		close(connection);
 	}
+
+std::map<int, User*>::iterator it;
+
+for(it = this->list_users.begin(); it != this->list_users.end(); it++)
+{
+	std::cout << it->first << " fds chekeados en handle" << std::endl;
+}
+
 }
 
 void Server::deal_with_data(int listnum)
@@ -167,9 +187,14 @@ void Server::deal_with_data(int listnum)
 			tmpuser = this->list_users[this->_list_connected_user[listnum]];
 			this->user_cmd(tokens, tmpuser);
 		}
+		else if(tokens[0] == "NICK" || tokens[0] == "nick")
+		{
+			tmpuser = this->list_users[this->_list_connected_user[listnum]];
+			this->nick_cmd(tokens, tmpuser);
+		}
 		else if(tokens[0] == "PASS" || tokens[0] == "pass")
 		{
-			this->pass(tokens, tmpuser);
+			this->pass(tokens, tmpuser); //N: esto no está definido
 		}
 		else if(tokens[0] == "PRIVMSG" || tokens[0] == "PRIVMSG")
 		{
@@ -188,6 +213,12 @@ void Server::deal_with_data(int listnum)
 			tmpuser = this->list_users[this->_list_connected_user[listnum]];
 			this->nick(tokens, tmpuser);
 		}
+		else if(tokens[0] == "JOIN" || tokens[0] == "join")
+		{
+			this->join_cmd(tokens, tmpuser);
+		}
+
+
 		std::cout << std::endl << "Received:  " << recived << std::endl;
 		send(this->_list_connected_user[listnum], recived.c_str(), recived.length(), 0);
 		send(this->_list_connected_user[listnum], (char *)"\n", strlen((char *)"\n"), 0);
@@ -201,7 +232,7 @@ void Server::read_socks()
 {
 	if(FD_ISSET(this->listening_socket, &this->reads))
 		this->handle_new_connection();
-	for(size_t listnum = 0; listnum < 5; listnum++)
+	for(size_t listnum = 0; listnum < FD_SETSIZE; listnum++)
 	{
 		if(FD_ISSET(this->_list_connected_user[listnum], &this->reads))
 			deal_with_data(listnum);
