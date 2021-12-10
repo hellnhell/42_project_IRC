@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: javier <javier@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:47 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/10 13:24:32 by javrodri         ###   ########.fr       */
+/*   Updated: 2021/12/10 19:10:53 by javier           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <iostream>
 # include <vector>
 # include <algorithm>
+# include <list>
 # include "user.hpp"
 
 //types: 0 -> # disponible en el IRC network
@@ -24,8 +25,8 @@
 //       2 -> + modeless channel
 //       3 -> ! timestamped channel en no timestamped network
 
-typedef std::list<std::string>::iterator		it_str_list;
-typedef std::list<User *>::iterator				it_usr_list;
+typedef std::list<std::string>::iterator	it_str_list;
+typedef std::list<User *>::iterator			it_usr_list;
 
 typedef struct s_modes
 {

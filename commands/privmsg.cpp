@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   privmsg.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: javier <javier@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 12:58:34 by javrodri          #+#    #+#             */
-/*   Updated: 2021/12/10 14:36:55 by javrodri         ###   ########.fr       */
+/*   Updated: 2021/12/10 18:48:51 by javier           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,9 @@ void    Server::privmsg(std::vector<std::string> const& tokens, User* usr){
         }
         return;
     }
-    msg.append("PRIVMSG " + tokenDest + " :" + tokens[2]);
+    msg.append("PRIVMSG " + tokenDest + " :");
+    for(int i = 2; tokens[i] != ""; i++)
+        msg.append(tokens[i]);
     send(destUser->getFD(), msg.c_str(), msg.length(), 0);
     // return (msg, destUser, usr);
 
