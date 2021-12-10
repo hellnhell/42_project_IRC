@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:52 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/10 12:11:28 by javrodri         ###   ########.fr       */
+/*   Updated: 2021/12/10 12:32:21 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,7 +206,7 @@ void Server::deal_with_data(int listnum)
 			if (this->list_users[this->_list_connected_user[listnum]] == NULL)
 				this->time_cmd(tmpuser, this->_list_connected_user[listnum]);
 			else
-			 	return error_msg(ERR_NOTREGISTERED, "TIME :You have not registered.", tmpuser);
+			 	return reply_msg(ERR_NOTREGISTERED, "TIME :You have not registered.", tmpuser);
 		}
 		//std::cout << std::endl << "Received:  " << recived << std::endl;
 		else if(tokens[0] == "NICK" || tokens[0] == "nick")
@@ -243,9 +243,3 @@ void Server::read_socks()
 void Server::setPassword(std::string psswd) { this->password = psswd; }
 std::string	Server::getPassword() const { return this->password; };
 
-void Server::setHosting(std::string hosting) { this->host = hosting; }
-std::string	Server::getHosting() const { return this->host; };
-void Server::setPortNt(int portnt) { this->port_network = portnt; }
-int	Server::getPortNt() const { return this->port_network; };
-void Server::setPassNt(std::string psswnt) { this->pssw_network = psswnt; }
-std::string	Server::getPassNt() const { return this->pssw_network; };

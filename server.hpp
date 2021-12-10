@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:50 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/10 11:52:43 by javrodri         ###   ########.fr       */
+/*   Updated: 2021/12/10 12:33:06 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@
 # include "user.hpp"
 # include <ctime>
 # include "channel.hpp"
+# include "utils.hpp"
 
 
 
@@ -42,13 +43,12 @@
 //Error replies are found in the range from 400 to 599.
 
 
-# include "utils.hpp"
 
 # define PORT 6667
-# define PORTNT 6667
-# define HOST "127.0.01"
-# define PSSWNT "bitches"
 # define SERVER_MASK "*.ft_irc.com "
+// # define PORTNT 6667
+// # define HOST "127.0.01"
+// # define PSSWNT "bitches"
 
 
 //ERRORS
