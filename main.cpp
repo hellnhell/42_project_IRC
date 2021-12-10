@@ -6,7 +6,7 @@
 /*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 14:11:46 by emartin-          #+#    #+#             */
-/*   Updated: 2021/12/10 10:24:53 by javrodri         ###   ########.fr       */
+/*   Updated: 2021/12/10 11:43:14 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,10 @@ Server *parse_params(int argc, char **argv, Server &sv)
 		}
 		if (psswd.size() > 20)
 			perror("Password too long");
-		sv.setPassword(psswd);
-		sv.setHosting(host_info[0]);
-		sv.setPortNt(host_info[1]);
-		sv.setPassNt(host_info[2]);
+		// sv.setPassword(psswd);
+		// sv.setHosting(host_info[0]);
+		// sv.setPortNt(host_info[1]);
+		// sv.setPassNt(host_info[2]);
 	}
 	return &sv;
 }

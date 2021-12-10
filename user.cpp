@@ -39,24 +39,14 @@ User::~User() {} //Puedes meter aquí el actionDispl
 
 int User::getFD() {  return (this->fd); }
 
-std::string User::getUser() { return (this->user); }
+const std::string User::getUser() const { return (this->user); }
 void User::setUser(std::string _user) {	this->user = _user; }
 
 const std::string User::getRealName() const { return (this->realName); }
 void User::setRealName(std::string _realName) {	this->realName = _realName; }
 
-std::string const &User::getNick() const { return (this->nick); }
-void User::setNick(std::string _nick) {	this->nick = _nick; }
-
-const std::string User::getRealName() const { return (this->realName); }
-
-void User::setRealName(std::string _realName)
-{
-	this->realName = _realName;
-}
-
 const std::string User::getNick() const { return (this->nick); }
-
+void User::setNick(std::string _nick) {	this->nick = _nick; }
 
 const std::string User::getModes() const
 {

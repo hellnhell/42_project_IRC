@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   join_cmmd.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:41 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/09 21:25:18 by nazurmen         ###   ########.fr       */
+/*   Updated: 2021/12/10 12:10:13 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "server.hpp"
+#include "../server.hpp"
 
 static bool checkIfChannel(const std::string &str)
 {

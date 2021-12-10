@@ -6,7 +6,7 @@
 /*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:52 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/10 11:51:06 by javrodri         ###   ########.fr       */
+/*   Updated: 2021/12/10 12:11:28 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ Server::Server()
 	this->cmd_list.push_back("NICK");
 	this->cmd_list.push_back("EXIT");
 	this->cmd_list.push_back("TIME");
+	this->cmd_list.push_back("JOIN");
 	this->cmd_list.push_back("PRIVMSG");
 }
 
@@ -211,7 +212,7 @@ void Server::deal_with_data(int listnum)
 		else if(tokens[0] == "NICK" || tokens[0] == "nick")
 		{
 			tmpuser = this->list_users[this->_list_connected_user[listnum]];
-			this->nick(tokens, tmpuser);
+			this->nick_cmd(tokens, tmpuser);
 		}
 		else if(tokens[0] == "JOIN" || tokens[0] == "join")
 		{
