@@ -29,37 +29,24 @@ User::User(int &_fd, struct sockaddr_in const &client_addr) : fd(_fd)
 	this->connection_pswd = 0;
 	std::cout << "User created with fd: " << this->fd  <<std::endl;
 	user_modes_init(&this->modes);
+	this->address = client_addr;
 }
 
-User::~User()
-{
-	std::cout << "User destroyed with fd: " << this->fd << std::endl;
-}
+User::~User() {} //Puedes meter aquí el actionDispl
 
 
 //getters setters
-int User::getFD() { return (this->fd); }
+
+int User::getFD() {  return (this->fd); }
 
 const std::string User::getUser() const { return (this->user); }
-
-void User::setUser(std::string _user)
-{
-	this->user = _user;
-}
+void User::setUser(std::string _user) {	this->user = _user; }
 
 const std::string User::getRealName() const { return (this->realName); }
-
-void User::setRealName(std::string _realName)
-{
-	this->realName = _realName;
-}
+void User::setRealName(std::string _realName) {	this->realName = _realName; }
 
 const std::string User::getNick() const { return (this->nick); }
-
-void User::setNick(std::string _nick)
-{
-	this->nick = _nick;
-}
+void User::setNick(std::string _nick) {	this->nick = _nick; }
 
 const std::string User::getModes() const
 {
@@ -109,16 +96,25 @@ void User::setModes(int modes)
 
 }
 
-//setter for connection_pswd
-void User::setConnectionPswd(bool _connection_pswd)
+bool	User::getConnectionPswd() const { return (this->connection_pswd); }
+void	User::setConnectionPswd(bool cp) { this->connection_pswd = cp; }
+
+void 			User::setReply(std::string const &msg) { this->reply.push_back(msg); }
+std::string 	User::getReply()
 {
-	this->connection_pswd = _connection_pswd;
-	std::cout << "cosaquepeta2: " << this->connection_pswd << std::endl;
-	std::cout << "cosaquepeta3: " << this->getNick() << std::endl;
+	std::string temp;
+	if (this->reply.size())
+	{
+		temp = this->reply[0];
+		this->reply.erase(this->reply.begin());
+	}
+	return temp;
 }
 
-//getter for user connection_pswd
-bool	User::getConnectionPswd() const
+std::string User::getClientAdd(  ) const 
 {
-	return (this->connection_pswd);
+	struct in_addr clientIP;
+	clientIP = this->address.sin_addr;
+	char ipStr[INET_ADDRSTRLEN];
+	return inet_ntop(AF_INET, &clientIP, ipStr, INET_ADDRSTRLEN);
 }

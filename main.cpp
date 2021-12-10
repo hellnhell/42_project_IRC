@@ -1,5 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/07 14:11:46 by emartin-          #+#    #+#             */
+/*   Updated: 2021/12/10 12:35:04 by emartin-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "server.hpp"
 #include <iostream>
+#include "utils.hpp"
 
 Server *gservptr;
 
@@ -8,11 +21,12 @@ int	getPort(std::string str)
 	int ret = stoi(str);
 	if (str.length() > 10 || (ret < 1 || ret > 65535))
 	{
-		std::cout << "Not valid port  - default 6667";
+		std::cout << "Not valid port - default 6667 -";
 		return 6667;
 	}
 	return ret;
 }
+
 
 void signal_kill ( int number )
 {
@@ -20,7 +34,6 @@ void signal_kill ( int number )
 	{
 		std::cout << "----- KILLED -----\n";
 		gservptr->~Server();
-		// kill (getpid(), 9);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -40,36 +53,41 @@ int main(int argc, char **argv)
 		psswd = (std::string)argv[2];
 		if (psswd.size() > 20)
 		{
-			std::cout << "Password can't exceed 20 characters" << std::endl;
+			std::cout << "Password cannot exceed 20 characters" << std::endl;
 			return 0;
 		}
-		port = getPort(argv[1]);
 	}
-
-	Server server(port);
-	gservptr = &server;
-	int set_read = 0;
-	server.setPassword(psswd);
-
-	while(1)
+	try
 	{
-		signal(SIGINT, signal_kill);
-		server.build_select_list();
-		if((set_read = server.get_read_socks()) < 0)
+		port = getPort(argv[1]);
+		Server server;
+		gservptr = &server; //??
+		int set_read = 0;
+		server.setPassword(psswd);
+		while(1)
 		{
-			perror("select");
-			exit(EXIT_FAILURE);
+			signal(SIGINT, signal_kill);
+			server.build_select_list();
+			if((set_read = server.get_read_socks()) < 0)
+				throw Server::ServerException();
+			if(set_read == 0)
+			{
+				std::cout << "\r";
+				timerDisplay();
+				std::cout.flush();
+			}
+			else
+				server.read_socks();
 		}
-		if(set_read == 0)
-		{
-			std::cout << ".";
-			std::cout.flush();
-		} else
-			server.read_socks();
+		return(0);
 	}
-	system ("leaks irc-server");
-	return(0);
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << '\n';
+	}
+	
 }
+
 
 
 

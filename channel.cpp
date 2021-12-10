@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:34 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/08 20:43:37 by nazurmen         ###   ########.fr       */
+/*   Updated: 2021/12/10 16:15:56 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static int initType(const std::string &name)
 		return 2;
 	else if (name[0] == '!')
 		return 3;
+	return (4);
 }
 
 static void initModes(t_modes *modes)
@@ -69,21 +70,41 @@ Channel::Channel(User *creator, const std::string &name)
 	std::cout << "Channel " << name << " created" << std::endl;
 }
 
-Channel::Channel(User *creator, const std::string &name, const std::string &topic) : Channel(creator, name) {
+Channel::Channel(User *creator, const std::string &name, const std::string &topic)
+{
+	*this = Channel(creator, name);
 	this->_topic = topic;
 }
 
-Channel::Channel(User *creator, const std::string &name, unsigned int max_users) : Channel(creator, name)
+Channel::Channel(User *creator, const std::string &name, unsigned int max_users)
 {
+	*this = Channel(creator, name);
 	this->_max_users = max_users;
 }
 
-Channel::Channel(User *creator, const std::string &name, const std::string &topic, unsigned int max_users) : Channel(creator, name, topic)
+Channel::Channel(User *creator, const std::string &name, const std::string &topic, unsigned int max_users)
 {
+	*this = Channel(creator, name, topic);
 	this->_max_users = max_users;
 }
 
 Channel::~Channel() {}
+
+Channel &Channel::operator=(const Channel &rhs)
+{
+	if (this != &rhs)
+	{
+		this->_name = rhs._name;
+		this->_topic = rhs._topic;
+		this->_password = rhs._password;
+		this->_type = rhs._type;
+		this->_modes = rhs._modes;
+		this->_max_users = rhs._max_users;
+		this->_ops = rhs._ops;
+		this->_current_users = rhs._current_users;
+	}
+	return (*this);
+}
 
 void Channel::setName(const std::string &name)
 {

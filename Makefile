@@ -6,30 +6,57 @@
 #    By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/22 11:59:14 by emartin-          #+#    #+#              #
-#    Updated: 2021/12/08 20:40:08 by nazurmen         ###   ########.fr        #
+#    Updated: 2021/12/10 16:13:57 by nazurmen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #No me va en linux para variar
 NAME			= irc-server
 
-SRCS			= main.cpp server.cpp user.cpp user_cmmd.cpp nick_cmmd.cpp pass.cpp channel.cpp join_cmmd.cpp
-OBJS			= $(SRCS:.cpp=.o)
-CC				= clang++
-RM				= rm -f
-CFLAGS			= -fsanitize=address -g3 -Wall -Wextra -Werror -I.
+SRCS_DIR= ./
 
-all:			$(NAME)
+
+SRCS			= main.cpp \
+					server.cpp \
+					user.cpp \
+					parse.cpp \
+					replies.cpp \
+					channel.cpp \
+					commands/user_cmmd.cpp \
+					commands/nick.cpp \
+					commands/pass.cpp	\
+					commands/time.cpp	\
+					commands/privmsg.cpp \
+					commands/join_cmmd.cpp \
+					commands/motd.cpp	\
+					utils.cpp
+
+OBJS_DIR = objects/
+OBJ = $(SRCS:.cpp=.o)
+OBJS = $(addprefix $(OBJS_DIR), $(OBJ))
+
+CC				= clang++
+RM				= rm -rf
+CFLAGS			= -g -std=c++98 -Wall -Wextra -Werror -I.
+
+$(OBJS_DIR)%.o : $(SRCS_DIR)%.cpp
+	@mkdir -p $(OBJS_DIR) $(OBJS_DIR)commands/
+	@echo "\033[0;33mCompiling: $<\033[0m"
+	@${CC} $(FLAGS) -c $< -o $@
 
 $(NAME):		$(OBJS)
 				${CC} ${CFLAGS} -o ${NAME} ${OBJS} ${LIBS}
 
+all: $(NAME)
+
 clean:
-				$(RM) $(OBJS)
+	@echo "Cleaning: $(OBJS_DIR)"
+	@$(RM) $(OBJS_DIR)
 
-fclean:			clean
-				$(RM) $(NAME)
+fclean: clean
+	@echo "Cleaning: $(NAME)"
+	@$(RM) $(NAME)
 
-re:				fclean $(NAME)
+re: fclean all
 
 .PHONY:			all clean fclean re

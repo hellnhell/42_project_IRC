@@ -6,6 +6,9 @@
 # include <string>
 # include <bitset>
 # include <arpa/inet.h>
+# include <netinet/in.h>
+# include <sys/socket.h>
+# include <vector>
 
 
 
@@ -33,13 +36,15 @@ class User
 {
 	private:
 		int					fd;
+		bool				connection_pswd;
 		std::string			user;
 		std::string			realName;
 		std::string			nick;
 		std::string			password;
-		bool				connection_pswd;
 		t_user_modes 		modes;
 		struct sockaddr_in	address;
+
+		std::vector<std::string>		reply;
 
 
 		User();
@@ -70,7 +75,10 @@ class User
 		bool		getConnectionPswd() const;
 		void		setConnectionPswd(bool cp);
 
+		std::string	getReply();
+		void		setReply(std::string const &msg);
 
+		std::string getClientAdd() const;
 
 };
 
