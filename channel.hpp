@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:47 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/10 16:15:23 by nazurmen         ###   ########.fr       */
+/*   Updated: 2021/12/10 17:45:15 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include <vector>
 # include <algorithm>
 # include "user.hpp"
+
+class User;
 
 //types: 0 -> # disponible en el IRC network
 //       1 -> & local server
@@ -92,10 +94,6 @@ class Channel
 		std::vector<User *>		getUsers() const;
 		std::vector<User *>		getOps() const;
 		std::vector<User *>		getBans() const;
-
-
-
-
 };
 
 #endif // CHANNEL_HPP

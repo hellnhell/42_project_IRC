@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:34 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/10 16:15:56 by nazurmen         ###   ########.fr       */
+/*   Updated: 2021/12/10 19:20:40 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,16 @@ static void initModes(t_modes *modes)
 Channel::Channel(User *creator, const std::string &name)
 {
 	if(name.empty())
-		perror("Channel name cannot be empty");
+		throw std::invalid_argument("Channel name can't be empty");
 	else if (name.size() > 50)
-		perror("Channel name is too long");
-	else if (name[0] != '&' || name[0] != '#' || name[0] != '+' || name[0] != '!')
-		perror("Channel name must start with &, #, +, or !");
-	else if (name.find_first_of(" ,"))
-		perror("Channel name cannot contain spaces or commas");
-	else if(name.find_first_of(7))
-		perror("Channel name cannot contain control characters");
-	else
+		throw std::invalid_argument("Channel name can't be longer than 50 characters");
+	else if (name[0] != '&' && name[0] != '#' && name[0] != '+' && name[0] != '!')
+		throw std::invalid_argument("Channel name must start with &, #, + or !");
+	else if (((name.find(' ') != std::string::npos) || (name.find(',') != std::string::npos)))
+		throw std::invalid_argument("Channel name can't contain spaces or commas");
+	else if((name.find(7) != std::string::npos))
+		throw std::invalid_argument("Channel name can't contain control characters");
+		else
 	{
 		initModes(&_modes);
 		this->_name = name;

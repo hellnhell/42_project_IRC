@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:52 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/10 13:34:51 by emartin-         ###   ########.fr       */
+/*   Updated: 2021/12/10 16:59:23 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ Server::Server()
 	if(this->listening_socket < 0)
 	{
 		perror("Socket");
-		throw Server::ServerException(); 
+		throw Server::ServerException();
 	}
 	setnonblocking(this->listening_socket);
 	memset(this->_list_connected_user, 0 , sizeof( this->_list_connected_user));
@@ -58,13 +58,13 @@ Server::Server()
 	{
 		perror("bind");
 		close(this->listening_socket);
-		throw Server::ServerException(); 
+		throw Server::ServerException();
 	}
 	if(listen(this->listening_socket, FD_SETSIZE) == -1)
 	{
 		perror("listening");
 		close(this->listening_socket);
-		throw Server::ServerException(); 
+		throw Server::ServerException();
 	}
 	this->highsock = this->listening_socket;
 	this->cmd_list.push_back("PASS");
@@ -135,7 +135,7 @@ void Server::handle_new_connection()
 				this->list_users[connection]->setConnectionPswd(0);
 			// printf("Connection accepted: fd=%d Slot=%lu\n", connection, listnum);
 			actionDisplay("Connection accepted", "", list_users[connection]);
-			
+
 			connection = -1;
 		}
 	}
@@ -184,7 +184,7 @@ void Server::deal_with_data(int listnum)
 		std::transform(tokens[0].begin(), tokens[0].end(),tokens[0].begin(), ::toupper);
 		actionDisplay("Attend client", " CMD:" + tokens[0], tmpuser);
 		if ((std::find(cmd_list.begin(), cmd_list.end(), tokens[0]) == cmd_list.end()))
-			return reply_msg(ERR_UNKNOWNCOMMAND, tokens[0] + " :Unkown command", tmpuser); 
+			return reply_msg(ERR_UNKNOWNCOMMAND, tokens[0] + " :Unkown command", tmpuser);
 		if(tokens[0] == "USER" || tokens[0] == "user")
 		{
 			tmpuser = this->list_users[this->_list_connected_user[listnum]];
@@ -210,7 +210,6 @@ void Server::deal_with_data(int listnum)
 			else
 			 	return reply_msg(ERR_NOTREGISTERED, "TIME :You have not registered.", tmpuser);
 		}
-		//std::cout << std::endl << "Received:  " << recived << std::endl;
 		else if(tokens[0] == "NICK" || tokens[0] == "nick")
 		{
 			tmpuser = this->list_users[this->_list_connected_user[listnum]];
