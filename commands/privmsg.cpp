@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   privmsg.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javier <javier@student.42.fr>              +#+  +:+       +#+        */
+/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 12:58:34 by javrodri          #+#    #+#             */
-/*   Updated: 2021/12/10 18:48:51 by javier           ###   ########.fr       */
+/*   Updated: 2021/12/11 16:00:55 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,27 +21,28 @@ void    Server::privmsg(std::vector<std::string> const& tokens, User* usr){
     it_usr_list     beginUsrList = this->users_on.begin();
     it_usr_list     endUsrList = this->users_on.end();
     std::string     msg;
-    if (tokens.size() > 3)
-        reply_msg(ERR_TOOMANYTARGETS, ":Too many targets", usr);
+    // if (tokens.size() > 3)
+    //     reply_msg(ERR_TOOMANYTARGETS, ":Too many targets", usr);
     if (tokens.size() < 2)
         reply_msg(ERR_NORECIPIENT, ":No recipient given(privmsg)", usr);
-    tokenDest = tokens[1];
-    for(;beginUsrList != endUsrList; ++beginUsrList){
-        //std::cout << "** " << (*beginUsrList)->getNick() << std::endl;
-        if ((*beginUsrList)->getNick() == tokenDest){
-            destUser = *beginUsrList;
+    else{
+        tokenDest = tokens[1];
+        for(;beginUsrList != endUsrList; ++beginUsrList){
+            if ((*beginUsrList)->getNick() == tokenDest){
+                destUser = *beginUsrList;
+                break;
+            }
+            else{
+                msg = tokens[1] + " :No such nick/channel";
+                reply_msg(ERR_NOSUCHNICK, msg, usr);
+            }
         }
-        else{
-            msg = tokens[1] + " :No such nick/channel";
-            reply_msg(ERR_NOSUCHNICK, msg, usr);
-            break;
-        }
-        return;
+        msg.append("PRIVMSG " + tokenDest + " :");
+        for(int i = tokens.size(); i > 1; i--)
+            msg.append(tokens[i] + " ");
+        msg.append("\r\n");
+        send(destUser->getFD(), msg.c_str(), msg.length(), 0);
     }
-    msg.append("PRIVMSG " + tokenDest + " :");
-    for(int i = 2; tokens[i] != ""; i++)
-        msg.append(tokens[i]);
-    send(destUser->getFD(), msg.c_str(), msg.length(), 0);
     // return (msg, destUser, usr);
 
 
