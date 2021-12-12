@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:50 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/10 13:21:42 by emartin-         ###   ########.fr       */
+/*   Updated: 2021/12/12 02:42:48 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,8 @@
 
 # define RPL_TIME 					"391"		//"<server> :<string showing server's local time>""
 
-
+class User;
+class Channel;
 
 class Server
 {
@@ -146,7 +147,7 @@ class Server
 
 		std::deque<std::string> cmd_list;
 
-		std::list<User *>		users_on;
+//		std::list<User *>		users_on;
 		std::string				password;
 
 		std::string host;
@@ -190,12 +191,18 @@ class Server
 
 		void						user_cmd(std::vector<std::string> const &tokens, User *usr);
 
+		void						removeChannel(Channel *chan);
+
 		void						time_cmd(User *usr, int fd_usr);
 		void						privmsg(std::vector<std::string> const& tokens, User* usr);
 		void						nick_cmd(std::vector<std::string> const &tokens, User *usr);
 		void						pass(std::vector<std::string> const &tokens, User* usr);
 		void						join_cmd(std::vector<std::string> const &tokens, User* usr);
 		void						motd_cmmd(int const & fd);
+
+
+		std::map<int, User *>		getUsers() const;
+		std::vector<Channel *>		getChannels() const;
 
 
 

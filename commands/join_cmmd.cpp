@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:41 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/11 19:53:59 by nazurmen         ###   ########.fr       */
+/*   Updated: 2021/12/11 20:22:25 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ std::cout << "join_cmd\n\n\n\n" << std::endl;
 			}
 			try
 			{
-				Channel* chan = new Channel(usr, tokens[i]);
+				Channel* chan = new Channel(this, usr, tokens[i]);
 				this->channels.push_back(chan);
 				this->channels.back()->joinUser(usr);
 				std::cout << "Joined channel " << this->channels.back()->getName() << std::endl;
@@ -62,10 +62,10 @@ std::cout << "join_cmd\n\n\n\n" << std::endl;
 		{
 			//key
 		}
-		else if(tokens[i] == "0")
+		else if(tokens[i] == "0" && !this->channels.empty())
 		{
 			std::vector<Channel*>::iterator it;
-			for (it = channels.begin(); it != channels.end(); ++it)
+			for (it = this->channels.begin(); it != this->channels.end(); ++it)
 			{
 				(*it)->disconnectUser(usr);
 				usr->leaveChannel(*it);

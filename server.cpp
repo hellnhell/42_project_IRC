@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:52 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/10 16:59:23 by nazurmen         ###   ########.fr       */
+/*   Updated: 2021/12/12 08:54:32 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ void Server::handle_new_connection()
 		{
 			this->_list_connected_user[listnum] = connection;
 			this->list_users[connection] = new User(connection, client_address);
+std::cout << "New connection: " << connection << "\nclient address: " << this->list_users[connection]->getClientAdd() << std::endl;
 			if (this->getPassword().empty())
 				this->list_users[connection]->setConnectionPswd(1);
 			else
@@ -248,3 +249,15 @@ void Server::read_socks()
 void Server::setPassword(std::string psswd) { this->password = psswd; }
 std::string	Server::getPassword() const { return this->password; };
 
+void Server::removeChannel(Channel *channel)
+{
+	std::vector<Channel *>::iterator it;
+	it = std::find(this->channels.begin(), this->channels.end(), channel);
+	if (it != this->channels.end())
+		this->channels.erase(it);
+}
+
+
+std::map<int, User *> Server::getUsers() const { return this->list_users; }
+
+std::vector<Channel *> Server::getChannels() const { return this->channels; }

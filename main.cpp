@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 14:11:46 by emartin-          #+#    #+#             */
-/*   Updated: 2021/12/10 12:35:04 by emartin-         ###   ########.fr       */
+/*   Updated: 2021/12/12 19:04:22 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int main(int argc, char **argv)
 			{
 				std::cout << "\r";
 				timerDisplay();
+				displayDev(&server);
 				std::cout.flush();
 			}
 			else
@@ -85,7 +86,7 @@ int main(int argc, char **argv)
 	{
 		std::cerr << e.what() << '\n';
 	}
-	
+
 }
 
 

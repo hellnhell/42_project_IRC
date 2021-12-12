@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:34 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/10 19:20:40 by nazurmen         ###   ########.fr       */
+/*   Updated: 2021/12/11 20:20:12 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void initModes(t_modes *modes)
 	modes->I = 0;
 }
 
-Channel::Channel(User *creator, const std::string &name)
+Channel::Channel(Server *server, User *creator, const std::string &name)
 {
 	if(name.empty())
 		throw std::invalid_argument("Channel name can't be empty");
@@ -57,6 +57,7 @@ Channel::Channel(User *creator, const std::string &name)
 		else
 	{
 		initModes(&_modes);
+		this->_server = server;
 		this->_name = name;
 		this->_topic = "";
 		this->_password = "";
@@ -64,27 +65,27 @@ Channel::Channel(User *creator, const std::string &name)
 		this->_modes.O = creator->getUser();
 		this->_max_users = 1024;
 		this->_ops.push_back(creator);
-		this->_current_users = 1;
+		this->_current_users = 0;
 	}
 
 	std::cout << "Channel " << name << " created" << std::endl;
 }
 
-Channel::Channel(User *creator, const std::string &name, const std::string &topic)
+Channel::Channel(Server *server, User *creator, const std::string &name, const std::string &topic)
 {
-	*this = Channel(creator, name);
+	*this = Channel(server, creator, name);
 	this->_topic = topic;
 }
 
-Channel::Channel(User *creator, const std::string &name, unsigned int max_users)
+Channel::Channel(Server *server, User *creator, const std::string &name, unsigned int max_users)
 {
-	*this = Channel(creator, name);
+	*this = Channel(server, creator, name);
 	this->_max_users = max_users;
 }
 
-Channel::Channel(User *creator, const std::string &name, const std::string &topic, unsigned int max_users)
+Channel::Channel(Server *server, User *creator, const std::string &name, const std::string &topic, unsigned int max_users)
 {
-	*this = Channel(creator, name, topic);
+	*this = Channel(server, creator, name, topic);
 	this->_max_users = max_users;
 }
 
@@ -132,7 +133,10 @@ void Channel::joinUser(User *user)
 	}
 
 	if((it = std::find(_users.begin(), _users.end(), user)) != _users.end())
+	{
 		_users.push_back(*it);
+		this->_current_users++;
+	}
 }
 
 void Channel::disconnectUser(User *user)
@@ -140,7 +144,17 @@ void Channel::disconnectUser(User *user)
 	std::vector<User *>::iterator it;
 
 	if((it = std::find(_users.begin(), _users.end(), user)) != _users.end())
+	{
 		_users.erase(it);
+		this->_current_users--;
+	}
+
+	if(this->_current_users <= 0)
+	{
+std::cout << "Channel " << this->_name << " deleted" << std::endl;
+		this->_server->removeChannel(this);
+	}
+
 }
 
 void Channel::kickUser(User *user)

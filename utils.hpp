@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 14:04:23 by emartin-          #+#    #+#             */
-/*   Updated: 2021/12/10 14:18:48 by emartin-         ###   ########.fr       */
+/*   Updated: 2021/12/12 02:22:48 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@
 // nc=$'\e[0m'
 
 void						timerDisplay( void );
-void	                    actionDisplay(std::string const &action, std::string const &cmd, User *usr);
+void						actionDisplay(std::string const &action, std::string const &cmd, User *usr);
+void						displayDev(Server *serv);
 
 
 #endif
