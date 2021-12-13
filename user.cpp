@@ -48,6 +48,9 @@ void User::setRealName(std::string _realName) {	this->realName = _realName; }
 const std::string User::getNick() const { return (this->nick); }
 void User::setNick(std::string _nick) {	this->nick = _nick; }
 
+const std::string User::getNickMask() const { return (this->nickMask); }
+void User::setNickMask(std::string _nickMask) {	this->nickMask = _nickMask; }
+
 const std::string User::getModes() const
 {
 	std::string ret;

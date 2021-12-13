@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   nick.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 13:15:28 by emartin-          #+#    #+#             */
-/*   Updated: 2021/12/10 12:31:46 by emartin-         ###   ########.fr       */
+/*   Updated: 2021/12/13 17:56:17 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../server.hpp"
+#include "../user.hpp"
 
 // OK 	ERR_NONICKNAMEGIVEN	"431"       ":No nickname given" - Returned when a nickname parameter expected for a command and isn't found. 
 // OK 		ERR_ERRONEUSNICKNAME	"432"       "<nick> :Erroneous nickname"- Returned after receiving a NICK message which contains characters which do not fall in the defined set.  See section 2.3.1 for details on valid nicknames.
@@ -52,6 +53,10 @@ void Server::nick_cmd(std::vector<std::string> const &tokens, User *usr)
 		}
 	}
 	usr->setNick(tokens[1]);
+	std::string tmpMask = usr->getNick() + "!" + usr->getUser() + "@ft_irc.com";
+	usr->setNickMask(tmpMask);
+	std::cout << "---->" << tmpMask << std::endl;
+	std::cout << "---->" << usr->getNickMask() << std::endl;
     actionDisplay( "Nick created", "", usr);
 
 }

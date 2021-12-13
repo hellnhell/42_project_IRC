@@ -40,6 +40,7 @@ class User
 		std::string			user;
 		std::string			realName;
 		std::string			nick;
+		std::string			nickMask;
 		std::string			password;
 		t_user_modes 		modes;
 		struct sockaddr_in	address;
@@ -65,6 +66,9 @@ class User
 
 		const std::string	getNick() const;
 		void	setNick(std::string _nick);
+		
+		const std::string	getNickMask() const;
+		void	setNickMask(std::string _nickMask);
 
 		const std::string	getPass() const;
 		void	setPass(std::string _nick);
