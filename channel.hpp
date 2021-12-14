@@ -19,6 +19,8 @@
 # include <algorithm>
 # include "user.hpp"
 
+class User;
+class Server;
 //types: 0 -> # disponible en el IRC network
 //       1 -> & local server
 //       2 -> + modeless channel

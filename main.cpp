@@ -16,6 +16,18 @@
 
 Server *gservptr;
 
+void displayDev(Server *serv)
+{
+    std::cout << "Users connected to the server: " << serv->getUsers().size() << "\n";
+
+    std::map<int, User *>::iterator it;
+    for (it = serv->getUsers().begin();serv->getUsers().size() <= 0 && it != serv->getUsers().end(); it++)
+    {
+		std::cout << "Users connected to the server: " << serv->getUsers().size() << "\n";
+        std::cout << "Socket: " << it->first << " IP: " << it->second->getClientAdd() << "User: " << it->second->getUser() << "\n";
+	}
+}
+
 int	getPort(std::string str)
 {
 	int ret = stoi(str);
@@ -77,7 +89,12 @@ int main(int argc, char **argv)
 				std::cout.flush();
 			}
 			else
+			{
 				server.read_socks();
+				displayDev(&server);
+
+			}
+
 		}
 		return(0);
 	}

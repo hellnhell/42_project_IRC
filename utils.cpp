@@ -31,3 +31,4 @@ void	timerDisplay()
 		<< PINK<< std::setw(2) << ltm.tm_sec  << " - "
 		<< WHITE << std::setfill(' ') << std::setw(5);
 }
+

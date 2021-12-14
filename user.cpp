@@ -3,20 +3,12 @@
 
 static void user_modes_init(t_user_modes *modes)
 {
-	modes->c = 0;
-	modes->d = 0;
-	modes->g = 0;
+	modes->a = 0;
 	modes->i = 0;
-	modes->x = 0;
-	modes->z = 0;
-	modes->B = 0;
-	modes->D = 0;
-	modes->I = 0;
-	modes->L = 0;
-	modes->R = 0;
-	modes->S = 0;
-	modes->W = 0;
-	modes->Z = 0;
+	modes->w = 0;
+	modes->r = 0;
+	modes->o = 0;
+	modes->co = 0;
 }
 
 User::User(int &_fd, struct sockaddr_in const &client_addr) : fd(_fd)
@@ -52,34 +44,18 @@ const std::string User::getModes() const
 {
 	std::string ret;
 
-	if(this->modes.c)
-		ret.append("c");
-	if(this->modes.d)
-		ret.append("d");
-	if(this->modes.g)
-		ret.append("g");
+	if(this->modes.a)
+		ret.append("a");
 	if(this->modes.i)
 		ret.append("i");
-	if(this->modes.x)
-		ret.append("x");
-	if(this->modes.z)
-		ret.append("z");
-	if(this->modes.B)
-		ret.append("B");
-	if(this->modes.D)
-		ret.append("D");
-	if(this->modes.I)
-		ret.append("I");
-	if(this->modes.L)
-		ret.append("L");
-	if(this->modes.R)
-		ret.append("R");
-	if(this->modes.S)
-		ret.append("S");
-	if(this->modes.W)
-		ret.append("W");
-	if(this->modes.Z)
-		ret.append("Z");
+	if(this->modes.w)
+		ret.append("w");
+	if(this->modes.r)
+		ret.append("r");
+	if(this->modes.o)
+		ret.append("o");
+	if(this->modes.co)
+		ret.append("co");
 	return (ret);
 }
 
@@ -91,9 +67,7 @@ void User::setModes(int modes)
 	if(modesbit.test(3))
 		this->modes.i = 1;
 	if(modesbit.test(2))
-		this->modes.W = 1;
-	this->modes.Z = 1;
-
+		this->modes.w = 1;
 }
 
 bool	User::getConnectionPswd() const { return (this->connection_pswd); }

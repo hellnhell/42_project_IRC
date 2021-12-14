@@ -144,14 +144,10 @@ void Server::handle_new_connection()
 		close(connection);
 	}
 
-std::map<int, User*>::iterator it;
-
-for(it = this->list_users.begin(); it != this->list_users.end(); it++)
-{
-	std::cout << it->first << " fds chekeados en handle" << std::endl;
 }
 
-}
+std::map<int, User *> Server::getUsers() const { return this->list_users; }
+
 
 void Server::deal_with_data(int listnum)
 {

@@ -38,7 +38,8 @@
 # include "utils.hpp"
 
 
-
+class User;
+class Channel;
 //ERRORS
 //Error replies are found in the range from 400 to 599.
 
@@ -181,12 +182,8 @@ class Server
 		void						setPassword(std::string psswd);
 		std::string					getPassword() const;
 
-		void						setHosting(std::string hosting);
-		std::string					getHosting() const;
-		void						setPortNt(int portnt);
-		int							getPortNt() const;
-		void						setPassNt(std::string psswnt);
-		std::string					getPassNt() const;
+		std::map<int, User *> 	getUsers() const;
+
 
 		void						user_cmd(std::vector<std::string> const &tokens, User *usr);
 
