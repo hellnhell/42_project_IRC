@@ -182,7 +182,7 @@ class Server
 		void						setPassword(std::string psswd);
 		std::string					getPassword() const;
 
-		std::map<int, User *> 	getUsers() const;
+		std::map<int, User *> 		const &getUsers() const;
 
 
 		void						user_cmd(std::vector<std::string> const &tokens, User *usr);

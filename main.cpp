@@ -20,8 +20,8 @@ void displayDev(Server *serv)
 {
     std::cout << "Users connected to the server: " << serv->getUsers().size() << "\n";
 
-    std::map<int, User *>::iterator it;
-    for (it = serv->getUsers().begin();serv->getUsers().size() <= 0 && it != serv->getUsers().end(); it++)
+    std::map<int, User *>::const_iterator it;
+    for (it = serv->getUsers().begin();serv->getUsers().size() >= 0 && it != serv->getUsers().end(); it++)
     {
 		std::cout << "Users connected to the server: " << serv->getUsers().size() << "\n";
         std::cout << "Socket: " << it->first << " IP: " << it->second->getClientAdd() << "User: " << it->second->getUser() << "\n";

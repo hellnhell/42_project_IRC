@@ -146,9 +146,6 @@ void Server::handle_new_connection()
 
 }
 
-std::map<int, User *> Server::getUsers() const { return this->list_users; }
-
-
 void Server::deal_with_data(int listnum)
 {
 	char 			buffer[512];
@@ -244,4 +241,7 @@ void Server::read_socks()
 
 void Server::setPassword(std::string psswd) { this->password = psswd; }
 std::string	Server::getPassword() const { return this->password; };
+
+std::map<int, User *> const& Server::getUsers() const { return this->list_users; }
+
 
