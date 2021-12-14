@@ -32,27 +32,3 @@ void	timerDisplay()
 		<< WHITE << std::setfill(' ') << std::setw(5);
 }
 
-void displayDev(Server *serv)
-{
-	std::cout << "Users connected to the server: " << serv->getUsers().size() << "\n";
-
-	std::map<int, User *>::iterator it;
-	for (it = serv->getUsers().begin();serv->getUsers().size() != 0 && it != serv->getUsers().end(); it++)
-	{
-std::cout << "Users connected to the server: " << serv->getUsers().size() << "\n";
-		std::cout << "Socket: " << it->first << " IP: " << it->second->getClientAdd() << "User: " << it->second->getUser() << "\n";
-	}
-
-
-	// std::cout << "Channels: " << serv->getChannels().size() << std::endl;
-	// std::vector<Channel *>::iterator it2;
-	// std::vector<User *>::iterator it3;
-	// for (it2 = serv->getChannels().begin(); it2 != serv->getChannels().end(); it2++)
-	// {
-	// 	std::cout << "Channel: " << (*it2)->getName() << " Users: " << (*it2)->getUsers().size() << std::endl;
-	// 	for(it3 = (*it2)->getUsers().begin(); it3 != (*it2)->getUsers().end(); it3++)
-	// 	{
-	// 		std::cout << "User: " << (*it3)->getUser() << " IP: " << (*it3)->getClientAdd() << " Socket: " << (*it3)->getFD() << std::endl;
-	// 	}
-	// }
-}

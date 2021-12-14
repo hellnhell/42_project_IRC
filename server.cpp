@@ -129,7 +129,7 @@ void Server::handle_new_connection()
 		{
 			this->_list_connected_user[listnum] = connection;
 			this->list_users[connection] = new User(connection, client_address);
-std::cout << "New connection: " << connection << "\nclient address: " << this->list_users[connection]->getClientAdd() << std::endl;
+			std::cout << "New connection: " << connection << "\nclient address: " << this->list_users[connection]->getClientAdd() << std::endl;
 			if (this->getPassword().empty())
 				this->list_users[connection]->setConnectionPswd(1);
 			else
@@ -144,14 +144,6 @@ std::cout << "New connection: " << connection << "\nclient address: " << this->l
 		printf("\n No room left for new client.\n");
 		close(connection);
 	}
-
-std::map<int, User*>::iterator it;
-
-for(it = this->list_users.begin(); it != this->list_users.end(); it++)
-{
-	std::cout << it->first << " fds chekeados en handle" << std::endl;
-}
-
 }
 
 void Server::deal_with_data(int listnum)
@@ -258,6 +250,6 @@ void Server::removeChannel(Channel *channel)
 }
 
 
-std::map<int, User *> Server::getUsers() const { return this->list_users; }
+std::map<int, User *> const& Server::getUsers() const { return list_users; }
 
 std::vector<Channel *> Server::getChannels() const { return this->channels; }

@@ -60,7 +60,7 @@ class User;
 
 void						timerDisplay( void );
 void						actionDisplay(std::string const &action, std::string const &cmd, User *usr);
-void						displayDev(Server *serv);
+// void						displayDev(Server *serv);
 
 
 #endif

@@ -201,7 +201,7 @@ class Server
 		void						motd_cmmd(int const & fd);
 
 
-		std::map<int, User *>		getUsers() const;
+		std::map<int, User *>		const& getUsers() const;
 		std::vector<Channel *>		getChannels() const;
 
 
