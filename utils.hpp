@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 14:04:23 by emartin-          #+#    #+#             */
-/*   Updated: 2021/12/12 02:22:48 by nazurmen         ###   ########.fr       */
+/*   Updated: 2021/12/13 19:31:33 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # include <netinet/in.h>
 # include <string.h>
 # include <arpa/inet.h>
-# include "user.hpp"
 # include <errno.h>
 # include <stdio.h>
 # include <sys/time.h>
@@ -31,6 +30,8 @@
 # include <string>
 # include <vector>
 # include <list>
+# include "server.hpp"
+# include "user.hpp"
 
 # define RED	"\033[1;31m"
 # define GREEN	"\033[1;32m"
@@ -42,6 +43,9 @@
 # define CIAN   "\033[0;35m"
 # define WHITE	"\033[0;37m"
 
+
+class Server;
+class User;
 
 // green=$'\e[0;92;40m'
 // green_b=$'\e[0;30;102m'

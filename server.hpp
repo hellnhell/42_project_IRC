@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:50 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/12 02:42:48 by nazurmen         ###   ########.fr       */
+/*   Updated: 2021/12/13 19:32:09 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ class Server
 
 		std::deque<std::string> cmd_list;
 
-//		std::list<User *>		users_on;
+		std::list<User *>		users_on;
 		std::string				password;
 
 		std::string host;
