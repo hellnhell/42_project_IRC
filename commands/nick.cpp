@@ -6,7 +6,7 @@
 /*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 13:15:28 by emartin-          #+#    #+#             */
-/*   Updated: 2021/12/13 17:56:17 by javrodri         ###   ########.fr       */
+/*   Updated: 2021/12/14 11:22:47 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,7 @@ void Server::nick_cmd(std::vector<std::string> const &tokens, User *usr)
 		}
 	}
 	usr->setNick(tokens[1]);
-	std::string tmpMask = usr->getNick() + "!" + usr->getUser() + "@ft_irc.com";
-	usr->setNickMask(tmpMask);
-	std::cout << "---->" << tmpMask << std::endl;
-	std::cout << "---->" << usr->getNickMask() << std::endl;
+	usr->setNickMask(usr->getNick() + "!" + usr->getUser() + "@ft_irc.com");
     actionDisplay( "Nick created", "", usr);
 
 }
