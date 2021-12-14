@@ -67,15 +67,15 @@ Server::Server()
 		throw Server::ServerException(); 
 	}
 	this->highsock = this->listening_socket;
-	this->cmd_list.push_back("PASS");
-	this->cmd_list.push_back("USER");
-	this->cmd_list.push_back("NICK");
-	this->cmd_list.push_back("EXIT");
-	this->cmd_list.push_back("TIME");
-	this->cmd_list.push_back("JOIN");
-	this->cmd_list.push_back("PRIVMSG");
-	this->cmd_list.push_back("MOTD");
-	this->cmd_list.push_back("NAMES");
+	// this->cmd_list.push_back("PASS");
+	// this->cmd_list.push_back("USER");
+	// this->cmd_list.push_back("NICK");
+	// this->cmd_list.push_back("EXIT");
+	// this->cmd_list.push_back("TIME");
+	// this->cmd_list.push_back("JOIN");
+	// this->cmd_list.push_back("PRIVMSG");
+	// this->cmd_list.push_back("MOTD");
+	// this->cmd_list.push_back("NAMES");
 }
 
 Server::~Server()
@@ -174,53 +174,8 @@ void Server::deal_with_data(int listnum)
 		tokens = parse_message(recived);
 		if (tokens[0].empty())
 			return;
-		std::transform(tokens[0].begin(), tokens[0].end(),tokens[0].begin(), ::toupper);
 		actionDisplay("Attend client", " CMD:" + tokens[0], tmpuser);
-		if ((std::find(cmd_list.begin(), cmd_list.end(), tokens[0]) == cmd_list.end()))
-			return reply_msg(ERR_UNKNOWNCOMMAND, tokens[0] + " :Unkown command", tmpuser); 
-		if(tokens[0] == "USER" || tokens[0] == "user")
-		{
-			tmpuser = this->list_users[this->_list_connected_user[listnum]];
-			this->user_cmd(tokens, tmpuser);
-		}
-		else if(tokens[0] == "NICK" || tokens[0] == "nick")
-		{
-			tmpuser = this->list_users[this->_list_connected_user[listnum]];
-			this->nick_cmd(tokens, tmpuser);
-		}
-		else if(tokens[0] == "PASS" || tokens[0] == "pass")
-		{
-			this->pass(tokens, tmpuser); //N: esto no está definido
-		}
-		else if(tokens[0] == "PRIVMSG" || tokens[0] == "PRIVMSG")
-		{
-			this->privmsg(tokens, tmpuser);
-		}
-		else if(tokens[0] == "TIME" || tokens[0] == "time")
-		{
-			if (this->list_users[this->_list_connected_user[listnum]] == NULL)
-				this->time_cmd(tmpuser, this->_list_connected_user[listnum]);
-			else
-			 	return reply_msg(ERR_NOTREGISTERED, "TIME :You have not registered.", tmpuser);
-		}
-		//std::cout << std::endl << "Received:  " << recived << std::endl;
-		else if(tokens[0] == "NICK" || tokens[0] == "nick")
-		{
-			tmpuser = this->list_users[this->_list_connected_user[listnum]];
-			this->nick_cmd(tokens, tmpuser);
-		}
-		else if(tokens[0] == "JOIN" || tokens[0] == "join")
-		{
-			this->join_cmd(tokens, tmpuser);
-		}
-		else if(tokens[0] == "MOTD" || tokens[0] == "motd")
-		{
-			this->motd_cmmd(listnum);
-		}
-		else if(tokens[0] == "NAMES" || tokens[0] == "names")
-		{
-			this->names_cmmd(tokens, tmpuser);
-		}
+		parseCommands(tokens, tmpuser, listnum);
 
 
 		std::cout << std::endl << "Received:  " << recived << std::endl;
@@ -243,12 +198,6 @@ void Server::read_socks()
 	}
 }
 
-void Server::setPassword(std::string psswd) { this->password = psswd; }
-std::string	Server::getPassword() const { return this->password; };
-
-std::map<int, User *> const& Server::getUsers() const { return this->list_users; }
-std::vector<Channel *> Server::getChannels() const { return this->channels; }
-
 void Server::removeChannel(Channel *channel)
 {
 	std::vector<Channel *>::iterator it;
@@ -256,3 +205,13 @@ void Server::removeChannel(Channel *channel)
 	if (it != this->channels.end())
 		this->channels.erase(it);
 }
+
+
+//SETTERs-GETTERs
+
+void Server::setPassword(std::string psswd) { this->password = psswd; }
+std::string	Server::getPassword() const { return this->password; };
+
+std::map<int, User *> const& Server::getUsers() const { return this->list_users; }
+std::vector<Channel *> Server::getChannels() const { return this->channels; }
+

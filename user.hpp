@@ -81,6 +81,12 @@ class User
 		void 		leaveChannel(Channel *channel);
 
 
+		void 						setPing( std::string const & ping );
+		void						setLastTime( uint64_t const & time );
+		void						setPingStatus( bool const &  status );
+		void						setTimePing( uint64_t const & time );
+
+
 };
 
 #endif

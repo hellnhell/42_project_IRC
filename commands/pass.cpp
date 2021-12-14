@@ -12,7 +12,7 @@
 
 #include "../server.hpp"
 
-void Server::pass(std::vector<std::string> const& tokens, User* usr)
+void Server::pass_cmmd(std::vector<std::string> const& tokens, User* usr)
 {
     std::cout << usr << std::endl; 
     if (!usr->getConnectionPswd())

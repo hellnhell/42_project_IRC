@@ -76,6 +76,9 @@ int main(int argc, char **argv)
 		gservptr = &server; //??
 		int set_read = 0;
 		server.setPassword(psswd);
+		time_t ft_start;
+    	time_t ft_end;
+    	double ft_t;
 		while(1)
 		{
 			signal(SIGINT, signal_kill);
@@ -84,9 +87,11 @@ int main(int argc, char **argv)
 				throw Server::ServerException();
 			if(set_read == 0)
 			{
+				ft_start = clock();
 				std::cout << "\r";
 				timerDisplay();
 				std::cout.flush();
+				ft_end= clock();
 			}
 			else
 			{
@@ -94,7 +99,8 @@ int main(int argc, char **argv)
 				displayDev(&server);
 
 			}
-
+			ft_t = difftime(ft_end, ft_start);
+			server.checkPing(ft_t);
 		}
 		return(0);
 	}

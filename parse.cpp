@@ -12,7 +12,48 @@
 
 #include "server.hpp"
 
-bool 						BothAreSpaces(char lhs, char rhs) { return (lhs == rhs) && (lhs == ' '); }
+void    Server::parseCommands(std::vector<std::string> const &tokens, User *usr, int fd)
+{
+    	if(tokens[0] == "USER" || tokens[0] == "user")
+		{
+			usr = this->list_users[this->_list_connected_user[fd]];
+			this->user_cmmd(tokens, usr);
+		}
+		else if(tokens[0] == "NICK" || tokens[0] == "nick")
+		{
+			usr = this->list_users[this->_list_connected_user[fd]];
+			this->nick_cmmd(tokens, usr);
+		}
+		else if(tokens[0] == "PASS" || tokens[0] == "pass")
+			this->pass_cmmd(tokens, usr);
+		else if(tokens[0] == "PRIVMSG" || tokens[0] == "PRIVMSG")
+			this->privmsg_cmmd(tokens, usr);
+		else if(tokens[0] == "TIME" || tokens[0] == "time")
+		{
+			if (this->list_users[this->_list_connected_user[fd]] == NULL)
+				this->time_cmmd(usr, this->_list_connected_user[fd]);
+			else
+			 	return reply_msg(ERR_NOTREGISTERED, "TIME :You have not registered.", usr);
+		}
+		else if(tokens[0] == "NICK" || tokens[0] == "nick")
+		{
+			usr = this->list_users[this->_list_connected_user[fd]];
+			this->nick_cmmd(tokens, usr);
+		}
+		else if(tokens[0] == "JOIN" || tokens[0] == "join")
+			this->join_cmmd(tokens, usr);
+		else if(tokens[0] == "MOTD" || tokens[0] == "motd")
+			this->motd_cmmd(fd);
+		else if(tokens[0] == "NAMES" || tokens[0] == "names")
+			this->names_cmmd(tokens, usr);
+		// else if(tokens[0] == "QUIT" || tokens[0] == "quit")
+		// 	this->quit_cmmd(tokens, usr);
+        else
+		    return reply_msg(ERR_UNKNOWNCOMMAND, tokens[0] + " :Unkown command", usr);
+
+}
+
+bool 	BothAreSpaces(char lhs, char rhs) { return (lhs == rhs) && (lhs == ' '); }
 
 std::vector<std::string>   Server::parse_message(std::string buffer)
 {

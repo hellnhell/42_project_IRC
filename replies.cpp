@@ -16,7 +16,10 @@ void	Server::reply_msg(std::string rep, std::string str, User *usr)
 {
     std::string msg;
     
-    msg = SERVER_MASK + rep  + " "  + usr->getNick() + " " + str + "\r\n";
+    if (rep[0] > 3)
+        msg = RED SERVER_MASK + rep  + " "  + usr->getNick() + " " + str + WHITE "\r\n";
+    else        
+        msg = GREEN SERVER_MASK + rep  + " "  + usr->getNick() + " " + str + WHITE "\r\n";
 	send(usr->getFD(), msg.c_str(), msg.length(), 0);
     // usr->setReply(error);
 }

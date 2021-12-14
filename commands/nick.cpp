@@ -20,7 +20,7 @@
 // ?????  	ERR_RESTRICTED            "484"      ":Your connection is restricted!"- Sent by the server to a user upon connection to indicate the restricted nature of the connection (user mode "+r").
 
 
-void Server::nick_cmd(std::vector<std::string> const &tokens, User *usr)
+void Server::nick_cmmd(std::vector<std::string> const &tokens, User *usr)
 {
 
 	std::map<int, User*>::iterator it;

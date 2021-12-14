@@ -12,7 +12,7 @@
 
 # include "../server.hpp"
 
-void    Server::privmsg(std::vector<std::string> const& tokens, User* usr){
+void    Server::privmsg_cmmd(std::vector<std::string> const& tokens, User* usr){
     
     
     // std::cout << "tokens.size(): " << tokens.size() << "\n" << std::cout;

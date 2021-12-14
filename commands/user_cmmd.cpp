@@ -12,7 +12,7 @@
 
 #include "../server.hpp"
 
-void Server::user_cmd(std::vector<std::string> const &tokens, User *usr)
+void Server::user_cmmd(std::vector<std::string> const &tokens, User *usr)
 {
 	if (!usr->getConnectionPswd())
 		return reply_msg(ERR_PASSWDMISMATCH, "Password mismatch", usr); //NO se si es necesario 

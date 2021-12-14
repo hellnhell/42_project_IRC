@@ -55,6 +55,7 @@ class Channel;
 //ERRORS
 //Error replies are found in the range from 400 to 599.
 
+# define ERR_UNKNOWNERROR		"400"
 # define ERR_ALREADYREGISTRED      "462"		// - Returned by the server to any link which tries to change part of the registered details (such as password or user details from second USER message)
 # define ERR_NEEDMOREPARAMS        "461"
 # define ERR_NOSUCHNICK            "401"       //"<nickname> :No such nick/channel"        - Used to indicate the nickname parameter supplied to a command is currently unused.
@@ -177,6 +178,8 @@ class Server
 		void						handle_new_connection();
 		void						deal_with_data(int listnum);
 		std::vector<std::string>	parse_message(std::string buffer);
+		void					    parseCommands(std::vector<std::string> const &tokens, User *usr, int fd);
+
 		void						error_msg(std::string err, std::string str, User *usr);
 		void						reply_msg(std::string rep, std::string str, User *usr);
 
@@ -191,15 +194,19 @@ class Server
 
 
 
-		void						user_cmd(std::vector<std::string> const &tokens, User *usr);
+		void						user_cmmd(std::vector<std::string> const &tokens, User *usr);
 
-		void						time_cmd(User *usr, int fd_usr);
-		void						privmsg(std::vector<std::string> const& tokens, User* usr);
-		void						nick_cmd(std::vector<std::string> const &tokens, User *usr);
-		void						pass(std::vector<std::string> const &tokens, User* usr);
-		void						join_cmd(std::vector<std::string> const &tokens, User* usr);
+		void						time_cmmd(User *usr, int fd_usr);
+		void						privmsg_cmmd(std::vector<std::string> const& tokens, User* usr);
+		void						nick_cmmd(std::vector<std::string> const &tokens, User *usr);
+		void						pass_cmmd(std::vector<std::string> const &tokens, User* usr);
+		void						join_cmmd(std::vector<std::string> const &tokens, User* usr);
 		void						motd_cmmd(int const & fd);
 		void 						names_cmmd( std::vector<std::string> const &tokens, User *ur);
+		void 					   	quit_cmmd(std::vector<std::string> const &tokens, User *usr); //Solo empezado
+		// void   						ping_cmmd(std::vector<std::string> const &tokens, User *usr);
+		void						checkPing(double dtime);
+
 
 
 
