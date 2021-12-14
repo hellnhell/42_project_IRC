@@ -18,9 +18,11 @@
 # include <vector>
 # include <algorithm>
 # include "user.hpp"
+# include "server.hpp"
 
 class User;
 class Server;
+
 //types: 0 -> # disponible en el IRC network
 //       1 -> & local server
 //       2 -> + modeless channel
@@ -53,6 +55,7 @@ typedef struct s_modes
 class Channel
 {
 	private:
+		Server *			_server;
 		std::vector<User *>	_users;
 		std::vector<User *>	_ops;
 		std::vector<User *>	_bans;
@@ -67,13 +70,14 @@ class Channel
 		//std::string			_password; // TODO
 
 		Channel(Channel const &src);
-		Channel &operator=(Channel const &rhs);
 	public:
-		Channel(User *creator, const std::string &name);
-		Channel(User *creator, const std::string &name, unsigned int max_users);
-		Channel(User *creator, const std::string &name, const std::string &topic);
-		Channel(User *creator, const std::string &name, const std::string &topic, unsigned int max_users);
+		Channel(Server *server, User *creator, const std::string &name);
+		Channel(Server *server, User *creator, const std::string &name, unsigned int max_users);
+		Channel(Server *server, User *creator, const std::string &name, const std::string &topic);
+		Channel(Server *server, User *creator, const std::string &name, const std::string &topic, unsigned int max_users);
 		~Channel();
+
+		Channel &operator=(Channel const &rhs);
 
 		void					setName(const std::string &name);
 		void					setTopic(const std::string &topic);
@@ -94,10 +98,6 @@ class Channel
 		std::vector<User *>		getUsers() const;
 		std::vector<User *>		getOps() const;
 		std::vector<User *>		getBans() const;
-
-
-
-
 };
 
 #endif // CHANNEL_HPP

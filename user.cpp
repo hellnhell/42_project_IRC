@@ -92,3 +92,20 @@ std::string User::getClientAdd(  ) const
 	char ipStr[INET_ADDRSTRLEN];
 	return inet_ntop(AF_INET, &clientIP, ipStr, INET_ADDRSTRLEN);
 }
+
+void User::joinChannel(Channel *channel)
+{
+	this->channels.push_back(channel);
+}
+
+void User::leaveChannel(Channel *channel)
+{
+	for (std::vector<Channel *>::iterator it = this->channels.begin(); it != this->channels.end(); ++it)
+	{
+		if (*it == channel)
+		{
+			this->channels.erase(it);
+			return ;
+		}
+	}
+}

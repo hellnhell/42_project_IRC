@@ -29,6 +29,7 @@ SRCS			= main.cpp \
 					commands/privmsg.cpp \
 					commands/join_cmmd.cpp \
 					commands/motd.cpp	\
+					commands/names_cmmd.cpp	\
 					utils.cpp
 
 OBJS_DIR = objects/

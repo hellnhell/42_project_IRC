@@ -123,6 +123,9 @@ class Channel;
 # define RPL_CREATE					"003"
 # define RPL_MYINFO					"004"
 
+# define RPL_NAMREPLY				"353"
+# define RPL_ENDOFNAMES				"366"
+
 # define RPL_MOTD					"372"
 # define RPL_MOTDSTART				"375"
 # define RPL_ENDOFMOTD				"376"
@@ -183,6 +186,9 @@ class Server
 		std::string					getPassword() const;
 
 		std::map<int, User *> 		const &getUsers() const;
+		std::vector<Channel *>      getChannels() const;
+ 		void 						removeChannel(Channel *channel);
+
 
 
 		void						user_cmd(std::vector<std::string> const &tokens, User *usr);
@@ -193,6 +199,8 @@ class Server
 		void						pass(std::vector<std::string> const &tokens, User* usr);
 		void						join_cmd(std::vector<std::string> const &tokens, User* usr);
 		void						motd_cmmd(int const & fd);
+		void 						names_cmmd( std::vector<std::string> const &tokens, User *ur);
+
 
 
 

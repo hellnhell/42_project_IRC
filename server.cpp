@@ -75,7 +75,7 @@ Server::Server()
 	this->cmd_list.push_back("JOIN");
 	this->cmd_list.push_back("PRIVMSG");
 	this->cmd_list.push_back("MOTD");
-
+	this->cmd_list.push_back("NAMES");
 }
 
 Server::~Server()
@@ -217,6 +217,10 @@ void Server::deal_with_data(int listnum)
 		{
 			this->motd_cmmd(listnum);
 		}
+		else if(tokens[0] == "NAMES" || tokens[0] == "names")
+		{
+			this->names_cmmd(tokens, tmpuser);
+		}
 
 
 		std::cout << std::endl << "Received:  " << recived << std::endl;
@@ -243,5 +247,12 @@ void Server::setPassword(std::string psswd) { this->password = psswd; }
 std::string	Server::getPassword() const { return this->password; };
 
 std::map<int, User *> const& Server::getUsers() const { return this->list_users; }
+std::vector<Channel *> Server::getChannels() const { return this->channels; }
 
-
+void Server::removeChannel(Channel *channel)
+{
+	std::vector<Channel *>::iterator it;
+	it = std::find(this->channels.begin(), this->channels.end(), channel);
+	if (it != this->channels.end())
+		this->channels.erase(it);
+}
