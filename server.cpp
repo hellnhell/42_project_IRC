@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:52 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/10 13:34:51 by emartin-         ###   ########.fr       */
+/*   Updated: 2021/12/15 14:28:18 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ Server::Server()
 	int reuse_addr = 1;
 	FD_ZERO(&this->reads);
 	this->highsock = 0;
+	this->flag = 0;
 	this->listening_socket = 0;
 	this->listening_socket = socket(AF_INET, SOCK_STREAM, 0);
 	if(this->listening_socket < 0)
@@ -135,7 +136,7 @@ void Server::handle_new_connection()
 				this->list_users[connection]->setConnectionPswd(0);
 			// printf("Connection accepted: fd=%d Slot=%lu\n", connection, listnum);
 			actionDisplay("Connection accepted", "", list_users[connection]);
-			
+			// this->setPingDiff(0);
 			connection = -1;
 		}
 	}
@@ -214,4 +215,11 @@ std::string	Server::getPassword() const { return this->password; };
 
 std::map<int, User *> const& Server::getUsers() const { return this->list_users; }
 std::vector<Channel *> Server::getChannels() const { return this->channels; }
+
+void						Server::setPingStart(time_t ping_s) { this->ping_start = ping_s; }
+time_t						Server::getPingStart() { return this->ping_start; }
+void						Server::setPingEnd(time_t ping_e) { this->ping_end = ping_e; }
+time_t						Server::getPingEnd() { return this->ping_end; }
+void						Server::setPingDiff(double diff) { this->ping_diff = diff; }
+double	const				&Server::getPingDiff() const { return this->ping_diff; }
 

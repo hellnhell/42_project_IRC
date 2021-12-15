@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 12:56:36 by emartin-          #+#    #+#             */
-/*   Updated: 2021/12/10 10:25:46 by javrodri         ###   ########.fr       */
+/*   Updated: 2021/12/15 13:34:39 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void    Server::parseCommands(std::vector<std::string> const &tokens, User *usr, int fd)
 {
+		// this->setPingEnd(clock());
+		// this->setPingDiff(0);
     	if(tokens[0] == "USER" || tokens[0] == "user")
 		{
 			usr = this->list_users[this->_list_connected_user[fd]];
@@ -49,8 +51,7 @@ void    Server::parseCommands(std::vector<std::string> const &tokens, User *usr,
 		// else if(tokens[0] == "QUIT" || tokens[0] == "quit")
 		// 	this->quit_cmmd(tokens, usr);
         else
-		    return reply_msg(ERR_UNKNOWNCOMMAND, tokens[0] + " :Unkown command", usr);
-
+		    reply_msg(ERR_UNKNOWNCOMMAND, tokens[0] + " :Unkown command", usr); //return?
 }
 
 bool 	BothAreSpaces(char lhs, char rhs) { return (lhs == rhs) && (lhs == ' '); }

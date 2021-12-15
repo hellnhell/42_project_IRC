@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:50 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/10 13:21:42 by emartin-         ###   ########.fr       */
+/*   Updated: 2021/12/15 14:26:22 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,17 +149,20 @@ class Server
 		int 					port;
 		struct sockaddr_in 		server_address;
 
-		std::deque<std::string> cmd_list;
+		// std::deque<std::string> cmd_list;
+		time_t 					ping_start;
+		time_t 					ping_end;
+		double					ping_diff;
 
+		
 		std::list<User *>		users_on;
 		std::string				password;
 
-		std::string host;
-		int			port_network;
-		std::string pssw_network;
 		std::vector<Channel *>	channels;
 
 		Server(const Server &other);
+	protected:
+		int flag;
 
 	public:
 		Server();
@@ -205,10 +208,14 @@ class Server
 		void 						names_cmmd( std::vector<std::string> const &tokens, User *ur);
 		void 					   	quit_cmmd(std::vector<std::string> const &tokens, User *usr); //Solo empezado
 		// void   						ping_cmmd(std::vector<std::string> const &tokens, User *usr);
-		void						checkPing(double dtime);
-
-
-
+		
+		void						checkPing();
+		void						setPingStart(time_t ping_s);
+		time_t						getPingStart();
+		void						setPingEnd(time_t ping_e);
+		time_t						getPingEnd();
+		void						setPingDiff(double diff);
+		double const				&getPingDiff() const;
 
 
 

@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 14:11:46 by emartin-          #+#    #+#             */
-/*   Updated: 2021/12/10 12:35:04 by emartin-         ###   ########.fr       */
+/*   Updated: 2021/12/15 14:27:04 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,8 @@ int main(int argc, char **argv)
 		Server server;
 		gservptr = &server; //??
 		int set_read = 0;
+		double i = 0;
 		server.setPassword(psswd);
-		time_t ft_start;
-    	time_t ft_end;
-    	double ft_t;
 		while(1)
 		{
 			signal(SIGINT, signal_kill);
@@ -87,20 +85,19 @@ int main(int argc, char **argv)
 				throw Server::ServerException();
 			if(set_read == 0)
 			{
-				ft_start = clock();
+	
 				std::cout << "\r";
 				timerDisplay();
+				server.setPingDiff(i++);
+				server.checkPing();
 				std::cout.flush();
-				ft_end= clock();
 			}
 			else
 			{
 				server.read_socks();
 				displayDev(&server);
-
+				i = 0;
 			}
-			ft_t = difftime(ft_end, ft_start);
-			server.checkPing(ft_t);
 		}
 		return(0);
 	}
