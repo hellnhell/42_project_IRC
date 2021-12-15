@@ -6,7 +6,7 @@
 /*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 12:58:34 by javrodri          #+#    #+#             */
-/*   Updated: 2021/12/13 18:00:50 by javrodri         ###   ########.fr       */
+/*   Updated: 2021/12/15 13:06:22 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,10 @@ void    Server::privmsg(std::vector<std::string> const& tokens, User* usr){
         tokenDest = tokens[1];
         for(;beginUsrList != endUsrList; ++beginUsrList){
             if ((*beginUsrList)->getNick() == tokenDest){
+                destUser = *beginUsrList;
+                break;
+            }
+            else if ((*beginUsrList)->getNickMask() == tokenDest){
                 destUser = *beginUsrList;
                 break;
             }
