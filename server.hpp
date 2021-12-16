@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:50 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/16 16:26:17 by nazurmen         ###   ########.fr       */
+/*   Updated: 2021/12/16 22:13:42 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,9 @@
 # define RPL_CREATE					"003"
 # define RPL_MYINFO					"004"
 
+# define RPL_NAMREPLY				"353"
+# define RPL_ENDOFNAMES				"366"
+
 # define RPL_MOTD					"372"
 # define RPL_MOTDSTART				"375"
 # define RPL_ENDOFMOTD				"376"
@@ -199,6 +202,7 @@ class Server
 		void						pass(std::vector<std::string> const &tokens, User* usr);
 		void						join_cmd(std::vector<std::string> const &tokens, User* usr);
 		void						motd_cmmd(int const & fd);
+		void						names_cmmd(std::vector<std::string> const& tokens, User *usr, Server &Serv);
 
 
 		std::map<int, User *>		const &getUsers() const;

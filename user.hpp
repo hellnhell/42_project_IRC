@@ -86,6 +86,8 @@ class User
 		void		joinChannel(Channel *channel);
 		void		leaveChannel(Channel *channel);
 
+		std::vector<Channel*> const		&getChannels() { return this->channels; }
+
 };
 
 #endif

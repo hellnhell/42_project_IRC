@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:52 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/16 16:26:37 by nazurmen         ###   ########.fr       */
+/*   Updated: 2021/12/16 22:24:38 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ Server::Server()
 	this->cmd_list.push_back("JOIN");
 	this->cmd_list.push_back("PRIVMSG");
 	this->cmd_list.push_back("MOTD");
+	this->cmd_list.push_back("NAMES");
 
 }
 
@@ -216,6 +217,11 @@ void Server::deal_with_data(int listnum)
 		{
 			this->motd_cmmd(listnum);
 		}
+		else if(tokens[0] == "NAMES" || tokens[0] == "names")
+		{
+			this->names_cmmd(tokens, tmpuser, *this);
+		}
+
 
 
 		std::cout << std::endl << "Received:  " << recived << std::endl;
