@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:47 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/12 02:32:17 by nazurmen         ###   ########.fr       */
+/*   Updated: 2021/12/16 16:47:40 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,9 +95,9 @@ class Channel
 		std::string				getTopic() const;
 		unsigned int			getMaxUsers() const;
 		unsigned int			getCurrentUsers() const;
-		std::vector<User *>		getUsers() const;
-		std::vector<User *>		getOps() const;
-		std::vector<User *>		getBans() const;
+		std::vector<User *>		const &getUsers() const;
+		std::vector<User *>		const &getOps() const;
+		std::vector<User *>		const &getBans() const;
 };
 
 #endif // CHANNEL_HPP

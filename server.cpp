@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:52 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/12 08:54:32 by nazurmen         ###   ########.fr       */
+/*   Updated: 2021/12/16 16:26:37 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,6 +250,6 @@ void Server::removeChannel(Channel *channel)
 }
 
 
-std::map<int, User *> const& Server::getUsers() const { return list_users; }
+std::map<int, User *> const &Server::getUsers() const { return list_users; }
 
-std::vector<Channel *> Server::getChannels() const { return this->channels; }
+std::vector<Channel *> const &Server::getChannels() const { return this->channels; }

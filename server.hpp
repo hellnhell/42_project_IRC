@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:50 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/13 19:32:09 by nazurmen         ###   ########.fr       */
+/*   Updated: 2021/12/16 16:26:17 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,8 +201,8 @@ class Server
 		void						motd_cmmd(int const & fd);
 
 
-		std::map<int, User *>		const& getUsers() const;
-		std::vector<Channel *>		getChannels() const;
+		std::map<int, User *>		const &getUsers() const;
+		std::vector<Channel *>		const &getChannels() const;
 
 
 

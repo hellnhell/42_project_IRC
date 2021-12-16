@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:41 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/13 19:24:15 by nazurmen         ###   ########.fr       */
+/*   Updated: 2021/12/16 17:25:00 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ std::cout << "join_cmd\n\n\n\n" << std::endl;
 					usr->joinChannel(*it);
 					std::cout << "Joined channel " << (*it)->getName() << std::endl;
 					std::cout << "Available commands: /msg <user> <message>, /leave, /list, /users, /help" << std::endl;
+					return;
 				}
 			}
 			try
@@ -51,6 +52,7 @@ std::cout << "join_cmd\n\n\n\n" << std::endl;
 				this->channels.back()->joinUser(usr);
 				std::cout << "Joined channel " << this->channels.back()->getName() << std::endl;
 				std::cout << "Available commands: /msg <user> <message>, /leave, /list, /users, /help" << std::endl;
+				return ;
 			}
 			catch(const std::exception& e)
 			{
