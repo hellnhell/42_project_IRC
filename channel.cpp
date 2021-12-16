@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: javier <javier@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:34 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/10 12:09:50 by javrodri         ###   ########.fr       */
+/*   Updated: 2021/12/16 23:15:20 by javier           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,21 +42,22 @@ static void initModes(t_modes *modes)
 	modes->I = 0;
 }
 
-Channel::Channel(User *creator, const std::string &name)
+Channel::Channel(Server *server, User *creator, const std::string &name)
 {
 	if(name.empty())
-		perror("Channel name cannot be empty");
+		throw std::invalid_argument("Channel name can't be empty");
 	else if (name.size() > 50)
-		perror("Channel name is too long");
-	else if (name[0] != '&' || name[0] != '#' || name[0] != '+' || name[0] != '!')
-		perror("Channel name must start with &, #, +, or !");
-	else if (name.find_first_of(" ,"))
-		perror("Channel name cannot contain spaces or commas");
-	else if(name.find_first_of(7))
-		perror("Channel name cannot contain control characters");
-	else
+		throw std::invalid_argument("Channel name can't be longer than 50 characters");
+	else if (name[0] != '&' && name[0] != '#' && name[0] != '+' && name[0] != '!')
+		throw std::invalid_argument("Channel name must start with &, #, + or !");
+	else if (((name.find(' ') != std::string::npos) || (name.find(',') != std::string::npos)))
+		throw std::invalid_argument("Channel name can't contain spaces or commas");
+	else if((name.find(7) != std::string::npos))
+		throw std::invalid_argument("Channel name can't contain control characters");
+		else
 	{
 		initModes(&_modes);
+		this->_server = server;
 		this->_name = name;
 		this->_topic = "";
 		this->_password = "";
@@ -64,29 +65,47 @@ Channel::Channel(User *creator, const std::string &name)
 		this->_modes.O = creator->getUser();
 		this->_max_users = 1024;
 		this->_ops.push_back(creator);
-		this->_current_users = 1;
+		this->_current_users = 0;
 	}
 
 	std::cout << "Channel " << name << " created" << std::endl;
 }
 
-Channel::Channel(User *creator, const std::string &name, const std::string &topic){
-	this->_name = name;
+Channel::Channel(Server *server, User *creator, const std::string &name, const std::string &topic)
+{
+	*this = Channel(server, creator, name);
 	this->_topic = topic;
 }
 
-Channel::Channel(User *creator, const std::string &name, unsigned int max_users){
-	this->_name = name;
+Channel::Channel(Server *server, User *creator, const std::string &name, unsigned int max_users)
+{
+	*this = Channel(server, creator, name);
 	this->_max_users = max_users;
 }
 
-Channel::Channel(User *creator, const std::string &name, const std::string &topic, unsigned int max_users){
-	this->_name = name;
-	this->_topic = topic;
+Channel::Channel(Server *server, User *creator, const std::string &name, const std::string &topic, unsigned int max_users)
+{
+	*this = Channel(server, creator, name, topic);
 	this->_max_users = max_users;
 }
 
 Channel::~Channel() {}
+
+Channel &Channel::operator=(const Channel &rhs)
+{
+	if (this != &rhs)
+	{
+		this->_name = rhs._name;
+		this->_topic = rhs._topic;
+		this->_password = rhs._password;
+		this->_type = rhs._type;
+		this->_modes = rhs._modes;
+		this->_max_users = rhs._max_users;
+		this->_ops = rhs._ops;
+		this->_current_users = rhs._current_users;
+	}
+	return (*this);
+}
 
 void Channel::setName(const std::string &name)
 {
@@ -114,7 +133,12 @@ void Channel::joinUser(User *user)
 	}
 
 	if((it = std::find(_users.begin(), _users.end(), user)) != _users.end())
-		_users.push_back(*it);
+	{
+		perror("User is already in this channel");
+		return ;
+	}
+	_users.push_back(user);
+	this->_current_users++;
 }
 
 void Channel::disconnectUser(User *user)
@@ -122,7 +146,17 @@ void Channel::disconnectUser(User *user)
 	std::vector<User *>::iterator it;
 
 	if((it = std::find(_users.begin(), _users.end(), user)) != _users.end())
+	{
 		_users.erase(it);
+		this->_current_users--;
+	}
+
+	if(this->_current_users <= 0)
+	{
+std::cout << "Channel " << this->_name << " deleted" << std::endl;
+		this->_server->removeChannel(this);
+	}
+
 }
 
 void Channel::kickUser(User *user)
@@ -198,17 +232,17 @@ unsigned int Channel::getCurrentUsers() const
 	return _current_users;
 }
 
-std::vector<User *> Channel::getUsers() const
+std::vector<User *> const &Channel::getUsers() const
 {
 	return _users;
 }
 
-std::vector<User *> Channel::getOps() const
+std::vector<User *> const &Channel::getOps() const
 {
 	return _ops;
 }
 
-std::vector<User *> Channel::getBans() const
+std::vector<User *> const &Channel::getBans() const
 {
 	return _bans;
 }

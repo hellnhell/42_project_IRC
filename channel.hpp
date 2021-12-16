@@ -6,7 +6,7 @@
 /*   By: javier <javier@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:47 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/10 19:10:53 by javier           ###   ########.fr       */
+/*   Updated: 2021/12/16 23:06:23 by javier           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@
 # include <algorithm>
 # include <list>
 # include "user.hpp"
+# include "server.hpp"
+
+class User;
+class Server;
 
 //types: 0 -> # disponible en el IRC network
 //       1 -> & local server
@@ -55,6 +59,7 @@ typedef struct s_modes
 class Channel
 {
 	private:
+		Server *			_server;
 		std::vector<User *>	_users;
 		std::vector<User *>	_ops;
 		std::vector<User *>	_bans;
@@ -69,13 +74,14 @@ class Channel
 		//std::string			_password; // TODO
 
 		Channel(Channel const &src);
-		Channel &operator=(Channel const &rhs);
 	public:
-		Channel(User *creator, const std::string &name);
-		Channel(User *creator, const std::string &name, unsigned int max_users);
-		Channel(User *creator, const std::string &name, const std::string &topic);
-		Channel(User *creator, const std::string &name, const std::string &topic, unsigned int max_users);
+		Channel(Server *server, User *creator, const std::string &name);
+		Channel(Server *server, User *creator, const std::string &name, unsigned int max_users);
+		Channel(Server *server, User *creator, const std::string &name, const std::string &topic);
+		Channel(Server *server, User *creator, const std::string &name, const std::string &topic, unsigned int max_users);
 		~Channel();
+
+		Channel &operator=(Channel const &rhs);
 
 		void					setName(const std::string &name);
 		void					setTopic(const std::string &topic);
@@ -93,13 +99,9 @@ class Channel
 		std::string				getTopic() const;
 		unsigned int			getMaxUsers() const;
 		unsigned int			getCurrentUsers() const;
-		std::vector<User *>		getUsers() const;
-		std::vector<User *>		getOps() const;
-		std::vector<User *>		getBans() const;
-
-
-
-
+		std::vector<User *>		const &getUsers() const;
+		std::vector<User *>		const &getOps() const;
+		std::vector<User *>		const &getBans() const;
 };
 
 #endif // CHANNEL_HPP

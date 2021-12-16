@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: javier <javier@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:52 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/10 14:26:24 by javrodri         ###   ########.fr       */
+/*   Updated: 2021/12/16 23:11:13 by javier           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ Server::Server()
 	if(this->listening_socket < 0)
 	{
 		perror("Socket");
-		throw Server::ServerException(); 
+		throw Server::ServerException();
 	}
 	setnonblocking(this->listening_socket);
 	memset(this->_list_connected_user, 0 , sizeof( this->_list_connected_user));
@@ -58,13 +58,13 @@ Server::Server()
 	{
 		perror("bind");
 		close(this->listening_socket);
-		throw Server::ServerException(); 
+		throw Server::ServerException();
 	}
 	if(listen(this->listening_socket, FD_SETSIZE) == -1)
 	{
 		perror("listening");
 		close(this->listening_socket);
-		throw Server::ServerException(); 
+		throw Server::ServerException();
 	}
 	this->highsock = this->listening_socket;
 	this->cmd_list.push_back("PASS");
@@ -74,6 +74,9 @@ Server::Server()
 	this->cmd_list.push_back("TIME");
 	this->cmd_list.push_back("JOIN");
 	this->cmd_list.push_back("PRIVMSG");
+	this->cmd_list.push_back("MOTD");
+	this->cmd_list.push_back("NAMES");
+
 }
 
 Server::~Server()
@@ -127,13 +130,13 @@ void Server::handle_new_connection()
 		{
 			this->_list_connected_user[listnum] = connection;
 			this->list_users[connection] = new User(connection, client_address);
+			std::cout << "New connection: " << connection << "\nclient address: " << this->list_users[connection]->getClientAdd() << std::endl;
 			if (this->getPassword().empty())
 				this->list_users[connection]->setConnectionPswd(1);
 			else
 				this->list_users[connection]->setConnectionPswd(0);
 			// printf("Connection accepted: fd=%d Slot=%lu\n", connection, listnum);
 			actionDisplay("Connection accepted", "", list_users[connection]);
-			
 			connection = -1;
 		}
 	}
@@ -182,7 +185,7 @@ void Server::deal_with_data(int listnum)
 		std::transform(tokens[0].begin(), tokens[0].end(),tokens[0].begin(), ::toupper);
 		actionDisplay("Attend client", " CMD:" + tokens[0], tmpuser);
 		if ((std::find(cmd_list.begin(), cmd_list.end(), tokens[0]) == cmd_list.end()))
-			return reply_msg(ERR_UNKNOWNCOMMAND, tokens[0] + " :Unkown command", tmpuser); 
+			return reply_msg(ERR_UNKNOWNCOMMAND, tokens[0] + " :Unkown command", tmpuser);
 		if(tokens[0] == "USER" || tokens[0] == "user")
 		{
 			tmpuser = this->list_users[this->_list_connected_user[listnum]];
@@ -218,6 +221,15 @@ void Server::deal_with_data(int listnum)
 		{
 			this->join_cmd(tokens, tmpuser);
 		}
+		else if(tokens[0] == "MOTD" || tokens[0] == "motd")
+		{
+			this->motd_cmmd(listnum);
+		}
+		else if(tokens[0] == "NAMES" || tokens[0] == "names")
+		{
+			this->names_cmmd(tokens, tmpuser, *this);
+		}
+
 
 
 		//std::cout << std::endl << "Received:  " << recived << std::endl;
@@ -243,3 +255,15 @@ void Server::read_socks()
 void Server::setPassword(std::string psswd) { this->password = psswd; }
 std::string	Server::getPassword() const { return this->password; };
 
+void Server::removeChannel(Channel *channel)
+{
+	std::vector<Channel *>::iterator it;
+	it = std::find(this->channels.begin(), this->channels.end(), channel);
+	if (it != this->channels.end())
+		this->channels.erase(it);
+}
+
+
+std::map<int, User *> const &Server::getUsers() const { return list_users; }
+
+std::vector<Channel *> const &Server::getChannels() const { return this->channels; }

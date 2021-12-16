@@ -10,7 +10,9 @@
 # include <sys/socket.h>
 # include <vector>
 
+# include "channel.hpp"
 
+class Channel;
 
 typedef struct s_user_modes //esto copiado de freenode
 {
@@ -47,6 +49,7 @@ class User
 
 		std::vector<std::string>		reply;
 
+		std::vector<Channel*>		channels;
 
 		User();
 		User(const User &other);
@@ -81,6 +84,13 @@ class User
 
 		std::string	getReply();
 		void		setReply(std::string const &msg);
+
+		std::string getClientAdd() const;
+
+		void		joinChannel(Channel *channel);
+		void		leaveChannel(Channel *channel);
+
+		std::vector<Channel*> const		&getChannels() { return this->channels; }
 
 };
 
