@@ -15,7 +15,6 @@ NAME			= irc-server
 
 SRCS_DIR= ./
 
-
 SRCS			= main.cpp \
 					server.cpp \
 					user.cpp \
@@ -27,10 +26,9 @@ SRCS			= main.cpp \
 					commands/pass.cpp	\
 					commands/time.cpp	\
 					commands/privmsg.cpp \
-					commands/join.cpp \
+					commands/join_cmmd.cpp \
+					commands/names_cmmd.cpp \
 					commands/motd.cpp	\
-					commands/names.cpp	\
-					commands/ping-pong.cpp	\
 					utils.cpp
 
 OBJS_DIR = objects/
@@ -39,15 +37,16 @@ OBJS = $(addprefix $(OBJS_DIR), $(OBJ))
 
 CC				= clang++
 RM				= rm -rf
-CFLAGS			= -g -std=c++98 -Wall -Wextra -Werror -I.
+CFLAGS			= -g3 -std=c++98 -fsanitize=address -Wall -Wextra -Werror -I.
 
 $(OBJS_DIR)%.o : $(SRCS_DIR)%.cpp
 	@mkdir -p $(OBJS_DIR) $(OBJS_DIR)commands/
 	@echo "\033[0;33mCompiling: $<\033[0m"
 	@${CC} $(FLAGS) -c $< -o $@
-
 $(NAME):		$(OBJS)
 				${CC} ${CFLAGS} -o ${NAME} ${OBJS} ${LIBS}
+
+all: $(NAME)
 
 all: $(NAME)
 

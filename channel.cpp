@@ -134,9 +134,11 @@ void Channel::joinUser(User *user)
 
 	if((it = std::find(_users.begin(), _users.end(), user)) != _users.end())
 	{
-		_users.push_back(*it);
-		this->_current_users++;
+		perror("User is already in this channel");
+		return ;
 	}
+	_users.push_back(user);
+	this->_current_users++;
 }
 
 void Channel::disconnectUser(User *user)
@@ -230,17 +232,17 @@ unsigned int Channel::getCurrentUsers() const
 	return _current_users;
 }
 
-std::vector<User *> Channel::getUsers() const
+std::vector<User *> const &Channel::getUsers() const
 {
 	return _users;
 }
 
-std::vector<User *> Channel::getOps() const
+std::vector<User *> const &Channel::getOps() const
 {
 	return _ops;
 }
 
-std::vector<User *> Channel::getBans() const
+std::vector<User *> const &Channel::getBans() const
 {
 	return _bans;
 }

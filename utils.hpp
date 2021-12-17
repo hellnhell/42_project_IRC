@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: javier <javier@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 14:04:23 by emartin-          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2021/12/10 14:18:48 by emartin-         ###   ########.fr       */
+=======
+/*   Updated: 2021/12/16 23:14:02 by javier           ###   ########.fr       */
+>>>>>>> origin/javier
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +35,8 @@
 # include <string>
 # include <vector>
 # include <list>
+# include "server.hpp"
+# include "user.hpp"
 
 # define RED	"\033[1;31m"
 # define GREEN	"\033[1;32m"
@@ -42,6 +48,9 @@
 # define CIAN   "\033[0;35m"
 # define WHITE	"\033[0;37m"
 
+
+class Server;
+class User;
 
 // green=$'\e[0;92;40m'
 // green_b=$'\e[0;30;102m'
@@ -56,7 +65,8 @@
 
 
 void						timerDisplay( void );
-void	                    actionDisplay(std::string const &action, std::string const &cmd, User *usr);
+void						actionDisplay(std::string const &action, std::string const &cmd, User *usr);
+// void						displayDev(Server *serv);
 
 
 #endif

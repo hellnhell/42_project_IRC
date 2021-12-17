@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   utils.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: javier <javier@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 14:04:16 by emartin-          #+#    #+#             */
 /*   Updated: 2021/12/10 14:29:14 by emartin-         ###   ########.fr       */
@@ -31,4 +31,3 @@ void	timerDisplay()
 		<< PINK<< std::setw(2) << ltm.tm_sec  << " - "
 		<< WHITE << std::setfill(' ') << std::setw(5);
 }
-

@@ -9,10 +9,10 @@
 # include <netinet/in.h>
 # include <sys/socket.h>
 # include <vector>
+# include "channel.hpp"
 
 class Server;
 class Channel;
-
 
 typedef struct s_user_modes //esto copiado de freenode
 {
@@ -34,6 +34,7 @@ class User
 		std::string			user;
 		std::string			realName;
 		std::string			nick;
+		std::string			nickMask;
 		std::string			password;
 		t_user_modes 		modes;
 		struct sockaddr_in	address;
@@ -62,6 +63,9 @@ class User
 
 		const std::string	getNick() const;
 		void	setNick(std::string _nick);
+		
+		const std::string	getNickMask() const;
+		void	setNickMask(std::string _nickMask);
 
 		const std::string	getPass() const;
 		void	setPass(std::string _nick);
@@ -77,15 +81,10 @@ class User
 
 		std::string getClientAdd() const;
 
-		void 		joinChannel(Channel *channel);
-		void 		leaveChannel(Channel *channel);
+		void		joinChannel(Channel *channel);
+		void		leaveChannel(Channel *channel);
 
-
-		void 						setPing( std::string const & ping );
-		void						setLastTime( uint64_t const & time );
-		void						setPingStatus( bool const &  status );
-		void						setTimePing( uint64_t const & time );
-
+		std::vector<Channel*> const		&getChannels() { return this->channels; }
 
 };
 

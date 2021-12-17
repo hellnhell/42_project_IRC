@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   parse.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: javier <javier@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 12:56:36 by emartin-          #+#    #+#             */
 /*   Updated: 2021/12/15 13:34:39 by emartin-         ###   ########.fr       */
@@ -97,6 +97,11 @@ std::vector<std::string>   Server::parse_message(std::string buffer)
     }
     if (tokens.size() > 16)
         perror("Too many params\n");
-	return tokens;
+    // std::cout << "tokens.size(): " << tokens.size() << "\n" << std::cout;
+    // std::cout << "tokens[0]: " << tokens[0] << "\n" << std::cout;
+    // std::cout << "tokens[1]: " << tokens[1] << "\n" << std::cout;
+    // std::cout << "tokens[2]: " << tokens[2] << "\n" << std::cout;
+    // std::cout << "tokens[3]: " << tokens[3] << "\n" << std::cout;
+    return tokens;
 }
 

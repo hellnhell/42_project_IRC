@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: javier <javier@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:47 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/10 16:15:23 by nazurmen         ###   ########.fr       */
+/*   Updated: 2021/12/16 23:06:23 by javier           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <iostream>
 # include <vector>
 # include <algorithm>
+# include <list>
 # include "user.hpp"
 # include "server.hpp"
 
@@ -27,6 +28,9 @@ class Server;
 //       1 -> & local server
 //       2 -> + modeless channel
 //       3 -> ! timestamped channel en no timestamped network
+
+typedef std::list<std::string>::iterator	it_str_list;
+typedef std::list<User *>::iterator			it_usr_list;
 
 typedef struct s_modes
 {
@@ -95,9 +99,9 @@ class Channel
 		std::string				getTopic() const;
 		unsigned int			getMaxUsers() const;
 		unsigned int			getCurrentUsers() const;
-		std::vector<User *>		getUsers() const;
-		std::vector<User *>		getOps() const;
-		std::vector<User *>		getBans() const;
+		std::vector<User *>		const &getUsers() const;
+		std::vector<User *>		const &getOps() const;
+		std::vector<User *>		const &getBans() const;
 };
 
 #endif // CHANNEL_HPP

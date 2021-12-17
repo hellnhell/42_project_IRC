@@ -46,7 +46,7 @@ Server::Server()
 	if(this->listening_socket < 0)
 	{
 		perror("Socket");
-		throw Server::ServerException(); 
+		throw Server::ServerException();
 	}
 	setnonblocking(this->listening_socket);
 	memset(this->_list_connected_user, 0 , sizeof( this->_list_connected_user));
@@ -59,13 +59,13 @@ Server::Server()
 	{
 		perror("bind");
 		close(this->listening_socket);
-		throw Server::ServerException(); 
+		throw Server::ServerException();
 	}
 	if(listen(this->listening_socket, FD_SETSIZE) == -1)
 	{
 		perror("listening");
 		close(this->listening_socket);
-		throw Server::ServerException(); 
+		throw Server::ServerException();
 	}
 	this->highsock = this->listening_socket;
 	// this->cmd_list.push_back("PASS");
@@ -130,13 +130,13 @@ void Server::handle_new_connection()
 		{
 			this->_list_connected_user[listnum] = connection;
 			this->list_users[connection] = new User(connection, client_address);
+			std::cout << "New connection: " << connection << "\nclient address: " << this->list_users[connection]->getClientAdd() << std::endl;
 			if (this->getPassword().empty())
 				this->list_users[connection]->setConnectionPswd(1);
 			else
 				this->list_users[connection]->setConnectionPswd(0);
 			// printf("Connection accepted: fd=%d Slot=%lu\n", connection, listnum);
 			actionDisplay("Connection accepted", "", list_users[connection]);
-			// this->setPingDiff(0);
 			connection = -1;
 		}
 	}
@@ -144,7 +144,6 @@ void Server::handle_new_connection()
 		printf("\n No room left for new client.\n");
 		close(connection);
 	}
-
 }
 
 void Server::deal_with_data(int listnum)
@@ -184,7 +183,7 @@ void Server::deal_with_data(int listnum)
 		send(this->_list_connected_user[listnum], (char *)"\n", strlen((char *)"\n"), 0);
 		// sock_puts(this->_list_connected_user[listnum], buffer);
 		// sock_puts(this->_list_connected_user[listnum], (char *)"\n");
-		std::cout << "Responded: " << recived << std::endl;
+		//std::cout << "Responded: " << recived << std::endl;
 	}
 }
 
@@ -214,7 +213,7 @@ void Server::setPassword(std::string psswd) { this->password = psswd; }
 std::string	Server::getPassword() const { return this->password; };
 
 std::map<int, User *> const& Server::getUsers() const { return this->list_users; }
-std::vector<Channel *> Server::getChannels() const { return this->channels; }
+std::vector<Channel *> const& Server::getChannels() const { return this->channels; }
 
 void						Server::setPingStart(time_t ping_s) { this->ping_start = ping_s; }
 time_t						Server::getPingStart() { return this->ping_start; }
@@ -223,3 +222,15 @@ time_t						Server::getPingEnd() { return this->ping_end; }
 void						Server::setPingDiff(double diff) { this->ping_diff = diff; }
 double	const				&Server::getPingDiff() const { return this->ping_diff; }
 
+void Server::removeChannel(Channel *channel)
+{
+	std::vector<Channel *>::iterator it;
+	it = std::find(this->channels.begin(), this->channels.end(), channel);
+	if (it != this->channels.end())
+		this->channels.erase(it);
+}
+
+
+std::map<int, User *> const &Server::getUsers() const { return list_users; }
+
+std::vector<Channel *> const &Server::getChannels() const { return this->channels; }
