@@ -13,15 +13,16 @@ static void user_modes_init(t_user_modes *modes)
 
 User::User(int &_fd, struct sockaddr_in const &client_addr) : fd(_fd)
 {
-	this->user = "";
-	this->nick = "";
-	this->password = "";
-	this->realName = "";
-	this->t_ping = 10000;
+	// this->user = "";
+	// this->nick = "";
+	// this->password = "";
+	// this->realName = "";
+	this->t_ping = 20000;
 	this->ping_on = false;
 	this->address = client_addr;
 	this->connection_pswd = 0;
-	this->checked = false;
+	this->check_user = false;
+	this->check_nick = false;
 	std::cout << "User created with fd: " << this->fd  <<std::endl;
 	user_modes_init(&this->modes);
 	this->address = client_addr;
@@ -80,8 +81,11 @@ bool	User::getConnectionPswd() const { return (this->connection_pswd); }
 void	User::setConnectionPswd(bool cp) { this->connection_pswd = cp; }
 
 
-const bool	&User::getCheckedUser() const { return (this->checked); }
-void		User::setCheckedUser(bool cu) { this->checked = cu; }
+const bool	&User::getCheckedUser() const { return (this->check_user); }
+void		User::setCheckedUser(bool cu) { this->check_user = cu; }
+
+const bool	&User::getCheckedNick() const { return (this->check_nick); }
+void		User::setCheckedNick(bool nu) { this->check_nick = nu; }
 
 void 			User::setReply(std::string const &msg) { this->reply.push_back(msg); }
 std::string 	User::getReply()

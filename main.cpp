@@ -98,7 +98,6 @@ int main(int argc, char **argv)
 				throw Server::ServerException();
 			if(set_read == 0)
 			{
-	
 				std::cout << "\r";
 				timerDisplay();
 				server.checkPing();
@@ -107,7 +106,6 @@ int main(int argc, char **argv)
 			else
 			{
 				server.read_socks();
-
 				// displayDev(&server);
 			}
 		}

@@ -31,7 +31,7 @@ void Server::nick_cmmd(std::vector<std::string> const &tokens, User *usr)
 	if(tokens.size() != 2)
 		return reply_msg(ERR_NONICKNAMEGIVEN, ": No nickname given", usr);
 	if(tokens[1] == usr->getNick())
-		return reply_msg(ERR_NICKNAMEINUSE, tokens[1] + " Nickname is already in use", usr);
+		return reply_msg(ERR_NICKNAMEINUSE, tokens[1] + "Unauthorized command (already registered)", usr);
 	if(tokens[1].size() > 9)
 		return reply_msg(ERR_ERRONEUSNICKNAME, tokens[1] + " Erroneus nickname", usr);
 	if(tokens[1][0] == '-' ||
@@ -54,6 +54,7 @@ void Server::nick_cmmd(std::vector<std::string> const &tokens, User *usr)
 	}
 	usr->setNick(tokens[1]);
 	usr->setNickMask(usr->getNick() + "!" + usr->getUser() + "@ft_irc.com");
+	usr->setCheckedNick(true);
     actionDisplay( "Nick created", "", usr);
 
 }

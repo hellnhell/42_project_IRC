@@ -15,15 +15,20 @@
 void Server::user_cmmd(std::vector<std::string> const &tokens, User *usr)
 {
 	if (!usr->getConnectionPswd())
-		return reply_msg(ERR_PASSWDMISMATCH, "Password mismatch", usr); //NO se si es necesario 
+		 reply_msg(ERR_PASSWDMISMATCH, "Password mismatch", usr); //NO se si es necesario 
+		//return
 	if(tokens.size() < 5)
-		return reply_msg(ERR_NEEDMOREPARAMS, tokens[0] + ": Not enough parameters", usr);
+		 reply_msg(ERR_NEEDMOREPARAMS, tokens[0] + ": Not enough parameters", usr);
+		//return
 	if(usr->getUser()[0])
-		return reply_msg(ERR_ALREADYREGISTRED, ": Unauthorized command (already registered)", usr);
+		 reply_msg(ERR_ALREADYREGISTRED, ": Unauthorized command (already registered)", usr);
+		//return
 	if(!isalnum(tokens[1][0]))
-		return reply_msg(ERR_USERSDONTMATCH, "Username do not match", usr);//Va en el mode command creo
+		 reply_msg(ERR_USERSDONTMATCH, "Username do not match", usr);//Va en el mode command creo
+		//return
 	if(!std::isdigit(tokens[2][0]) && tokens[2][0] != '*') //E:si es asterisco tiene q ir??
-		return reply_msg(ERR_UNKNOWNMODE, "Uknown mode", usr);//Va en el mode command
+		 reply_msg(ERR_UNKNOWNMODE, "Uknown mode", usr);//Va en el mode command
+		//return
 
 	usr->setUser(tokens[1]);
 	if (tokens[2] != "*")

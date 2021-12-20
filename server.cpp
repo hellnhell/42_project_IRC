@@ -81,10 +81,22 @@ Server::Server()
 
 Server::~Server()
 {
-	close( this->listening_socket );
-	FD_ZERO( &this->reads );
-	memset( this->_list_connected_user, 0 , sizeof( this->_list_connected_user ) );
-	memset( (char *) &this->server_address, 0 , sizeof( this->server_address ) );
+	close(this->listening_socket);
+	std::map<int, User *>::iterator it = this-> list_users.begin();
+	while (it != this->list_users.end() )
+	{
+		std::cout << "\r";
+		actionDisplay("Connection closed", "", this->list_users[it->first] );
+		delete it->second;
+		close(it->first);
+		FD_CLR(it->first, &this->reads);
+		it++;
+	}
+	this->list_users.clear();
+	close(this->listening_socket);
+	FD_ZERO(&this->reads);
+	memset(this->_list_connected_user, 0 , sizeof( this->_list_connected_user));
+	memset((char *) &this->server_address, 0 , sizeof( this->server_address));
 	std::cout << "Destructor Server\n";
 }
 
@@ -136,6 +148,7 @@ void Server::handle_new_connection()
 			else
 				this->list_users[connection]->setConnectionPswd(0);
 			this->list_users[this->_list_connected_user[listnum]]->setTimeZero(getTime());
+			std::cout << "\r";
 			// printf("Connection accepted: fd=%d Slot=%lu\n", connection, listnum);
 			actionDisplay("Connection accepted", "", list_users[connection]);
 			connection = -1;
@@ -164,10 +177,11 @@ void Server::deal_with_data(int listnum)
 	{
 		//delete user?
 		actionDisplay("Connection lost", "", this->list_users[this->_list_connected_user[listnum]]);
-		delete (this->list_users[this->_list_connected_user[listnum]]);
-		// std::cout << std::endl << "Connection lost fd -> " << this->_list_connected_user[listnum] << " slot -> " <<  listnum << std::endl;
-		close(this->_list_connected_user[listnum]);
-		this->_list_connected_user[listnum] = 0;
+		deleteUser(this->list_users[this->_list_connected_user[listnum]]);
+		// delete (this->list_users[this->_list_connected_user[listnum]]);
+		// // std::cout << std::endl << "Connection lost fd -> " << this->_list_connected_user[listnum] << " slot -> " <<  listnum << std::endl;
+		// close(this->_list_connected_user[listnum]);
+		// this->_list_connected_user[listnum] = 0;
 	}
 	else
 	{
@@ -177,7 +191,6 @@ void Server::deal_with_data(int listnum)
 			return;
 		actionDisplay("Attend client", " CMD:" + tokens[0], tmpuser);
 		parseCommands(tokens, tmpuser, listnum);
-
 		std::cout << std::endl << "Received:  " << recived << std::endl;
 		send(this->_list_connected_user[listnum], recived.c_str(), recived.length(), 0);
 		send(this->_list_connected_user[listnum], (char *)"\n", strlen((char *)"\n"), 0);
@@ -196,6 +209,7 @@ void Server::read_socks()
 		if(FD_ISSET(this->_list_connected_user[listnum], &this->reads))
 		{
 			this->list_users[this->_list_connected_user[listnum]]->setTimeZero(getTime());
+			std::cout << "\r";
 			deal_with_data(listnum);
 		}
 	}

@@ -31,7 +31,8 @@ class User
 	private:
 		int					fd;
 		bool				connection_pswd;
-		bool				checked;
+		bool				check_user;
+		bool				check_nick;
 		bool				ping_on;
 		std::string			user;
 		std::string			realName;
@@ -82,6 +83,9 @@ class User
 
 		const bool		&getCheckedUser() const;
 		void			setCheckedUser(bool cu);
+
+        const bool		&getCheckedNick() const;
+		void			setCheckedNick(bool nu);
 
 		const bool		&getPingOn() const;
 		void			setPingOn(bool po);
