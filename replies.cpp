@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   replies.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 13:07:11 by emartin-          #+#    #+#             */
-/*   Updated: 2021/12/10 12:23:49 by emartin-         ###   ########.fr       */
+/*   Updated: 2021/12/20 18:10:54 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "server.hpp"
+#include "channel.hpp"
 
 void	Server::reply_msg(std::string rep, std::string str, User *usr)
 {
@@ -34,13 +35,18 @@ void	Server::reply_msg(std::string rep, std::string str, User *usr)
 //FUTURO MENSAJE DE UN USUARIO A UN CANAL, ITERA POR LOS USUARIOS DENTRO DEL CANAL Y LO ENVIA
 //O RECIBE UN VECTOR DE FD Y ENVIA EL MENSAJE A ESOS FDs
 
-// void	Server::msg_to_channel(std::string msg, std::string str, User *usr)
-// {
-//     std::string error;
+void	Server::msg_to_channel(std::string msg, Channel *chnl, User *usr)
+{
+    std::string     message;
+    it_usr_list     beginUsrList = this->users_on.begin();
+    it_usr_list     endUsrList = this->users_on.end();
+
+    message.append(usr->getNickMask());
+    message.append(" ");
+    message.append(msg);
     
-//     error = ":ft_irc.com " + err + " "  + usr->getNick() + str + "\r\n";
-//     send(usr->getFD(), error.c_str(), error.length(), 0);
-//     std::cout << error << std::endl;
-//     usr->setReply(error);
-// }
+    //RECORRER LOS USUARIOS DENNTRO DEL CANAL ENVIANDO EL MENSAJE A CADA UNO DE ELLOS
+    
+    msg.append("PRIVMSG " + chnl->getName() + " :" + message);
+}
 

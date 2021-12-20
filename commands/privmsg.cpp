@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   privmsg.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javier <javier@student.42.fr>              +#+  +:+       +#+        */
+/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 12:58:34 by javrodri          #+#    #+#             */
-/*   Updated: 2021/12/16 23:14:54 by javier           ###   ########.fr       */
+/*   Updated: 2021/12/20 17:13:25 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,10 @@ void    Server::privmsg(std::vector<std::string> const& tokens, User* usr){
                 destUser = *beginUsrList;
                 break;
             }
+            else if (()){
+                
+                break;
+            }
             else{
                 msg = tokens[1] + " :No such nick/channel";
                 reply_msg(ERR_NOSUCHNICK, msg, usr);
@@ -45,4 +49,4 @@ void    Server::privmsg(std::vector<std::string> const& tokens, User* usr){
         msg.append("PRIVMSG " + usr->getNickMask() + " :" + tokens[2]);
         send(destUser->getFD(), msg.c_str(), msg.length(), 0);
     }
-}
+}   
