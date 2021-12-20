@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 15:09:08 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/19 02:33:42 by nazurmen         ###   ########.fr       */
+/*   Updated: 2021/12/20 18:18:41 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	Server::part_cmmd(std::vector<std::string> const& tokens, User *usr)
 				}
 				(*it)->disconnectUser(usr);
 				usr->leaveChannel(*it);
+				it--;
 			}
 		}
 	}

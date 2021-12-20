@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 14:11:46 by emartin-          #+#    #+#             */
-/*   Updated: 2021/12/16 17:13:47 by nazurmen         ###   ########.fr       */
+/*   Updated: 2021/12/20 18:17:11 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ void signal_kill ( int number )
 {
 	if ( number == SIGINT ) //  number == SIGQUIT || number == SIGTERM???
 	{
-		std::cout << "----- KILLED -----\n";
 		gservptr->~Server();
+		std::cout << "----- KILLED -----\n";
 		exit(EXIT_FAILURE);
 	}
 }

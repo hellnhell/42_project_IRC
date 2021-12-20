@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:50 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/17 15:57:15 by nazurmen         ###   ########.fr       */
+/*   Updated: 2021/12/20 18:23:23 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,10 +194,10 @@ class Server
 		void						setPassNt(std::string psswnt);
 		std::string					getPassNt() const;
 
-		void						user_cmd(std::vector<std::string> const &tokens, User *usr);
-
 		void						removeChannel(Channel *chan);
+		void						deleteUser(User *usr);
 
+		void						user_cmd(std::vector<std::string> const &tokens, User *usr);
 		void						time_cmd(User *usr, int fd_usr);
 		void						privmsg(std::vector<std::string> const& tokens, User* usr);
 		void						nick_cmd(std::vector<std::string> const &tokens, User *usr);

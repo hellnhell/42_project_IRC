@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:52 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/17 15:57:24 by nazurmen         ###   ########.fr       */
+/*   Updated: 2021/12/20 18:23:03 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,22 @@ Server::Server()
 
 Server::~Server()
 {
-	close( this->listening_socket );
-	FD_ZERO( &this->reads );
-	memset( this->_list_connected_user, 0 , sizeof( this->_list_connected_user ) );
-	memset( (char *) &this->server_address, 0 , sizeof( this->server_address ) );
+	close(this->listening_socket);
+	std::map<int, User *>::iterator it = this-> list_users.begin();
+	while (it != this->list_users.end() )
+	{
+		std::cout << "\r";
+		actionDisplay("Connection closed", "", this->list_users[it->first] );
+		delete it->second;
+		close(it->first);
+		FD_CLR(it->first, &this->reads);
+		it++;
+	}
+	this->list_users.clear();
+	close(this->listening_socket);
+	FD_ZERO(&this->reads);
+	memset(this->_list_connected_user, 0 , sizeof( this->_list_connected_user));
+	memset((char *) &this->server_address, 0 , sizeof( this->server_address));
 	std::cout << "Destructor Server\n";
 }
 
@@ -264,3 +276,16 @@ void Server::removeChannel(Channel *channel)
 std::map<int, User *> const &Server::getUsers() const { return list_users; }
 
 std::vector<Channel *> const &Server::getChannels() const { return this->channels; }
+
+void	Server::deleteUser(User *usr) // REVISAR
+{
+	this->users_on.remove(usr);
+	for (int i = 0; i < FD_SETSIZE; i++)
+		if( this->_list_connected_user[i] == usr->getFD())
+			this->_list_connected_user[i] = 0;
+	close (usr->getFD());
+	this->list_users.erase(usr->getFD());
+	actionDisplay("Removed user", usr->getNick(), usr);
+	//Remove el resto de cosas q no se q son
+	delete usr;
+}
