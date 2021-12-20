@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:52 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/16 22:24:38 by nazurmen         ###   ########.fr       */
+/*   Updated: 2021/12/17 15:57:24 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ Server::Server()
 	this->cmd_list.push_back("PRIVMSG");
 	this->cmd_list.push_back("MOTD");
 	this->cmd_list.push_back("NAMES");
+	this->cmd_list.push_back("PART");
 
 }
 
@@ -220,6 +221,10 @@ void Server::deal_with_data(int listnum)
 		else if(tokens[0] == "NAMES" || tokens[0] == "names")
 		{
 			this->names_cmmd(tokens, tmpuser, *this);
+		}
+		else if(tokens[0] == "PART" || tokens[0] == "part")
+		{
+			this->part_cmmd(tokens, tmpuser);
 		}
 
 

@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:50 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/16 22:13:42 by nazurmen         ###   ########.fr       */
+/*   Updated: 2021/12/17 15:57:15 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,8 @@
 
 # define RPL_TIME 					"391"		//"<server> :<string showing server's local time>""
 
+# define NO_ENCUENTRO_EL_REPLY		"420"
+
 class User;
 class Channel;
 
@@ -203,6 +205,7 @@ class Server
 		void						join_cmd(std::vector<std::string> const &tokens, User* usr);
 		void						motd_cmmd(int const & fd);
 		void						names_cmmd(std::vector<std::string> const& tokens, User *usr, Server &Serv);
+		void						part_cmmd(std::vector<std::string> const& tokens, User *usr);
 
 
 		std::map<int, User *>		const &getUsers() const;
