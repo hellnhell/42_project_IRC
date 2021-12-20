@@ -26,9 +26,10 @@ SRCS			= main.cpp \
 					commands/pass.cpp	\
 					commands/time.cpp	\
 					commands/privmsg.cpp \
-					commands/join_cmmd.cpp \
-					commands/names_cmmd.cpp \
+					commands/join.cpp \
+					commands/names.cpp \
 					commands/motd.cpp	\
+					commands/ping-pong.cpp \
 					utils.cpp
 
 OBJS_DIR = objects/

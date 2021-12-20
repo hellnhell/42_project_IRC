@@ -89,7 +89,6 @@ int main(int argc, char **argv)
 		Server server;
 		gservptr = &server; //??
 		int set_read = 0;
-		double i = 0;
 		server.setPassword(psswd);
 		while(1)
 		{
@@ -102,15 +101,14 @@ int main(int argc, char **argv)
 	
 				std::cout << "\r";
 				timerDisplay();
-				server.setPingDiff(i++);
 				server.checkPing();
 				std::cout.flush();
 			}
 			else
 			{
 				server.read_socks();
-				displayDev(&server);
-				i = 0;
+
+				// displayDev(&server);
 			}
 		}
 		return(0);

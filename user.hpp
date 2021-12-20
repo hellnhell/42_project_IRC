@@ -31,6 +31,8 @@ class User
 	private:
 		int					fd;
 		bool				connection_pswd;
+		bool				checked;
+		bool				ping_on;
 		std::string			user;
 		std::string			realName;
 		std::string			nick;
@@ -40,9 +42,11 @@ class User
 		struct sockaddr_in	address;
 
 		std::vector<std::string>		reply;
+		std::vector<Channel*>			channels;
 
-		std::vector<Channel*>		channels;
-
+		uint64_t					t_zero;
+		uint64_t					t_ping;
+		std::string					ping;
 
 
 		User();
@@ -76,6 +80,15 @@ class User
 		bool		getConnectionPswd() const;
 		void		setConnectionPswd(bool cp);
 
+		const bool		&getCheckedUser() const;
+		void			setCheckedUser(bool cu);
+
+		const bool		&getPingOn() const;
+		void			setPingOn(bool po);
+
+		const std::string 	&getPing() const;
+		void				setPing(std::string p);
+
 		std::string	getReply();
 		void		setReply(std::string const &msg);
 
@@ -85,6 +98,12 @@ class User
 		void		leaveChannel(Channel *channel);
 
 		std::vector<Channel*> const		&getChannels() { return this->channels; }
+
+		const uint64_t		&getTimeZero() const;
+		void				setTimeZero(uint64_t const & time_zero);
+		
+		const uint64_t		&getTimePing() const;
+		void				setTimePing(uint64_t const & time_ping);
 
 };
 

@@ -31,3 +31,11 @@ void	timerDisplay()
 		<< PINK<< std::setw(2) << ltm.tm_sec  << " - "
 		<< WHITE << std::setfill(' ') << std::setw(5);
 }
+
+uint64_t	getTime(void)
+{
+	static struct timeval	st;
+
+	gettimeofday(&st, NULL);
+	return ((st.tv_sec * (uint64_t)1000) + (st.tv_usec / 1000));
+}

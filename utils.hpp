@@ -6,11 +6,7 @@
 /*   By: javier <javier@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 14:04:23 by emartin-          #+#    #+#             */
-<<<<<<< HEAD
 /*   Updated: 2021/12/10 14:18:48 by emartin-         ###   ########.fr       */
-=======
-/*   Updated: 2021/12/16 23:14:02 by javier           ###   ########.fr       */
->>>>>>> origin/javier
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +63,8 @@ class User;
 void						timerDisplay( void );
 void						actionDisplay(std::string const &action, std::string const &cmd, User *usr);
 // void						displayDev(Server *serv);
+uint64_t	                getTime(void);
+
 
 
 #endif

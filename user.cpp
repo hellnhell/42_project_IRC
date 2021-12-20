@@ -17,8 +17,11 @@ User::User(int &_fd, struct sockaddr_in const &client_addr) : fd(_fd)
 	this->nick = "";
 	this->password = "";
 	this->realName = "";
+	this->t_ping = 10000;
+	this->ping_on = false;
 	this->address = client_addr;
 	this->connection_pswd = 0;
+	this->checked = false;
 	std::cout << "User created with fd: " << this->fd  <<std::endl;
 	user_modes_init(&this->modes);
 	this->address = client_addr;
@@ -76,6 +79,10 @@ void User::setModes(int modes)
 bool	User::getConnectionPswd() const { return (this->connection_pswd); }
 void	User::setConnectionPswd(bool cp) { this->connection_pswd = cp; }
 
+
+const bool	&User::getCheckedUser() const { return (this->checked); }
+void		User::setCheckedUser(bool cu) { this->checked = cu; }
+
 void 			User::setReply(std::string const &msg) { this->reply.push_back(msg); }
 std::string 	User::getReply()
 {
@@ -112,3 +119,15 @@ void User::leaveChannel(Channel *channel)
 		}
 	}
 }
+
+const uint64_t		&User::getTimeZero() const { return this->t_zero; }
+void				User::setTimeZero(uint64_t const & time_zero) { this->t_zero = time_zero; }
+
+const uint64_t		&User::getTimePing() const { return this->t_ping; }
+void				User::setTimePing(uint64_t const & time_ping) { this->t_ping = time_ping; }
+
+const bool			&User::getPingOn() const { return (this->ping_on); }
+void				User::setPingOn(bool po) { this->ping_on = po; }
+
+const std::string 	&User::getPing() const { return this->ping; }
+void				User::setPing(std::string p) { this->ping = p; };

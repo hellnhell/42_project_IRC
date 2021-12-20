@@ -14,8 +14,7 @@
 
 void    Server::parseCommands(std::vector<std::string> const &tokens, User *usr, int fd)
 {
-		// this->setPingEnd(clock());
-		// this->setPingDiff(0);
+		std::cout << "eeeeeeeeeeeeeeiiiiiiiiiinnnnnnnns" << std::endl;
     	if(tokens[0] == "USER" || tokens[0] == "user")
 		{
 			usr = this->list_users[this->_list_connected_user[fd]];
@@ -47,9 +46,9 @@ void    Server::parseCommands(std::vector<std::string> const &tokens, User *usr,
 		else if(tokens[0] == "MOTD" || tokens[0] == "motd")
 			this->motd_cmmd(fd);
 		else if(tokens[0] == "NAMES" || tokens[0] == "names")
-			this->names_cmmd(tokens, usr);
-		// else if(tokens[0] == "QUIT" || tokens[0] == "quit")
-		// 	this->quit_cmmd(tokens, usr);
+			this->names_cmmd(tokens, usr, *this);
+		else if(tokens[0] == "PONG" || tokens[0] == "pong")
+		 	this->pong_cmmd(tokens, usr);
         else
 		    reply_msg(ERR_UNKNOWNCOMMAND, tokens[0] + " :Unkown command", usr); //return?
 }

@@ -135,6 +135,7 @@ void Server::handle_new_connection()
 				this->list_users[connection]->setConnectionPswd(1);
 			else
 				this->list_users[connection]->setConnectionPswd(0);
+			this->list_users[this->_list_connected_user[listnum]]->setTimeZero(getTime());
 			// printf("Connection accepted: fd=%d Slot=%lu\n", connection, listnum);
 			actionDisplay("Connection accepted", "", list_users[connection]);
 			connection = -1;
@@ -177,7 +178,6 @@ void Server::deal_with_data(int listnum)
 		actionDisplay("Attend client", " CMD:" + tokens[0], tmpuser);
 		parseCommands(tokens, tmpuser, listnum);
 
-
 		std::cout << std::endl << "Received:  " << recived << std::endl;
 		send(this->_list_connected_user[listnum], recived.c_str(), recived.length(), 0);
 		send(this->_list_connected_user[listnum], (char *)"\n", strlen((char *)"\n"), 0);
@@ -194,16 +194,11 @@ void Server::read_socks()
 	for(size_t listnum = 0; listnum < FD_SETSIZE; listnum++)
 	{
 		if(FD_ISSET(this->_list_connected_user[listnum], &this->reads))
+		{
+			this->list_users[this->_list_connected_user[listnum]]->setTimeZero(getTime());
 			deal_with_data(listnum);
+		}
 	}
-}
-
-void Server::removeChannel(Channel *channel)
-{
-	std::vector<Channel *>::iterator it;
-	it = std::find(this->channels.begin(), this->channels.end(), channel);
-	if (it != this->channels.end())
-		this->channels.erase(it);
 }
 
 
@@ -215,12 +210,6 @@ std::string	Server::getPassword() const { return this->password; };
 std::map<int, User *> const& Server::getUsers() const { return this->list_users; }
 std::vector<Channel *> const& Server::getChannels() const { return this->channels; }
 
-void						Server::setPingStart(time_t ping_s) { this->ping_start = ping_s; }
-time_t						Server::getPingStart() { return this->ping_start; }
-void						Server::setPingEnd(time_t ping_e) { this->ping_end = ping_e; }
-time_t						Server::getPingEnd() { return this->ping_end; }
-void						Server::setPingDiff(double diff) { this->ping_diff = diff; }
-double	const				&Server::getPingDiff() const { return this->ping_diff; }
 
 void Server::removeChannel(Channel *channel)
 {
@@ -230,7 +219,15 @@ void Server::removeChannel(Channel *channel)
 		this->channels.erase(it);
 }
 
-
-std::map<int, User *> const &Server::getUsers() const { return list_users; }
-
-std::vector<Channel *> const &Server::getChannels() const { return this->channels; }
+void	Server::deleteUser(User *usr) // REVISAR
+{
+	this->users_on.remove(usr);
+	for (int i = 0; i < FD_SETSIZE; i++)
+		if( this->_list_connected_user[i] == usr->getFD())
+			this->_list_connected_user[i] = 0;
+	close (usr->getFD());
+	this->list_users.erase(usr->getFD());
+	actionDisplay("Removed user", usr->getNick(), usr);
+	//Remove el resto de cosas q no se q son
+	delete usr;
+}

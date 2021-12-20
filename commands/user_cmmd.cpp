@@ -32,6 +32,8 @@ void Server::user_cmmd(std::vector<std::string> const &tokens, User *usr)
 		usr->setRealName(tokens[4]);
 	}
 	actionDisplay("User created", "", usr);
+	usr->setCheckedUser(true);
+	usr->setTimePing(0);
 	this->users_on.push_back(usr);
 	// std::cout << std::endl << "User:  " << usr->getUser() << "\nmodes:" << usr->getModes() << "\nReal name: " << usr->getRealName() << std::endl;
 }

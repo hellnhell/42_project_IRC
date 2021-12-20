@@ -281,11 +281,12 @@ class Server
 		void						setPassword(std::string psswd);
 		std::string					getPassword() const;
 
+
 		std::map<int, User *> 		const &getUsers() const;
 		std::vector<Channel *>      const &getChannels() const;
  		void 						removeChannel(Channel *channel);
 
-
+		void						deleteUser(User *usr);
 
 		void						user_cmmd(std::vector<std::string> const &tokens, User *usr);
 
@@ -297,15 +298,9 @@ class Server
 		void						motd_cmmd(int const & fd);
 		void 						names_cmmd( std::vector<std::string> const &tokens, User *usr, Server &serv);
 		void 					   	quit_cmmd(std::vector<std::string> const &tokens, User *usr); //Solo empezado
-		// void   						ping_cmmd(std::vector<std::string> const &tokens, User *usr);
+		void   						pong_cmmd(std::vector<std::string> const &tokens, User *usr);
 		
 		void						checkPing();
-		void						setPingStart(time_t ping_s);
-		time_t						getPingStart();
-		void						setPingEnd(time_t ping_e);
-		time_t						getPingEnd();
-		void						setPingDiff(double diff);
-		double const				&getPingDiff() const;
 
 
 
