@@ -27,16 +27,16 @@ void Server::nick_cmmd(std::vector<std::string> const &tokens, User *usr)
 	std::map<int, User*>::iterator it;
 
 	if (!usr->getConnectionPswd()) //No se si es necesario
-        return reply_msg(ERR_PASSWDMISMATCH ,"Password mismatch", usr);
+        reply_msg(ERR_PASSWDMISMATCH ,"Password mismatch", usr);
 	if(tokens.size() != 2)
-		return reply_msg(ERR_NONICKNAMEGIVEN, ": No nickname given", usr);
+		reply_msg(ERR_NONICKNAMEGIVEN, ": No nickname given", usr);
 	if(tokens[1] == usr->getNick())
-		return reply_msg(ERR_NICKNAMEINUSE, tokens[1] + "Unauthorized command (already registered)", usr);
+		reply_msg(ERR_NICKNAMEINUSE, tokens[1] + "Unauthorized command (already registered)", usr);
 	if(tokens[1].size() > 9)
-		return reply_msg(ERR_ERRONEUSNICKNAME, tokens[1] + " Erroneus nickname", usr);
+		reply_msg(ERR_ERRONEUSNICKNAME, tokens[1] + " Erroneus nickname", usr);
 	if(tokens[1][0] == '-' ||
 		tokens[1].find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789`|^_-{}[]\\") != std::string::npos)
-		return reply_msg(ERR_ERRONEUSNICKNAME, tokens[1] + " Erroneus nickname", usr);
+		reply_msg(ERR_ERRONEUSNICKNAME, tokens[1] + " Erroneus nickname", usr);
 
 	for(it = this->list_users.begin(); it != this->list_users.end(); it++)
 	{

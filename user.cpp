@@ -17,12 +17,13 @@ User::User(int &_fd, struct sockaddr_in const &client_addr) : fd(_fd)
 	// this->nick = "";
 	// this->password = "";
 	// this->realName = "";
-	this->t_ping = 20000;
+	this->t_ping = 10000;
 	this->ping_on = false;
 	this->address = client_addr;
 	this->connection_pswd = 0;
 	this->check_user = false;
 	this->check_nick = false;
+	this->check_regist = false;
 	std::cout << "User created with fd: " << this->fd  <<std::endl;
 	user_modes_init(&this->modes);
 	this->address = client_addr;
@@ -86,6 +87,13 @@ void		User::setCheckedUser(bool cu) { this->check_user = cu; }
 
 const bool	&User::getCheckedNick() const { return (this->check_nick); }
 void		User::setCheckedNick(bool nu) { this->check_nick = nu; }
+
+bool	&User::getCheckedRegist()
+{ 
+    if (getCheckedNick() && getCheckedUser())
+        this->check_regist = true;    
+    return this->check_regist; 
+}
 
 void 			User::setReply(std::string const &msg) { this->reply.push_back(msg); }
 std::string 	User::getReply()

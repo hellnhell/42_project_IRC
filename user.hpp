@@ -33,6 +33,7 @@ class User
 		bool				connection_pswd;
 		bool				check_user;
 		bool				check_nick;
+        bool                check_regist;
 		bool				ping_on;
 		std::string			user;
 		std::string			realName;
@@ -86,6 +87,8 @@ class User
 
         const bool		&getCheckedNick() const;
 		void			setCheckedNick(bool nu);
+
+        bool		&getCheckedRegist();
 
 		const bool		&getPingOn() const;
 		void			setPingOn(bool po);

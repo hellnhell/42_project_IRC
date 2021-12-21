@@ -14,6 +14,8 @@
 
 void Server::user_cmmd(std::vector<std::string> const &tokens, User *usr)
 {
+    //Salen todos los mensajes de error??
+    
 	if (!usr->getConnectionPswd())
 		 reply_msg(ERR_PASSWDMISMATCH, "Password mismatch", usr); //NO se si es necesario 
 		//return
