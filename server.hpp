@@ -6,7 +6,7 @@
 /*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:50 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/20 17:14:44 by javrodri         ###   ########.fr       */
+/*   Updated: 2021/12/21 11:54:24 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,9 @@
 class User;
 class Channel;
 
+typedef std::list<std::string>::iterator	it_str_list;
+typedef std::list<User *>::iterator			it_usr_list;
+
 class Server
 {
 	private:
@@ -186,7 +189,7 @@ class Server
 		std::vector<std::string>	parse_message(std::string buffer);
 		void						error_msg(std::string err, std::string str, User *usr);
 		void						reply_msg(std::string rep, std::string str, User *usr);
-		void						msg_to_channel(std::string msg, Channel *chnl, User *usr);
+		void						msg_to_channel(std::string msg,  User *usr, Channel *chnl);
 
 
 		void						display();

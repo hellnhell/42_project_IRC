@@ -6,7 +6,7 @@
 /*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 12:58:34 by javrodri          #+#    #+#             */
-/*   Updated: 2021/12/20 17:13:25 by javrodri         ###   ########.fr       */
+/*   Updated: 2021/12/21 13:01:11 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,9 @@ void    Server::privmsg(std::vector<std::string> const& tokens, User* usr){
                 destUser = *beginUsrList;
                 break;
             }
-            else if (()){
-                
+            else if (tokenDest[0] == '#' || tokenDest[0] == '&' || tokenDest[0] == '!' || tokenDest[0] == '+'){
+                for(;)
+                msg_to_channel(destChannel)
                 break;
             }
             else{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javier <javier@student.42.fr>              +#+  +:+       +#+        */
+/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:34 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/16 23:15:20 by javier           ###   ########.fr       */
+/*   Updated: 2021/12/21 12:43:56 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,7 +232,7 @@ unsigned int Channel::getCurrentUsers() const
 	return _current_users;
 }
 
-std::vector<User *> const &Channel::getUsers() const
+std::vector<User *> &Channel::getUsers()
 {
 	return _users;
 }

@@ -6,7 +6,7 @@
 /*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 13:07:11 by emartin-          #+#    #+#             */
-/*   Updated: 2021/12/20 18:10:54 by javrodri         ###   ########.fr       */
+/*   Updated: 2021/12/21 12:39:51 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,17 @@ void	Server::reply_msg(std::string rep, std::string str, User *usr)
 //FUTURO MENSAJE DE UN USUARIO A UN CANAL, ITERA POR LOS USUARIOS DENTRO DEL CANAL Y LO ENVIA
 //O RECIBE UN VECTOR DE FD Y ENVIA EL MENSAJE A ESOS FDs
 
-void	Server::msg_to_channel(std::string msg, Channel *chnl, User *usr)
+void	Server::msg_to_channel(std::string msg,  User *usr, Channel *chnl)
 {
     std::string     message;
-    it_usr_list     beginUsrList = this->users_on.begin();
-    it_usr_list     endUsrList = this->users_on.end();
+    it_usr_list_chnl     beginChnlUsrList = chnl->getUsers().begin();
+    it_usr_list_chnl     endChnlUsrList = chnl->getUsers().end();
+
+    // typedef std::vector<User*>::iterator it_user;
+
+
+	// it_user start = chnl->getUsers().begin();
+	// it_user end = chnl->getUsers().end();
 
     message.append(usr->getNickMask());
     message.append(" ");
@@ -48,5 +54,7 @@ void	Server::msg_to_channel(std::string msg, Channel *chnl, User *usr)
     //RECORRER LOS USUARIOS DENNTRO DEL CANAL ENVIANDO EL MENSAJE A CADA UNO DE ELLOS
     
     msg.append("PRIVMSG " + chnl->getName() + " :" + message);
+    // for (;beginChnlUsrList != endChnlUsrList; ++beginChnlUsrList){
+    //     send(beginChnlUsrList. , msg.c_str(), msg.length(), 0);
+    // }
 }
-

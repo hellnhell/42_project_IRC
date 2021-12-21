@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javier <javier@student.42.fr>              +#+  +:+       +#+        */
+/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:47 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/16 23:06:23 by javier           ###   ########.fr       */
+/*   Updated: 2021/12/21 12:44:02 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ class Server;
 //       2 -> + modeless channel
 //       3 -> ! timestamped channel en no timestamped network
 
-typedef std::list<std::string>::iterator	it_str_list;
-typedef std::list<User *>::iterator			it_usr_list;
+typedef std::vector<std::string>::iterator	it_str_list_chnl;
+typedef std::vector<User *>::iterator			it_usr_list_chnl;
 
 typedef struct s_modes
 {
@@ -99,7 +99,7 @@ class Channel
 		std::string				getTopic() const;
 		unsigned int			getMaxUsers() const;
 		unsigned int			getCurrentUsers() const;
-		std::vector<User *>		const &getUsers() const;
+		std::vector<User *>		&getUsers();
 		std::vector<User *>		const &getOps() const;
 		std::vector<User *>		const &getBans() const;
 };
