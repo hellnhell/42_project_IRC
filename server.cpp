@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:52 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/20 18:23:03 by nazurmen         ###   ########.fr       */
+/*   Updated: 2021/12/23 17:27:36 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ Server::Server()
 	this->cmd_list.push_back("MOTD");
 	this->cmd_list.push_back("NAMES");
 	this->cmd_list.push_back("PART");
+	this->cmd_list.push_back("TOPIC");
 
 }
 
@@ -238,6 +239,10 @@ void Server::deal_with_data(int listnum)
 		{
 			this->part_cmmd(tokens, tmpuser);
 		}
+		else if(tokens[0] == "TOPIC" || tokens[0] == "topic")
+		{
+			this->topic_cmmd(tokens, tmpuser, *this);
+		}
 
 
 
@@ -288,4 +293,12 @@ void	Server::deleteUser(User *usr) // REVISAR
 	actionDisplay("Removed user", usr->getNick(), usr);
 	//Remove el resto de cosas q no se q son
 	delete usr;
+}
+
+//Channel *Server::getChannel(std::string name) const
+Channel * const &Server::getChannel(std::string name) const
+{
+	std::vector<Channel *>::const_iterator it;
+	it = std::find_if(this->channels.begin(), this->channels.end(), [&name](Channel *c) { return c->getName() == name; });
+	return *it;
 }

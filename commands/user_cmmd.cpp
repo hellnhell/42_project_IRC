@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   user_cmmd.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 12:35:45 by emartin-          #+#    #+#             */
-/*   Updated: 2021/12/10 10:35:45 by javrodri         ###   ########.fr       */
+/*   Updated: 2021/12/20 18:44:59 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void Server::user_cmd(std::vector<std::string> const &tokens, User *usr)
 {
 	if (!usr->getConnectionPswd())
-		return reply_msg(ERR_PASSWDMISMATCH, "Password mismatch", usr); //NO se si es necesario 
+		return reply_msg(ERR_PASSWDMISMATCH, "Password mismatch", usr); //NO se si es necesario
 	if(tokens.size() < 5)
 		return reply_msg(ERR_NEEDMOREPARAMS, tokens[0] + ": Not enough parameters", usr);
 	if(usr->getUser()[0])

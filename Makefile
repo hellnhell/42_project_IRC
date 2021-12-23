@@ -6,7 +6,7 @@
 #    By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/22 11:59:14 by emartin-          #+#    #+#              #
-#    Updated: 2021/12/17 15:54:24 by nazurmen         ###   ########.fr        #
+#    Updated: 2021/12/20 18:40:44 by nazurmen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ SRCS			= main.cpp \
 					commands/names_cmmd.cpp \
 					commands/motd.cpp	\
 					commands/part_cmmd.cpp	\
+					commands/topic_cmmd.cpp	\
 					utils.cpp
 
 OBJS_DIR = objects/

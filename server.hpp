@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:50 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/20 18:23:23 by nazurmen         ###   ########.fr       */
+/*   Updated: 2021/12/23 06:10:49 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,8 @@
 # define RPL_MOTDSTART				"375"
 # define RPL_ENDOFMOTD				"376"
 
+# define RPL_TOPIC					"332"
+
 # define RPL_TIME 					"391"		//"<server> :<string showing server's local time>""
 
 # define NO_ENCUENTRO_EL_REPLY		"420"
@@ -206,10 +208,13 @@ class Server
 		void						motd_cmmd(int const & fd);
 		void						names_cmmd(std::vector<std::string> const& tokens, User *usr, Server &Serv);
 		void						part_cmmd(std::vector<std::string> const& tokens, User *usr);
+		void						topic_cmmd(std::vector<std::string> const& tokens, User *usr, Server &Serv);
 
 
 		std::map<int, User *>		const &getUsers() const;
 		std::vector<Channel *>		const &getChannels() const;
+		Channel * const &getChannel(std::string name) const;
+//		Channel						*getChannel(std::string name) const;
 
 
 
