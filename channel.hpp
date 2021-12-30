@@ -6,7 +6,7 @@
 /*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:47 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/21 12:44:02 by javrodri         ###   ########.fr       */
+/*   Updated: 2021/12/29 18:27:24 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ class Channel
 		std::string				getTopic() const;
 		unsigned int			getMaxUsers() const;
 		unsigned int			getCurrentUsers() const;
-		std::vector<User *>		&getUsers();
+		std::vector<User *>		const &getUsers() const;
 		std::vector<User *>		const &getOps() const;
 		std::vector<User *>		const &getBans() const;
 };

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: javier <javier@student.42.fr>              +#+  +:+       +#+         #
+#    By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/22 11:59:14 by emartin-          #+#    #+#              #
-#    Updated: 2021/12/16 23:09:06 by javier           ###   ########.fr        #
+#    Updated: 2021/12/29 12:04:22 by javrodri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ OBJS = $(addprefix $(OBJS_DIR), $(OBJ))
 
 CC				= clang++
 RM				= rm -rf
-CFLAGS			= -g3 -std=c++98 -fsanitize=address -Wall -Wextra -Werror -I.
+CFLAGS			= -g3 -std=c++98 -Wall -Wextra -Werror -I.
 
 $(OBJS_DIR)%.o : $(SRCS_DIR)%.cpp
 	@mkdir -p $(OBJS_DIR) $(OBJS_DIR)commands/

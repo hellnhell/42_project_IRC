@@ -6,7 +6,7 @@
 /*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:34 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/21 12:43:56 by javrodri         ###   ########.fr       */
+/*   Updated: 2021/12/29 18:26:56 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,7 +232,7 @@ unsigned int Channel::getCurrentUsers() const
 	return _current_users;
 }
 
-std::vector<User *> &Channel::getUsers()
+std::vector<User *> const &Channel::getUsers() const
 {
 	return _users;
 }

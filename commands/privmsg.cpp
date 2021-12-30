@@ -6,7 +6,7 @@
 /*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 12:58:34 by javrodri          #+#    #+#             */
-/*   Updated: 2021/12/21 13:01:11 by javrodri         ###   ########.fr       */
+/*   Updated: 2021/12/29 09:32:05 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ void    Server::privmsg(std::vector<std::string> const& tokens, User* usr){
                 break;
             }
             else if (tokenDest[0] == '#' || tokenDest[0] == '&' || tokenDest[0] == '!' || tokenDest[0] == '+'){
-                for(;)
-                msg_to_channel(destChannel)
-                break;
+                std::cout << "AQUII" << std::endl;
+                msg_to_channel(tokens[2], usr, destChannel);
+                return;
             }
             else{
                 msg = tokens[1] + " :No such nick/channel";
@@ -50,4 +50,5 @@ void    Server::privmsg(std::vector<std::string> const& tokens, User* usr){
         msg.append("PRIVMSG " + usr->getNickMask() + " :" + tokens[2]);
         send(destUser->getFD(), msg.c_str(), msg.length(), 0);
     }
-}   
+}
+

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javier <javier@student.42.fr>              +#+  +:+       +#+        */
+/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 14:11:46 by emartin-          #+#    #+#             */
-/*   Updated: 2021/12/16 23:08:16 by javier           ###   ########.fr       */
+/*   Updated: 2021/12/29 12:41:18 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ void displayDev(Server *serv)
 	{
 		std::cout << "Socket: " << it->first << "\tIP: " << it->second->getClientAdd() << "\tUser: " << it->second->getUser() << "\n";
 	}
-
-
 	std::cout << "Channels: " << serv->getChannels().size() << std::endl;
 	std::vector<Channel *>::const_iterator it2;
 	std::vector<User *>::const_iterator it3;
@@ -40,7 +38,6 @@ void displayDev(Server *serv)
 		}
 	}
 }
-
 
 int	getPort(std::string str)
 {

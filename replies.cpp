@@ -6,7 +6,7 @@
 /*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 13:07:11 by emartin-          #+#    #+#             */
-/*   Updated: 2021/12/21 12:39:51 by javrodri         ###   ########.fr       */
+/*   Updated: 2021/12/29 20:16:22 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,23 +38,36 @@ void	Server::reply_msg(std::string rep, std::string str, User *usr)
 void	Server::msg_to_channel(std::string msg,  User *usr, Channel *chnl)
 {
     std::string     message;
-    it_usr_list_chnl     beginChnlUsrList = chnl->getUsers().begin();
-    it_usr_list_chnl     endChnlUsrList = chnl->getUsers().end();
+    // it_usr_list_chnl     beginChnlUsrList = chnl->getUsers().begin();
+    // it_usr_list_chnl     endChnlUsrList = chnl->getUsers().end();
 
-    // typedef std::vector<User*>::iterator it_user;
+    std::vector<User *>::const_iterator it2;
+    std::vector<User *>::const_iterator it3;
 
-
+    it2 = chnl->getUsers().begin();
+    it3 = chnl->getUsers().end();
+    
 	// it_user start = chnl->getUsers().begin();
 	// it_user end = chnl->getUsers().end();
+    
+    // std::cout << "AQUII" << std::endl;
+    // std::cout << " " << (*beginChnlUsrList)->getFD() << std::endl;
 
-    message.append(usr->getNickMask());
-    message.append(" ");
-    message.append(msg);
+    // message.append(usr->getNickMask());
+    // message.append(" ");
+    // message.append(msg);
     
     //RECORRER LOS USUARIOS DENNTRO DEL CANAL ENVIANDO EL MENSAJE A CADA UNO DE ELLOS
     
-    msg.append("PRIVMSG " + chnl->getName() + " :" + message);
+    message = "PRIVMSG :" + msg;
+    std::cout << message << std::endl;
+    std::cout << chnl->getName() << std::endl;
+
     // for (;beginChnlUsrList != endChnlUsrList; ++beginChnlUsrList){
-    //     send(beginChnlUsrList. , msg.c_str(), msg.length(), 0);
+    //     send((*beginChnlUsrList)->getFD(), msg.c_str(), msg.length(), 0);
     // }
+
+    for (;it2 != it3; ++it2){
+        send((*it2)->getFD(), message.c_str(), message.length(), 0);
+    }
 }
