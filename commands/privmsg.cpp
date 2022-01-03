@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   privmsg.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: javier <javier@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 12:58:34 by javrodri          #+#    #+#             */
-/*   Updated: 2021/12/29 09:32:05 by javrodri         ###   ########.fr       */
+/*   Updated: 2021/12/30 20:20:55 by javier           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,12 @@ void    Server::privmsg(std::vector<std::string> const& tokens, User* usr){
     
     it_usr_list     beginUsrList = this->users_on.begin();
     it_usr_list     endUsrList = this->users_on.end();
+    
+    std::vector<Channel *>::const_iterator it2;
+    std::vector<Channel *>::const_iterator it3;
+
+    it2 = this->getChannels().begin();
+    it3 = this->getChannels().end();
     std::string     msg;
     // std::cout << "tokens.size(): " << tokens.size() << "\n" << std::cout;
     if (tokens.size() > 3)
@@ -28,23 +34,39 @@ void    Server::privmsg(std::vector<std::string> const& tokens, User* usr){
         reply_msg(ERR_NORECIPIENT, ":No recipient given(privmsg)", usr);
     else{
         tokenDest = tokens[1];
-        for(;beginUsrList != endUsrList; ++beginUsrList){
-            if ((*beginUsrList)->getNick() == tokenDest){
-                destUser = *beginUsrList;
-                break;
-            }
-            else if ((*beginUsrList)->getNickMask() == tokenDest){
-                destUser = *beginUsrList;
-                break;
-            }
-            else if (tokenDest[0] == '#' || tokenDest[0] == '&' || tokenDest[0] == '!' || tokenDest[0] == '+'){
+        if (tokenDest[0] == '#' || tokenDest[0] == '&' || tokenDest[0] == '!' || tokenDest[0] == '+'){
                 std::cout << "AQUII" << std::endl;
-                msg_to_channel(tokens[2], usr, destChannel);
-                return;
-            }
-            else{
-                msg = tokens[1] + " :No such nick/channel";
-                reply_msg(ERR_NOSUCHNICK, msg, usr);
+                for (;it2 != it3; ++it2){
+                    if ((*it2)->getName() == tokenDest){
+                        destChannel = *it2;
+                        msg_to_channel(tokens[2], usr, destChannel);
+                        break;
+                    }
+                    else{
+                        msg = tokens[1] + " :No such nick/channel";
+                        reply_msg(ERR_NOSUCHNICK, msg, usr);
+                    }
+                }
+        }
+        else{
+            for(;beginUsrList != endUsrList; ++beginUsrList){
+                if ((*beginUsrList)->getNick() == tokenDest){
+                    destUser = *beginUsrList;
+                    break;
+                }
+                else if ((*beginUsrList)->getNickMask() == tokenDest){
+                    destUser = *beginUsrList;
+                    break;
+                }
+                else if (tokenDest[0] == '#' || tokenDest[0] == '&' || tokenDest[0] == '!' || tokenDest[0] == '+'){
+                    std::cout << "AQUII" << std::endl;
+                    msg_to_channel(tokens[2], usr, destChannel);
+                    return;
+                }
+                else{
+                    msg = tokens[1] + " :No such nick/channel";
+                    reply_msg(ERR_NOSUCHNICK, msg, usr);
+                }
             }
         }
         msg.append("PRIVMSG " + usr->getNickMask() + " :" + tokens[2]);
