@@ -93,8 +93,8 @@ int main(int argc, char **argv)
 		while(1)
 		{
 			signal(SIGINT, signal_kill);
-			server.build_select_list();
-			if((set_read = server.get_read_socks()) < 0)
+			server.buildSelectList();
+			if((set_read = server.getReadSocks()) < 0)
 				throw Server::ServerException();
 			if(set_read == 0)
 			{
@@ -105,7 +105,7 @@ int main(int argc, char **argv)
 			}
 			else
 			{
-				server.read_socks();
+				server.readSocks();
 				// displayDev(&server);
 			}
 		}

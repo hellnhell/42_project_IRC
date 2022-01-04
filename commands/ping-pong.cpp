@@ -17,9 +17,9 @@ void    Server::checkPing()
 			 && (getTime() - usr->getTimeZero() > usr->getTimePing() + 10000))
 			{
 				if (usr->getPingOn() && !usr->getCheckedRegist())
-					reply_msg("ERROR :Registration timeout ", " [Connection aborted]", usr);
+					replyMsg("ERROR :Registration timeout ", " [Connection aborted]", usr);
 				else
-					reply_msg("ERROR :Ping timeout ", " [Connection aborted]", usr);
+					replyMsg("ERROR :Ping timeout ", " [Connection aborted]", usr);
 		  		actionDisplay("Connection lost", "", usr);
 				this->deleteUser(usr);
 				return ;
@@ -31,7 +31,6 @@ void    Server::checkPing()
 				pingpass = usr->getPing() + "\n";
 				send(usr->getFD(),"PING ", strlen("PING "), 0);
 				send(usr->getFD(),pingpass.c_str(), pingpass.length(), 0);
-				std::cout << "\r";
 				actionDisplay("Pinged", "", usr);
 			}
 		}
@@ -39,11 +38,7 @@ void    Server::checkPing()
 	}
 }
 
-// 4
-
-
-//UNo como comando y uno como control??
-void    Server::pong_cmmd(std::vector<std::string> const &tokens, User *usr)
+void    Server::pongCmmd(std::vector<std::string> const &tokens, User *usr)
 {
 	if (tokens.size() > 1 && tokens[1] == usr->getPing())
 	{
@@ -53,7 +48,7 @@ void    Server::pong_cmmd(std::vector<std::string> const &tokens, User *usr)
 	}
 	else
 	{
-		reply_msg("ERROR :Wrong reply, sorry! ", " [Connection aborted]", usr);
+		replyMsg("ERROR :Wrong reply, sorry! ", " [Connection aborted]", usr);
 		deleteUser(usr);
 	}
 }

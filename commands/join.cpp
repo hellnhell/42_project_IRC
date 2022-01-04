@@ -19,7 +19,7 @@ static bool checkIfChannel(const std::string &str)
 	return false;
 }
 
-void Server::join_cmmd(std::vector<std::string> const &tokens, User* usr)
+void Server::joinCmmd(std::vector<std::string> const &tokens, User* usr)
 {
 std::cout << "join_cmd\n\n\n\n" << std::endl;
 	size_t i = 1;

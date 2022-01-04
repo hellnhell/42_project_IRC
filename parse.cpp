@@ -14,54 +14,55 @@
 
 void    Server::parseCommands(std::vector<std::string> const &tokens, User *usr, int fd)
 {
-    
+	
 	if (!usr->getCheckedRegist())
 	{
 		if(tokens[0] == "USER" || tokens[0] == "user")
 		{
-			usr = this->list_users[this->_list_connected_user[fd]]; //Hace falta abajo??
-			this->user_cmmd(tokens, usr);
+			usr = this->list_users[this->_list_connected_user[fd]];
+			return this->userCmmd(tokens, usr);
 		}
 		else if(tokens[0] == "NICK" || tokens[0] == "nick")
 		{
 			usr = this->list_users[this->_list_connected_user[fd]];
-			this->nick_cmmd(tokens, usr);
+			return this->nickCmmd(tokens, usr);
 		}
 		else if(tokens[0] == "PASS" || tokens[0] == "pass")
-			this->pass_cmmd(tokens, usr);
-        else if((tokens[0] == "PONG" || tokens[0] == "pong"))
-	        this->pong_cmmd(tokens, usr);
+			return this->passCmmd(tokens, usr);
+		else if((tokens[0] == "PONG" || tokens[0] == "pong"))
+			return this->pongCmmd(tokens, usr);
 		else
-			reply_msg(ERR_NOTREGISTERED, ":You should enter <USER> and <NICK> command to register", usr);
+			return replyMsg(ERR_NOTREGISTERED, ":You should enter <USER> and <NICK> command to register", usr);  
 	}
 	else if (usr->getCheckedRegist())
 	{
 		if(tokens[0] == "USER" || tokens[0] == "user")
-			this->user_cmmd(tokens, usr);
+			return this->userCmmd(tokens, usr);
 		else if(tokens[0] == "NICK" || tokens[0] == "nick")
-			this->nick_cmmd(tokens, usr);
+			return this->nickCmmd(tokens, usr);
 		else if(tokens[0] == "PASS" || tokens[0] == "pass")
-			this->pass_cmmd(tokens, usr);
+			return this->passCmmd(tokens, usr);
 		else if(tokens[0] == "PRIVMSG" || tokens[0] == "PRIVMSG")
-			this->privmsg_cmmd(tokens, usr);
+			return this->privmsgCmmd(tokens, usr);
 		else if(tokens[0] == "TIME" || tokens[0] == "time")
-			this->time_cmmd(usr, this->_list_connected_user[fd]);
+			return this->timeCmmd(usr, this->_list_connected_user[fd]);
 		else if(tokens[0] == "JOIN" || tokens[0] == "join")
-			this->join_cmmd(tokens, usr);
+			return this->joinCmmd(tokens, usr);
 		else if(tokens[0] == "MOTD" || tokens[0] == "motd")
-			this->motd_cmmd(fd);
+			return this->motdCmmd(fd);
 		else if(tokens[0] == "NAMES" || tokens[0] == "names")
-			this->names_cmmd(tokens, usr, *this);
+			return this->namesCmmd(tokens, usr, *this);
 		else if(tokens[0] == "PONG" || tokens[0] == "pong")
-		 	this->pong_cmmd(tokens, usr);
-		else
-			reply_msg(ERR_UNKNOWNCOMMAND, tokens[0] + " :Unkown command", usr);
+		 	return this->pongCmmd(tokens, usr);
+		else if(tokens[0] == "QUIT" || tokens[0] == "quit")
+		 	return this->quitCmmd(tokens, usr);
+		return replyMsg(ERR_UNKNOWNCOMMAND, tokens[0] + " :Unkown command", usr);
 	}	
 }
 
 bool 	BothAreSpaces(char lhs, char rhs) { return (lhs == rhs) && (lhs == ' '); }
 
-std::vector<std::string>   Server::parse_message(std::string buffer)
+std::vector<std::string>   Server::parseMessage(std::string buffer)
 {
 	std::vector<std::string>    tok_tmp;
 	std::vector<std::string>    tokens;

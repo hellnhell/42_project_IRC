@@ -68,15 +68,6 @@ Server::Server()
 		throw Server::ServerException();
 	}
 	this->highsock = this->listening_socket;
-	// this->cmd_list.push_back("PASS");
-	// this->cmd_list.push_back("USER");
-	// this->cmd_list.push_back("NICK");
-	// this->cmd_list.push_back("EXIT");
-	// this->cmd_list.push_back("TIME");
-	// this->cmd_list.push_back("JOIN");
-	// this->cmd_list.push_back("PRIVMSG");
-	// this->cmd_list.push_back("MOTD");
-	// this->cmd_list.push_back("NAMES");
 }
 
 Server::~Server()
@@ -100,7 +91,7 @@ Server::~Server()
 	std::cout << "Destructor Server\n";
 }
 
-void Server::build_select_list()
+void Server::buildSelectList()
 {
 	int listnum;
 
@@ -117,14 +108,14 @@ void Server::build_select_list()
 	}
 }
 
-int Server::get_read_socks()
+int Server::getReadSocks()
 {
 	this->timeout.tv_sec = 1;
 	this->timeout.tv_usec = 0;
 	return select((this->highsock + 1 ), &this->reads, (fd_set *) 0, (fd_set *) 0 , &this->timeout);
 }
 
-void Server::handle_new_connection()
+void Server::handleNewConnection()
 {
 	int connection;
 	struct sockaddr_in client_address;
@@ -160,7 +151,7 @@ void Server::handle_new_connection()
 	}
 }
 
-void Server::deal_with_data(int listnum)
+void Server::dealWithData(int listnum)
 {
 	char 			buffer[512];
 	std::string		buff_input;
@@ -186,7 +177,7 @@ void Server::deal_with_data(int listnum)
 	else
 	{
 		User *tmpuser = this->list_users[this->_list_connected_user[listnum]];
-		tokens = parse_message(recived);
+		tokens = parseMessage(recived);
 		if (tokens[0].empty())
 			return;
 		actionDisplay("Attend client", " CMD:" + tokens[0], tmpuser);
@@ -194,23 +185,20 @@ void Server::deal_with_data(int listnum)
 		std::cout << std::endl << "Received:  " << recived << std::endl;
 		send(this->_list_connected_user[listnum], recived.c_str(), recived.length(), 0);
 		send(this->_list_connected_user[listnum], (char *)"\n", strlen((char *)"\n"), 0);
-		// sock_puts(this->_list_connected_user[listnum], buffer);
-		// sock_puts(this->_list_connected_user[listnum], (char *)"\n");
-		//std::cout << "Responded: " << recived << std::endl;
 	}
 }
 
-void Server::read_socks()
+void Server::readSocks()
 {
 	if(FD_ISSET(this->listening_socket, &this->reads))
-		this->handle_new_connection();
+		this->handleNewConnection();
 	for(size_t listnum = 0; listnum < FD_SETSIZE; listnum++)
 	{
 		if(FD_ISSET(this->_list_connected_user[listnum], &this->reads))
 		{
 			this->list_users[this->_list_connected_user[listnum]]->setTimeZero(getTime());
 			std::cout << "\r";
-			deal_with_data(listnum);
+			dealWithData(listnum);
 		}
 	}
 }
@@ -236,7 +224,7 @@ void Server::removeChannel(Channel *channel)
 void	Server::deleteUser(User *usr) // REVISAR
 {
 	this->users_on.remove(usr);
-	for (int i = 0; i < FD_SETSIZE; i++)
+	for (int i = 0; i < FD_SETSIZE; i++) //close fd
 		if( this->_list_connected_user[i] == usr->getFD())
 			this->_list_connected_user[i] = 0;
 	close (usr->getFD());

@@ -90,9 +90,9 @@ void		User::setCheckedNick(bool nu) { this->check_nick = nu; }
 
 bool	&User::getCheckedRegist()
 { 
-    if (getCheckedNick() && getCheckedUser())
-        this->check_regist = true;    
-    return this->check_regist; 
+	if (getCheckedNick() && getCheckedUser())
+		this->check_regist = true;    
+	return this->check_regist; 
 }
 
 void 			User::setReply(std::string const &msg) { this->reply.push_back(msg); }

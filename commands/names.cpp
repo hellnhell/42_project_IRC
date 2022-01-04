@@ -1,7 +1,7 @@
 #include "../server.hpp"
 
  // ERR_TOOMANYMATCHES              ERR_NOSUCHSERVER       RPL_NAMREPLY                    RPL_ENDOFNAMES
-void    Server::names_cmmd(std::vector<std::string> const& tokens, User *usr, Server &serv)
+void    Server::namesCmmd(std::vector<std::string> const& tokens, User *usr, Server &serv)
 {
 	std::vector<std::string>	tok;
 	std::istringstream          ss(tokens[1]);
@@ -38,7 +38,7 @@ void    Server::names_cmmd(std::vector<std::string> const& tokens, User *usr, Se
 				msg += "\nUser: " + it->second->getUser();
 			}
 		}
-		reply_msg(RPL_NAMREPLY, msg, usr);
+		replyMsg(RPL_NAMREPLY, msg, usr);
 	}
 	else
 	{
@@ -57,10 +57,8 @@ void    Server::names_cmmd(std::vector<std::string> const& tokens, User *usr, Se
 				{
 					msg = "\nChannel: " + (*it2)->getName();
 					for(it3 = (*it2)->getUsers().begin(); it3 != (*it2)->getUsers().end(); it3++)
-					{
 						msg += "\nUser: " + (*it3)->getUser();
-					}
-					reply_msg(RPL_NAMREPLY, msg, usr);
+					replyMsg(RPL_NAMREPLY, msg, usr);
 				}
 			}
 		}

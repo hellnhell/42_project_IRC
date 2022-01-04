@@ -23,9 +23,9 @@ void	actionDisplay(std::string const &action, std::string const &cmd, User *usr)
 
 void	timerDisplay()
 {
-    time_t tzero = time(0);
-    
-    tm ltm = *localtime(&tzero);
+	time_t tzero = time(0);
+	
+	tm ltm = *localtime(&tzero);
 		std::cout << PINK_B << std::setfill('0') << std::setw(2) << ltm.tm_hour << ":" 
 		<< PINK_C << std::setw(2) << ltm.tm_min << ":"   
 		<< PINK<< std::setw(2) << ltm.tm_sec  << " - "
@@ -39,3 +39,5 @@ uint64_t	getTime(void)
 	gettimeofday(&st, NULL);
 	return ((st.tv_sec * (uint64_t)1000) + (st.tv_usec / 1000));
 }
+
+

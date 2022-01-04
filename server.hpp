@@ -65,8 +65,8 @@ class Channel;
 # define ERR_TOOMANYCHANNELS       "405"       //"<channel name> :You have joined too many channels" - Sent to a user when they have joined the maximum number of allowed channels and they try to join another channel.
 # define ERR_WASNOSUCHNICK         "406"       //"<nickname> :There was no such nickname" - Returned by WHOWAS to indicate there is no history information for that nickname.
 # define ERR_TOOMANYTARGETS        "407"       //"<target> :<error code> recipients. <abort message>" - Returned to a client which is attempting to send a PRIVMSG/NOTICE using the user@host destination format and for a user@host which has several occurrences.
-                                                //- Returned to a client which trying to send a PRIVMSG/NOTICE to too many recipients.
-                                                //- Returned to a client which is attempting to JOIN a safe channel using the shortname when there are more than one such channel.
+												//- Returned to a client which trying to send a PRIVMSG/NOTICE to too many recipients.
+												//- Returned to a client which is attempting to JOIN a safe channel using the shortname when there are more than one such channel.
 # define ERR_NOSUCHSERVICE         "408"       //"<service name> :No such service" - Returned to a client which is attempting to send a SQUERY to a service which does not exist.
 # define ERR_NOORIGIN              "409"       //":No origin specified"   - PING or PONG message missing the originator parameter.
 # define ERR_NORECIPIENT        	"411"       //":No recipient given (<command>)"
@@ -74,9 +74,9 @@ class Channel;
 # define ERR_NOTOPLEVEL         	"413"		//"<mask> :No toplevel domain specified"
 # define ERR_WILDTOPLEVEL       	"414"		//"<mask> :Wildcard in toplevel domain"
 # define ERR_BADMASK       	       "415"		//"<mask> :Bad Server/host mask" - 412 - 415 are returned by PRIVMSG to indicate that the message wasn't delivered for some reason.
-           										//ERR_NOTOPLEVEL and ERR_WILDTOPLEVEL are errors that
-           										//are returned when an invalid use of
-           										//"PRIVMSG $<server>" or "PRIVMSG #<host>" is attempted.
+		   										//ERR_NOTOPLEVEL and ERR_WILDTOPLEVEL are errors that
+		   										//are returned when an invalid use of
+		   										//"PRIVMSG $<server>" or "PRIVMSG #<host>" is attempted.
 # define ERR_UNKNOWNCOMMAND	       "421"       //"<command> :Unknown command" - Returned to a registered client to indicate that the command sent is unknown by the server.
 # define ERR_NOMOTD	              "422"       //":MOTD File is missing" - Server's MOTD file could not be opened by the server.
 # define ERR_NOADMININFO	       "423"	    //"<server> :No administrative info available"- Returned by a server in response to an ADMIN message when there is an error in finding the appropriate information.
@@ -153,8 +153,8 @@ class Channel;
 # define ERR_TOOMANYCHANNELS       "405"       //"<channel name> :You have joined too many channels" - Sent to a user when they have joined the maximum number of allowed channels and they try to join another channel.
 # define ERR_WASNOSUCHNICK         "406"       //"<nickname> :There was no such nickname" - Returned by WHOWAS to indicate there is no history information for that nickname.
 # define ERR_TOOMANYTARGETS        "407"       //"<target> :<error code> recipients. <abort message>" - Returned to a client which is attempting to send a PRIVMSG/NOTICE using the user@host destination format and for a user@host which has several occurrences.
-                                                //- Returned to a client which trying to send a PRIVMSG/NOTICE to too many recipients.
-                                                //- Returned to a client which is attempting to JOIN a safe channel using the shortname when there are more than one such channel.
+												//- Returned to a client which trying to send a PRIVMSG/NOTICE to too many recipients.
+												//- Returned to a client which is attempting to JOIN a safe channel using the shortname when there are more than one such channel.
 # define ERR_NOSUCHSERVICE         "408"       //"<service name> :No such service" - Returned to a client which is attempting to send a SQUERY to a service which does not exist.
 # define ERR_NOORIGIN              "409"       //":No origin specified"   - PING or PONG message missing the originator parameter.
 # define ERR_NORECIPIENT        	"411"       //":No recipient given (<command>)"
@@ -162,9 +162,9 @@ class Channel;
 # define ERR_NOTOPLEVEL         	"413"		//"<mask> :No toplevel domain specified"
 # define ERR_WILDTOPLEVEL       	"414"		//"<mask> :Wildcard in toplevel domain"
 # define ERR_BADMASK       	       "415"		//"<mask> :Bad Server/host mask" - 412 - 415 are returned by PRIVMSG to indicate that the message wasn't delivered for some reason.
-           										//ERR_NOTOPLEVEL and ERR_WILDTOPLEVEL are errors that
-           										//are returned when an invalid use of
-           										//"PRIVMSG $<server>" or "PRIVMSG #<host>" is attempted.
+		   										//ERR_NOTOPLEVEL and ERR_WILDTOPLEVEL are errors that
+		   										//are returned when an invalid use of
+		   										//"PRIVMSG $<server>" or "PRIVMSG #<host>" is attempted.
 # define ERR_UNKNOWNCOMMAND	       "421"       //"<command> :Unknown command" - Returned to a registered client to indicate that the command sent is unknown by the server.
 # define ERR_NOMOTD	              "422"       //":MOTD File is missing" - Server's MOTD file could not be opened by the server.
 # define ERR_NOADMININFO	       "423"	    //"<server> :No administrative info available"- Returned by a server in response to an ADMIN message when there is an error in finding the appropriate information.
@@ -265,17 +265,15 @@ class Server
 				virtual const char* what() const throw ();
 		};
 
-		void						build_select_list();
-		int							get_read_socks();
-		void						read_socks();
-		void						handle_new_connection();
-		void						deal_with_data(int listnum);
-		std::vector<std::string>	parse_message(std::string buffer);
+		void						buildSelectList();
+		int							getReadSocks();
+		void						readSocks();
+		void						handleNewConnection();
+		void						dealWithData(int listnum);
+		std::vector<std::string>	parseMessage(std::string buffer);
 		void					    parseCommands(std::vector<std::string> const &tokens, User *usr, int fd);
 
-		void						error_msg(std::string err, std::string str, User *usr);
-		void						reply_msg(std::string rep, std::string str, User *usr);
-
+		void						replyMsg(std::string rep, std::string str, User *usr);
 		void						display();
 
 		void						setPassword(std::string psswd);
@@ -288,19 +286,23 @@ class Server
 
 		void						deleteUser(User *usr);
 
-		void						user_cmmd(std::vector<std::string> const &tokens, User *usr);
+		void						userCmmd(std::vector<std::string> const &tokens, User *usr);
 
-		void						time_cmmd(User *usr, int fd_usr);
-		void						privmsg_cmmd(std::vector<std::string> const& tokens, User* usr);
-		void						nick_cmmd(std::vector<std::string> const &tokens, User *usr);
-		void						pass_cmmd(std::vector<std::string> const &tokens, User* usr);
-		void						join_cmmd(std::vector<std::string> const &tokens, User* usr);
-		void						motd_cmmd(int const & fd);
-		void 						names_cmmd( std::vector<std::string> const &tokens, User *usr, Server &serv);
-		void 					   	quit_cmmd(std::vector<std::string> const &tokens, User *usr); //Solo empezado
-		void   						pong_cmmd(std::vector<std::string> const &tokens, User *usr);
+		void						timeCmmd(User *usr, int fd_usr);
+		void						nickCmmd(std::vector<std::string> const &tokens, User *usr);
+		void						passCmmd(std::vector<std::string> const &tokens, User* usr);
+		void						joinCmmd(std::vector<std::string> const &tokens, User* usr);
+		void						motdCmmd(int const & fd);
+		void 						namesCmmd( std::vector<std::string> const &tokens, User *usr, Server &serv);
+		void 					   	quitCmmd(std::vector<std::string> const &tokens, User *usr);
+		void   						pongCmmd(std::vector<std::string> const &tokens, User *usr);
+		void                        privmsgCmmd(std::vector<std::string> const& tokens, User* usr);
+        void	                    partCmmd(std::vector<std::string> const& tokens, User *usr);
+        
 		
 		void						checkPing();
+		void	                    msgToChannel(std::string msg,  User *usr, Channel *chnl);
+
 
 
 
