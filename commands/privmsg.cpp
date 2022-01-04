@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   privmsg.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javier <javier@student.42.fr>              +#+  +:+       +#+        */
+/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 12:58:34 by javrodri          #+#    #+#             */
-/*   Updated: 2021/12/30 20:20:55 by javier           ###   ########.fr       */
+/*   Updated: 2022/01/04 09:48:07 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ void    Server::privmsg(std::vector<std::string> const& tokens, User* usr){
                 for (;it2 != it3; ++it2){
                     if ((*it2)->getName() == tokenDest){
                         destChannel = *it2;
-                        msg_to_channel(tokens[2], usr, destChannel);
+                        msg = "PRIVMSG :" + destChannel->getName() + tokens[2];
+                        msg_to_channel(msg, usr, destChannel);
                         break;
                     }
                     else{
@@ -57,11 +58,6 @@ void    Server::privmsg(std::vector<std::string> const& tokens, User* usr){
                 else if ((*beginUsrList)->getNickMask() == tokenDest){
                     destUser = *beginUsrList;
                     break;
-                }
-                else if (tokenDest[0] == '#' || tokenDest[0] == '&' || tokenDest[0] == '!' || tokenDest[0] == '+'){
-                    std::cout << "AQUII" << std::endl;
-                    msg_to_channel(tokens[2], usr, destChannel);
-                    return;
                 }
                 else{
                     msg = tokens[1] + " :No such nick/channel";
