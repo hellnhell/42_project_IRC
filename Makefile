@@ -30,6 +30,7 @@ SRCS			= main.cpp \
 					commands/names.cpp \
 					commands/motd.cpp	\
 					commands/quit.cpp	\
+					commands/part.cpp	\
 					commands/ping-pong.cpp \
 					utils.cpp
 
