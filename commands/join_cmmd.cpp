@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   join_cmmd.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javier <javier@student.42.fr>              +#+  +:+       +#+        */
+/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:41 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/16 23:14:12 by javier           ###   ########.fr       */
+/*   Updated: 2022/01/05 18:25:32 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static bool checkIfChannel(const std::string &str)
 
 void Server::join_cmd(std::vector<std::string> const &tokens, User* usr)
 {
+std::string     msg;
 std::cout << "join_cmd\n\n\n\n" << std::endl;
 	size_t i = 1;
 	if (tokens.size() < 2)
@@ -42,6 +43,8 @@ std::cout << "join_cmd\n\n\n\n" << std::endl;
 					usr->joinChannel(*it);
 					std::cout << "Joined channel " << (*it)->getName() << std::endl;
 					std::cout << "Available commands: /msg <user> <message>, /leave, /list, /users, /help" << std::endl;
+					msg = usr->getNickMask() + " JOIN " + (*it)->getName() + "\n";
+ 					msg_to_channel(msg, usr, (*it));
 					return ;
 				}
 			}
@@ -53,6 +56,8 @@ std::cout << "join_cmd\n\n\n\n" << std::endl;
 				this->channels.back()->joinUser(usr);
 				std::cout << "Joined channel " << this->channels.back()->getName() << std::endl;
 				std::cout << "Available commands: /msg <user> <message>, /leave, /list, /users, /help" << std::endl;
+				msg = usr->getNickMask() + " JOIN " + chan->getName() + "\n";
+ 				msg_to_channel(msg, usr, chan);
 				return ;
 			}
 			catch(const std::exception& e)

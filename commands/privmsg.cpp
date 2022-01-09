@@ -6,7 +6,7 @@
 /*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 12:58:34 by javrodri          #+#    #+#             */
-/*   Updated: 2022/01/04 09:48:07 by javrodri         ###   ########.fr       */
+/*   Updated: 2022/01/05 18:17:05 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void    Server::privmsg(std::vector<std::string> const& tokens, User* usr){
                 for (;it2 != it3; ++it2){
                     if ((*it2)->getName() == tokenDest){
                         destChannel = *it2;
-                        msg = "PRIVMSG :" + destChannel->getName() + tokens[2];
+                        msg = "PRIVMSG :" + destChannel->getName() + " " + tokens[2];
                         msg_to_channel(msg, usr, destChannel);
                         break;
                     }
