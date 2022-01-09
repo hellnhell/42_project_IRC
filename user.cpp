@@ -115,6 +115,8 @@ std::string User::getClientAdd(  ) const
 	return inet_ntop(AF_INET, &clientIP, ipStr, INET_ADDRSTRLEN);
 }
 
+std::vector<Channel*> 		&User::getChannels() { return this->channels; };
+
 void User::joinChannel(Channel *channel)
 {
 	this->channels.push_back(channel);

@@ -104,7 +104,7 @@ class User
 		void		joinChannel(Channel *channel);
 		void		leaveChannel(Channel *channel);
 
-		std::vector<Channel*> const		&getChannels() { return this->channels; }
+		std::vector<Channel*> 		&getChannels();
 
 		const uint64_t		&getTimeZero() const;
 		void				setTimeZero(uint64_t const & time_zero);

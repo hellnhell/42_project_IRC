@@ -15,6 +15,10 @@ NAME			= irc-server
 
 SRCS_DIR= ./
 
+NAME			= irc-server
+
+SRCS_DIR= ./
+
 SRCS			= main.cpp \
 					server.cpp \
 					user.cpp \
@@ -30,6 +34,7 @@ SRCS			= main.cpp \
 					commands/names.cpp \
 					commands/motd.cpp	\
 					commands/quit.cpp	\
+					commands/part.cpp	\
 					commands/ping-pong.cpp \
 					utils.cpp
 

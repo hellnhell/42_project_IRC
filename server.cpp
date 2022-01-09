@@ -78,7 +78,7 @@ Server::~Server()
 	{
 		std::cout << "\r";
 		actionDisplay("Connection closed", "", this->list_users[it->first] );
-		delete it->second;
+        delete it->second;
 		close(it->first);
 		FD_CLR(it->first, &this->reads);
 		it++;

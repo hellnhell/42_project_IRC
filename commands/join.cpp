@@ -16,7 +16,7 @@ static bool checkIfChannel(const std::string &str)
 {
 	if (str[0] == '#' || str[0] == '&' || str[0] == '!' || str[0] == '+')
 		return true;
-	return false;
+    return false;
 }
 
 void Server::joinCmmd(std::vector<std::string> const &tokens, User* usr)
@@ -41,6 +41,7 @@ std::cout << "join_cmd\n\n\n\n" << std::endl;
 				{
 					(*it)->joinUser(usr);
 					usr->joinChannel(*it);
+                    usr->getChannels().push_back(*it); //E
 					std::cout << "Joined channel " << (*it)->getName() << std::endl;
 					std::cout << "Available commands: /msg <user> <message>, /leave, /list, /users, /help" << std::endl;
 					msg = usr->getNickMask() + " JOIN " + (*it)->getName() + "\n";
@@ -53,7 +54,8 @@ std::cout << "join_cmd\n\n\n\n" << std::endl;
 				Channel* chan = new Channel(this, usr, tokens[i]);
 				this->channels.push_back(chan);
 				this->channels.back()->joinUser(usr);
-				std::cout << "Joined channel " << this->channels.back()->getName() << std::endl;
+                usr->getChannels().push_back(chan); //E
+				std::cout << "Joined New Channel " << this->channels.back()->getName() << std::endl;
 				std::cout << "Available commands: /msg <user> <message>, /leave, /list, /users, /help" << std::endl;
 				msg = usr->getNickMask() + " JOIN " + chan->getName() + "\n";
  				msgToChannel(msg, usr, chan);

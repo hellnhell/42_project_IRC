@@ -97,7 +97,7 @@ int main(int argc, char **argv)
 			{
 				std::cout << "\r";
 				timerDisplay();
-				server.checkPing();
+				// server.checkPing();
 				std::cout.flush();
 			}
 			else
