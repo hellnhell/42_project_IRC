@@ -12,10 +12,11 @@
 
 # include "../server.hpp"
 
-void Server::time_cmd(User *usr, int fd_user){
+void Server::timeCmmd(User *usr, int fd_user)
+{
 	std::string 	dt;
 
-    time_t ttime = time(0);
+	time_t ttime = time(0);
 	std::string message;
 	dt = ctime(&ttime);
 	message.append(RPL_TIME);

@@ -6,7 +6,7 @@
 #    By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/22 11:59:14 by emartin-          #+#    #+#              #
-#    Updated: 2021/12/29 12:04:22 by javrodri         ###   ########.fr        #
+#    Updated: 2022/01/09 18:50:13 by javrodri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,9 +26,11 @@ SRCS			= main.cpp \
 					commands/pass.cpp	\
 					commands/time.cpp	\
 					commands/privmsg.cpp \
-					commands/join_cmmd.cpp \
-					commands/names_cmmd.cpp \
+					commands/join.cpp \
+					commands/names.cpp \
 					commands/motd.cpp	\
+					commands/quit.cpp	\
+					commands/ping-pong.cpp \
 					utils.cpp
 
 OBJS_DIR = objects/
@@ -45,7 +47,7 @@ $(OBJS_DIR)%.o : $(SRCS_DIR)%.cpp
 	@${CC} $(FLAGS) -c $< -o $@
 $(NAME):		$(OBJS)
 				${CC} ${CFLAGS} -o ${NAME} ${OBJS} ${LIBS}
-				
+
 all: $(NAME)
 
 all: $(NAME)

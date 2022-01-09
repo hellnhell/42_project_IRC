@@ -6,23 +6,26 @@
 /*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 13:07:11 by emartin-          #+#    #+#             */
-/*   Updated: 2022/01/09 18:33:06 by javrodri         ###   ########.fr       */
+/*   Updated: 2022/01/09 18:52:02 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "server.hpp"
 #include "channel.hpp"
 
-void	Server::reply_msg(std::string rep, std::string str, User *usr)
+void	Server::replyMsg(std::string rep, std::string str, User *usr)
 {
-    std::string msg;
-    
-    msg = SERVER_MASK + rep  + " "  + usr->getNick() + " " + str + "\r\n";
+	std::string msg;
+	
+	if (rep[0] > 3)
+		msg = RED SERVER_MASK + rep  + " "  + usr->getNick() + " " + str + WHITE "\r\n";
+	else        
+		msg = GREEN SERVER_MASK + rep  + " "  + usr->getNick() + " " + str + WHITE "\r\n";
 	send(usr->getFD(), msg.c_str(), msg.length(), 0);
-    // usr->setReply(error);
+	// usr->setReply(error);
 }
 
-void	Server::msg_to_channel(std::string msg,  User *usr, Channel *chnl)
+void	Server::msgToChannel(std::string msg,  User *usr, Channel *chnl)
 {
     std::vector<User *>::const_iterator it2;
     std::vector<User *>::const_iterator it3;

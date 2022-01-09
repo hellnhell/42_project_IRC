@@ -6,7 +6,7 @@
 /*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 14:11:46 by emartin-          #+#    #+#             */
-/*   Updated: 2021/12/29 12:41:18 by javrodri         ###   ########.fr       */
+/*   Updated: 2022/01/09 18:49:53 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,19 +90,20 @@ int main(int argc, char **argv)
 		while(1)
 		{
 			signal(SIGINT, signal_kill);
-			server.build_select_list();
-			if((set_read = server.get_read_socks()) < 0)
+			server.buildSelectList();
+			if((set_read = server.getReadSocks()) < 0)
 				throw Server::ServerException();
 			if(set_read == 0)
 			{
 				std::cout << "\r";
 				timerDisplay();
+				server.checkPing();
 				std::cout.flush();
 			}
 			else
 			{
-				server.read_socks();
-				//displayDev(&server);
+				server.readSocks();
+				// displayDev(&server);
 			}
 		}
 		return(0);

@@ -6,7 +6,7 @@
 /*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:34 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/29 18:26:56 by javrodri         ###   ########.fr       */
+/*   Updated: 2022/01/09 18:49:42 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ void Channel::disconnectUser(User *user)
 
 	if(this->_current_users <= 0)
 	{
-std::cout << "Channel " << this->_name << " deleted" << std::endl;
+		std::cout << "Channel " << this->_name << " deleted" << std::endl;
 		this->_server->removeChannel(this);
 	}
 

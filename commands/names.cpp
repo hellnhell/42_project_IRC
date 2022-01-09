@@ -1,18 +1,7 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   names_cmmd.cpp                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/16 22:03:34 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/16 22:59:02 by nazurmen         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../server.hpp"
 
-void    Server::names_cmmd(std::vector<std::string> const& tokens, User *usr, Server &serv)
+ // ERR_TOOMANYMATCHES              ERR_NOSUCHSERVER       RPL_NAMREPLY                    RPL_ENDOFNAMES
+void    Server::namesCmmd(std::vector<std::string> const& tokens, User *usr, Server &serv)
 {
 	std::vector<std::string>	tok;
 	std::istringstream          ss(tokens[1]);
@@ -49,7 +38,7 @@ void    Server::names_cmmd(std::vector<std::string> const& tokens, User *usr, Se
 				msg += "\nUser: " + it->second->getUser();
 			}
 		}
-		reply_msg(RPL_NAMREPLY, msg, usr);
+		replyMsg(RPL_NAMREPLY, msg, usr);
 	}
 	else
 	{
@@ -68,14 +57,10 @@ void    Server::names_cmmd(std::vector<std::string> const& tokens, User *usr, Se
 				{
 					msg = "\nChannel: " + (*it2)->getName();
 					for(it3 = (*it2)->getUsers().begin(); it3 != (*it2)->getUsers().end(); it3++)
-					{
 						msg += "\nUser: " + (*it3)->getUser();
-					}
-					reply_msg(RPL_NAMREPLY, msg, usr);
+					replyMsg(RPL_NAMREPLY, msg, usr);
 				}
 			}
 		}
 	}
-
-
 }

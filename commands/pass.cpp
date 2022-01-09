@@ -12,13 +12,13 @@
 
 #include "../server.hpp"
 
-void Server::pass(std::vector<std::string> const& tokens, User* usr)
+void Server::passCmmd(std::vector<std::string> const& tokens, User* usr)
 {
-    std::cout << usr << std::endl; 
-    if (!usr->getConnectionPswd())
-	    return reply_msg(ERR_ALREADYREGISTRED, ": Unauthorized command (already registered)", usr); //?
-    if (tokens.empty())
-	  	return reply_msg(ERR_NEEDMOREPARAMS, tokens[0] + ": Not enough parameters", usr);
-    if (tokens[1] != this->getPassword())
-      return reply_msg(ERR_PASSWDMISMATCH ,"Password mismatch", usr); //NO se si hace falta
+	std::cout << usr << std::endl; 
+	if (!usr->getConnectionPswd())
+		return replyMsg(ERR_ALREADYREGISTRED, ": Unauthorized command (already registered)", usr); //?
+	if (tokens.empty())
+	  	return replyMsg(ERR_NEEDMOREPARAMS, tokens[0] + ": Not enough parameters", usr);
+	if (tokens[1] != this->getPassword())
+		return replyMsg(ERR_PASSWDMISMATCH ,"Password mismatch", usr); //NO se si hace falta
 }

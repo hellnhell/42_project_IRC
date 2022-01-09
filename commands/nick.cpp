@@ -6,7 +6,7 @@
 /*   By: javier <javier@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 13:15:28 by emartin-          #+#    #+#             */
-/*   Updated: 2021/12/16 23:14:34 by javier           ###   ########.fr       */
+/*   Updated: 2021/12/10 12:31:46 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,22 +21,22 @@
 // ?????  	ERR_RESTRICTED            "484"      ":Your connection is restricted!"- Sent by the server to a user upon connection to indicate the restricted nature of the connection (user mode "+r").
 
 
-void Server::nick_cmd(std::vector<std::string> const &tokens, User *usr)
+void Server::nickCmmd(std::vector<std::string> const &tokens, User *usr)
 {
 
 	std::map<int, User*>::iterator it;
 
 	if (!usr->getConnectionPswd()) //No se si es necesario
-        return reply_msg(ERR_PASSWDMISMATCH ,"Password mismatch", usr);
+		replyMsg(ERR_PASSWDMISMATCH ,"Password mismatch", usr);
 	if(tokens.size() != 2)
-		return reply_msg(ERR_NONICKNAMEGIVEN, ": No nickname given", usr);
+		replyMsg(ERR_NONICKNAMEGIVEN, ": No nickname given", usr);
 	if(tokens[1] == usr->getNick())
-		return reply_msg(ERR_NICKNAMEINUSE, tokens[1] + " Nickname is already in use", usr);
+		replyMsg(ERR_NICKNAMEINUSE, tokens[1] + "Unauthorized command (already registered)", usr);
 	if(tokens[1].size() > 9)
-		return reply_msg(ERR_ERRONEUSNICKNAME, tokens[1] + " Erroneus nickname", usr);
+		replyMsg(ERR_ERRONEUSNICKNAME, tokens[1] + " Erroneus nickname", usr);
 	if(tokens[1][0] == '-' ||
 		tokens[1].find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789`|^_-{}[]\\") != std::string::npos)
-		return reply_msg(ERR_ERRONEUSNICKNAME, tokens[1] + " Erroneus nickname", usr);
+		replyMsg(ERR_ERRONEUSNICKNAME, tokens[1] + " Erroneus nickname", usr);
 
 	for(it = this->list_users.begin(); it != this->list_users.end(); it++)
 	{
@@ -54,6 +54,7 @@ void Server::nick_cmd(std::vector<std::string> const &tokens, User *usr)
 	}
 	usr->setNick(tokens[1]);
 	usr->setNickMask(usr->getNick() + "!" + usr->getUser() + "@ft_irc.com");
-    actionDisplay( "Nick created", "", usr);
+	usr->setCheckedNick(true);
+	actionDisplay( "Nick created", "", usr);
 
 }

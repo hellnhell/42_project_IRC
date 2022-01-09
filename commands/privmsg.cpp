@@ -6,13 +6,13 @@
 /*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 12:58:34 by javrodri          #+#    #+#             */
-/*   Updated: 2022/01/05 18:17:05 by javrodri         ###   ########.fr       */
+/*   Updated: 2022/01/09 18:53:57 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../server.hpp"
 
-void    Server::privmsg(std::vector<std::string> const& tokens, User* usr){
+void    Server::privmsgCmmd(std::vector<std::string> const& tokens, User* usr){
     
     User            *destUser;
     Channel         *destChannel;
@@ -29,9 +29,9 @@ void    Server::privmsg(std::vector<std::string> const& tokens, User* usr){
     std::string     msg;
     // std::cout << "tokens.size(): " << tokens.size() << "\n" << std::cout;
     if (tokens.size() > 3)
-        reply_msg(ERR_TOOMANYTARGETS, ":Too many targets", usr);
+        replyMsg(ERR_TOOMANYTARGETS, ":Too many targets", usr);
     if (tokens.size() < 2)
-        reply_msg(ERR_NORECIPIENT, ":No recipient given(privmsg)", usr);
+        replyMsg(ERR_NORECIPIENT, ":No recipient given(privmsg)", usr);
     else{
         tokenDest = tokens[1];
         if (tokenDest[0] == '#' || tokenDest[0] == '&' || tokenDest[0] == '!' || tokenDest[0] == '+'){
@@ -40,12 +40,12 @@ void    Server::privmsg(std::vector<std::string> const& tokens, User* usr){
                     if ((*it2)->getName() == tokenDest){
                         destChannel = *it2;
                         msg = "PRIVMSG :" + destChannel->getName() + " " + tokens[2];
-                        msg_to_channel(msg, usr, destChannel);
+                        msgToChannel(msg, usr, destChannel);
                         break;
                     }
                     else{
                         msg = tokens[1] + " :No such nick/channel";
-                        reply_msg(ERR_NOSUCHNICK, msg, usr);
+                        replyMsg(ERR_NOSUCHNICK, msg, usr);
                     }
                 }
         }
@@ -61,7 +61,7 @@ void    Server::privmsg(std::vector<std::string> const& tokens, User* usr){
                 }
                 else{
                     msg = tokens[1] + " :No such nick/channel";
-                    reply_msg(ERR_NOSUCHNICK, msg, usr);
+                    replyMsg(ERR_NOSUCHNICK, msg, usr);
                 }
             }
         }
