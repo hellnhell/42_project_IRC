@@ -58,6 +58,8 @@ void    Server::parseCommands(std::vector<std::string> const &tokens, User *usr,
 		 	return this->quitCmmd(tokens, usr);
         else if(tokens[0] == "PART" || tokens[0] == "part")
 		 	return this->partCmmd(tokens, usr);
+        else if(tokens[0] == "WHO" || tokens[0] == "who")
+		 	return this->whoCmmd(tokens, usr);
 		return replyMsg(ERR_UNKNOWNCOMMAND, tokens[0] + " :Unkown command", usr);
 	}	
 }

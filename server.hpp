@@ -115,12 +115,14 @@
 # define ERR_UMODEUNKNOWNFLAG      "501"       //":Unknown MODE flag"- Returned by the server to indicate that a MODE message was sent with a nickname parameter and that the a mode flag sent was not recognized.
 # define ERR_USERSDONTMATCH        "502"       //":Cannot change mode for other users"- Error sent to any user trying to view or change the user mode for a user other than themselves.
 
-
 # define RPL_WELCOME				"001"
 # define RPL_YOURHOST				"002"
 # define RPL_CREATE					"003"
 # define RPL_MYINFO					"004"
 
+# define RPL_ENDOFWHO				"315"
+
+# define RPL_WHOREPLY				"352"
 # define RPL_NAMREPLY				"353"
 # define RPL_ENDOFNAMES				"366"
 
@@ -134,8 +136,8 @@
 class User;
 class Channel;
 
-typedef std::list<std::string>::iterator	it_str_list;
-typedef std::list<User *>::iterator			it_usr_list;
+// typedef std::list<std::string>::iterator	it_str_list; 			??????
+// typedef std::list<User *>::iterator			it_usr_list;
 
 class Server
 {
@@ -211,8 +213,9 @@ class Server
 		void   						pongCmmd(std::vector<std::string> const &tokens, User *usr);
 		void                        privmsgCmmd(std::vector<std::string> const &tokens, User* usr);
         void	                    partCmmd(std::vector<std::string> const &tokens, User *usr);
+        void                        whoCmmd( std::vector<std::string> const &tokens, User *usr );
+
         
-		
 		void						checkPing();
 		void	                    msgToChannel(std::string msg,  User *usr, Channel *chnl);
 

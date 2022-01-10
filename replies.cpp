@@ -17,7 +17,7 @@ void	Server::replyMsg(std::string rep, std::string str, User *usr)
 {
 	std::string msg;
 	
-	if (rep[0] > 3)
+	if (rep >= "400")
 		msg = RED SERVER_MASK + rep  + " "  + usr->getNick() + " " + str + WHITE "\r\n";
 	else        
 		msg = GREEN SERVER_MASK + rep  + " "  + usr->getNick() + " " + str + WHITE "\r\n";

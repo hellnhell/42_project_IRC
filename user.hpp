@@ -101,9 +101,8 @@ class User
 
 		std::string getClientAdd() const;
 
-		void		joinChannel(Channel *channel);
-		void		leaveChannel(Channel *channel);
-
+		void		                joinChannel(Channel *channel);
+		void		                leaveChannel(Channel *channel);
 		std::vector<Channel*> 		&getChannels();
 
 		const uint64_t		&getTimeZero() const;
