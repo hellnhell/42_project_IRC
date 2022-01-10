@@ -39,7 +39,7 @@ void	Server::partCmmd(std::vector<std::string>const &tokens, User *usr)
 				}
 				else
 				{
-                    leave_msg = usr->getNickMask() + "  " + (*it)->getName() + "\n";;
+                    leave_msg = usr->getNickMask() + " PART " + (*it)->getName() + "\n";;
                     msgToChannel(leave_msg, usr, *it);
 					// ???? send generic msg to all users in channel
 				}

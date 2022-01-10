@@ -62,7 +62,6 @@ class User;
 
 void						timerDisplay( void );
 void						actionDisplay(std::string const &action, std::string const &cmd, User *usr);
-// void						displayDev(Server *serv);
 uint64_t	                getTime(void);
 
 

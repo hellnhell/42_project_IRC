@@ -53,9 +53,9 @@ int	getPort(std::string str)
 
 void signal_kill ( int number )
 {
-	if ( number == SIGINT ) //  number == SIGQUIT || number == SIGTERM???
+	if ( number == SIGINT) //  number == SIGQUIT || number == SIGTERM???
 	{
-		std::cout << "----- KILLED -----\n";
+		std::cout << RED "\n💀  KILLED 💀 \n" << WHITE;
 		gservptr->~Server();
 		exit(EXIT_FAILURE);
 	}
@@ -80,6 +80,7 @@ int main(int argc, char **argv)
 			return 0;
 		}
 	}
+	int i = 1;
 	try
 	{
 		port = getPort(argv[1]);
@@ -97,6 +98,25 @@ int main(int argc, char **argv)
 			{
 				std::cout << "\r";
 				timerDisplay();
+                std::cout
+				<<  "  Connections : " << YELLOW << server.getUsers().size() << WHITE << "\tChannels: " << YELLOW << server.getChannels().size() << WHITE " ";
+				if ( i == 4)
+					i = 1;
+				 switch (i)
+				 {
+				 	case 1:
+				 		std::cout << "\t☁️\t" ; // "** O" << " O **" 🌎 POSIBILIDADES VARIAS
+				 		break;
+				 	case 2:
+				 		std::cout << "\t🌧️\t"; // "** ^" << " ^ **" 🌏
+				 		break;
+                    case 3:
+				 		std::cout << "\t🌨️\t" ; // "** -" << " - **" 🌍
+				 		break;
+				 	default:
+				 		break;
+				}
+				i++;
 				// server.checkPing();
 				std::cout.flush();
 			}

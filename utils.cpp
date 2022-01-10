@@ -32,6 +32,7 @@ void	timerDisplay()
 		<< WHITE << std::setfill(' ') << std::setw(5);
 }
 
+
 uint64_t	getTime(void)
 {
 	static struct timeval	st;

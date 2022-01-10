@@ -24,7 +24,7 @@ User::User(int &_fd, struct sockaddr_in const &client_addr) : fd(_fd)
 	this->check_user = false;
 	this->check_nick = false;
 	this->check_regist = false;
-	std::cout << "User created with fd: " << this->fd  <<std::endl;
+	std::cout << "\r User created with fd: " << this->fd  <<std::endl;
 	user_modes_init(&this->modes);
 	this->address = client_addr;
 }

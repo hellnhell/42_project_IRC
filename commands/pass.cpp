@@ -14,11 +14,13 @@
 
 void Server::passCmmd(std::vector<std::string> const& tokens, User* usr)
 {
-	std::cout << usr << std::endl; 
-	if (!usr->getConnectionPswd())
+	std::cout << YELLOW <<  usr->getConnectionPswd() << std::endl; 
+	if (usr->getConnectionPswd())
 		return replyMsg(ERR_ALREADYREGISTRED, ": Unauthorized command (already registered)", usr); //?
-	if (tokens.empty())
+	else if (tokens.empty())
 	  	return replyMsg(ERR_NEEDMOREPARAMS, tokens[0] + ": Not enough parameters", usr);
-	if (tokens[1] != this->getPassword())
+	else if (tokens[1] != this->getPassword())
 		return replyMsg(ERR_PASSWDMISMATCH ,"Password mismatch", usr); //NO se si hace falta
+    else
+        usr->setConnectionPswd(true);
 }

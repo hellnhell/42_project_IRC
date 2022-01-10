@@ -25,7 +25,7 @@ void Server::whoCmmd(std::vector<std::string>const& tokens, User *usr)
 			    {
 			    	if (tokens[1] == (*it2)->getName())
                     {
-                        for(it3 = (*it2)->getUsers().begin(); it3 != (*it2)->getUsers().end(); ++it3)
+                        for(it3 = (*it2)->getUsers().begin(); it3 != (*it2)->getUsers().end(); it3++)
                             msg += "\n" + (*it3)->getUser() + " " + (*it3)->getClientAdd() + " " + (*it3)->getNick();
                         replyMsg(RPL_WHOREPLY, msg, usr);
 				    }
@@ -36,7 +36,7 @@ void Server::whoCmmd(std::vector<std::string>const& tokens, User *usr)
                     //         msg += "\n" + (*it3)->getUser() + " " + (*it3)->getClientAdd() + " " + (*it3)->getNick();
                     //     replyMsg(RPL_WHOREPLY, msg, usr);
                     // }
-                    replyMsg(RPL_ENDOFWHO, (*it3)->getUser() + " :End of WHO list.", usr); //?
+                    replyMsg(RPL_ENDOFWHO, (*it3--)->getUser() + " :End of WHO list.", usr); //?
 			    }
                 return ;
             }
