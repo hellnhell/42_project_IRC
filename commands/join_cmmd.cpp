@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:41 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/20 18:45:14 by nazurmen         ###   ########.fr       */
+/*   Updated: 2022/01/06 18:54:49 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,15 @@ std::cout << "join_cmd\n\n\n\n" << std::endl;
 			{
 				if ((*it)->getName() == tokens[i])
 				{
+					if((*it)->getKey().size())
+					{
+						return reply_msg(ERR_BADCHANNELKEY, ":Cannot join channel (+k)", usr);
+					}
 					(*it)->joinUser(usr);
 					usr->joinChannel(*it);
-					std::cout << "Joined channel " << (*it)->getName() << std::endl;
-					std::cout << "Available commands: /msg <user> <message>, /leave, /list, /users, /help" << std::endl;
+					reply_msg(RPL_TOPIC, ":" + (*it)->getTopic(), usr);
+					//std::cout << "Joined channel " << (*it)->getName() << std::endl;
+					//std::cout << "Available commands: /msg <user> <message>, /leave, /list, /users, /help" << std::endl;
 					return ;
 				}
 			}
@@ -51,19 +56,45 @@ std::cout << "join_cmd\n\n\n\n" << std::endl;
 				this->channels.push_back(chan);
 				usr->joinChannel(chan);
 				this->channels.back()->joinUser(usr);
-				std::cout << "Joined channel " << this->channels.back()->getName() << std::endl;
-				std::cout << "Available commands: /msg <user> <message>, /leave, /list, /users, /help" << std::endl;
+				reply_msg(RPL_TOPIC, ":" + this->channels.back()->getTopic(), usr);
+				//std::cout << "Joined channel " << this->channels.back()->getName() << std::endl;
+				//std::cout << "Available commands: /msg <user> <message>, /leave, /list, /users, /help" << std::endl;
 				return ;
 			}
 			catch(const std::exception& e)
 			{
-				std::cerr << e.what() << '\n';
+				//estover
+				reply_msg(ERR_UNAVAILRESOURCE, "Error: " + std::string(e.what()), usr);
+				//std::cerr << e.what() << '\n';
 				return ;
 			}
 		}
 		else if (checkIfChannel(tokens[i - 1]))
 		{
 			//key
+			std::string key = tokens[i];
+			std::vector<Channel*>::iterator it;
+			for(it = channels.begin(); it != channels.end(); ++it)
+			{
+				if((*it)->getName() == tokens[i - 1])
+				{
+					if(key == (*it)->getKey())
+					{
+						(*it)->joinUser(usr);
+						usr->joinChannel(*it);
+						reply_msg(RPL_TOPIC, ":" + (*it)->getTopic(), usr);
+						//std::cout << "Joined channel " << (*it)->getName() << std::endl;
+						//std::cout << "Available commands: /msg <user> <message>, /leave, /list, /users, /help" << std::endl;
+						return ;
+					}
+					else
+					{
+						return reply_msg(ERR_BADCHANNELKEY, ":Cannot join channel (+k)", usr);
+						//std::cout << "Wrong key" << std::endl;
+						return ;
+					}
+				}
+			}
 		}
 		else if(tokens[i] == "0" && !this->channels.empty())
 		{
@@ -72,6 +103,7 @@ std::cout << "join_cmd\n\n\n\n" << std::endl;
 			{
 				(*it)->disconnectUser(usr);
 				usr->leaveChannel(*it);
+				//meter aqui part directamente(?)
 				std::cout << "Left channel " << (*it)->getName() << std::endl;
 			}
 		}

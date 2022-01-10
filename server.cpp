@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:52 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/23 17:27:36 by nazurmen         ###   ########.fr       */
+/*   Updated: 2022/01/09 14:57:05 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ Server::Server()
 	this->cmd_list.push_back("NAMES");
 	this->cmd_list.push_back("PART");
 	this->cmd_list.push_back("TOPIC");
+	this->cmd_list.push_back("MODE");
 
 }
 
@@ -243,6 +244,10 @@ void Server::deal_with_data(int listnum)
 		{
 			this->topic_cmmd(tokens, tmpuser, *this);
 		}
+		else if(tokens[0] == "MODE" || tokens[0] == "mode")
+		{
+			this->mode_cmmd(tokens, tmpuser, *this);
+		}
 
 
 
@@ -296,8 +301,10 @@ void	Server::deleteUser(User *usr) // REVISAR
 }
 
 //Channel *Server::getChannel(std::string name) const
-Channel * const &Server::getChannel(std::string name) const
+Channel			*Server::getChannel(std::string name) const
 {
+	if (this->channels.size() == 0)
+		return NULL;
 	std::vector<Channel *>::const_iterator it;
 	it = std::find_if(this->channels.begin(), this->channels.end(), [&name](Channel *c) { return c->getName() == name; });
 	return *it;

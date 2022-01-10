@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:50 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/23 06:10:49 by nazurmen         ###   ########.fr       */
+/*   Updated: 2022/01/09 14:56:44 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,8 @@
 # define RPL_CREATE					"003"
 # define RPL_MYINFO					"004"
 
+# define RPL_CHANNELMODEIS			"324"
+
 # define RPL_NAMREPLY				"353"
 # define RPL_ENDOFNAMES				"366"
 
@@ -209,11 +211,12 @@ class Server
 		void						names_cmmd(std::vector<std::string> const& tokens, User *usr, Server &Serv);
 		void						part_cmmd(std::vector<std::string> const& tokens, User *usr);
 		void						topic_cmmd(std::vector<std::string> const& tokens, User *usr, Server &Serv);
+		void						mode_cmmd(std::vector<std::string> const& tokens, User *usr, Server &Serv);
 
 
 		std::map<int, User *>		const &getUsers() const;
 		std::vector<Channel *>		const &getChannels() const;
-		Channel * const &getChannel(std::string name) const;
+		Channel 					*getChannel(std::string name) const;
 //		Channel						*getChannel(std::string name) const;
 
 

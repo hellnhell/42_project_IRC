@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pass.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 13:17:53 by emartin-          #+#    #+#             */
-/*   Updated: 2021/12/10 10:35:06 by javrodri         ###   ########.fr       */
+/*   Updated: 2022/01/06 19:02:25 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void Server::pass(std::vector<std::string> const& tokens, User* usr)
 {
-    std::cout << usr << std::endl; 
+    std::cout << usr << std::endl;
     if (!usr->getConnectionPswd())
 	    return reply_msg(ERR_ALREADYREGISTRED, ": Unauthorized command (already registered)", usr); //?
     if (tokens.empty())

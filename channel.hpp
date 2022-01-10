@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:47 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/16 16:47:40 by nazurmen         ###   ########.fr       */
+/*   Updated: 2022/01/10 19:19:49 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ class Server;
 typedef struct s_modes
 {
 		std::string					O; // give "channel creator" status;
-		std::vector<std::string>	o; // give/take channel operator privilege;
+		bool o; // give/take channel operator privilege;
 		std::vector<std::string>	v; // give/take the voice privilege;
 
 		bool a; // toggle the anonymous channel flag; &puede ser toggleado por op. !puede settearse pero no unset por el channel creator, no disponible en #+.
@@ -44,7 +44,7 @@ typedef struct s_modes
 		bool r; // toggle the server reop channel flag;
 		bool t; // toggle the topic settable by channel operator only flag;
 
-		bool k; // set/remove the channel key (password);
+		std::string k; // set/remove the channel key (password);
 		bool l; // set/remove the user limit to channel;
 
 		bool b; // set/remove ban mask to keep users out;
@@ -61,7 +61,7 @@ class Channel
 		std::vector<User *>	_bans;
 		std::string			_name;
 		std::string			_topic;
-		std::string			_password;
+//		std::string			_password;
 		int					_type;
 		t_modes				_modes;
 		unsigned int 		_max_users;
@@ -82,22 +82,29 @@ class Channel
 		void					setName(const std::string &name);
 		void					setTopic(const std::string &topic);
 		void					setMaxUsers(unsigned int max_users);
+		void					setMode(char mode, bool value);
+		void					setKey(std::string key);
 
 		void					joinUser(User *user);
 		void					disconnectUser(User *user);
 		void					kickUser(User *user);
 		void					banUser(User *user);
 		void					unbanUser(User *user);
-		void					opUser(User *user);
+		int					opUser(User *user);
 		void					deopUser(User *user);
 
 		std::string				getName() const;
 		std::string				getTopic() const;
 		unsigned int			getMaxUsers() const;
 		unsigned int			getCurrentUsers() const;
+		std::string 			getKey() const;
 		std::vector<User *>		const &getUsers() const;
+		User *					getUsers(std::string userName) const;
 		std::vector<User *>		const &getOps() const;
 		std::vector<User *>		const &getBans() const;
+		std::string				const getModes() const;
+		bool					const getMode(char mode) const;
+		bool					const isOperator(User *usr) const;
 };
 
 #endif // CHANNEL_HPP
