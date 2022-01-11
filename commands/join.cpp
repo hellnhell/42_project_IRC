@@ -21,15 +21,14 @@ static bool checkIfChannel(const std::string &str)
 
 void Server::joinCmmd(std::vector<std::string> const &tokens, User* usr)
 {
-std::string     msg;
-std::cout << "join_cmd\n\n\n\n" << std::endl;
+	std::string     msg;
+
 	size_t i = 1;
 	if (tokens.size() < 2)
 	{
 		std::cout << "Usage: /join <channel>" << std::endl;
 		return;
 	}
-	//enviar informacion al usuario joineado sobre el canal y sus comandos disponibles
 	while(i < tokens.size())
 	{
 		if(checkIfChannel(tokens[i]))

@@ -130,6 +130,8 @@
 # define RPL_MOTDSTART				"375"
 # define RPL_ENDOFMOTD				"376"
 
+# define RPL_YOUREOPER				"381"
+
 # define RPL_TIME 					"391"		//"<server> :<string showing server's local time>""
 
 
@@ -153,15 +155,9 @@ class Server
 		int 					port;
 		struct sockaddr_in 		server_address;
 
-		// std::deque<std::string> cmd_list;
-		time_t 					ping_start;
-		time_t 					ping_end;
-		double					ping_diff;
-		std::deque<std::string> cmd_list;
-
-		
 		std::list<User *>		users_on;
 		std::string				password;
+		std::string				op_password;
 
 		std::vector<Channel *>	channels;
 
@@ -205,15 +201,17 @@ class Server
 
 		void						timeCmmd(User *usr, int fd_usr);
 		void						nickCmmd(std::vector<std::string> const &tokens, User *usr);
-		void						passCmmd(std::vector<std::string> const &tokens, User* usr);
-		void						joinCmmd(std::vector<std::string> const &tokens, User* usr);
-		void						motdCmmd(int const & fd);
+		void						passCmmd(std::vector<std::string> const &tokens, User *usr);
+		void						joinCmmd(std::vector<std::string> const &tokens, User *usr);
+		void						motdCmmd(int const &fd);
 		void 						namesCmmd( std::vector<std::string> const &tokens, User *usr, Server &serv);
 		void 					   	quitCmmd(std::vector<std::string> const &tokens, User *usr);
 		void   						pongCmmd(std::vector<std::string> const &tokens, User *usr);
-		void                        privmsgCmmd(std::vector<std::string> const &tokens, User* usr);
+		void                        privmsgCmmd(std::vector<std::string> const &tokens, User *usr);
         void	                    partCmmd(std::vector<std::string> const &tokens, User *usr);
         void                        whoCmmd( std::vector<std::string> const &tokens, User *usr );
+		void						operCmmd(std::vector<std::string> const &tokens, User *usr);
+
 
         
 		void						checkPing();

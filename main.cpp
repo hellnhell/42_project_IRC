@@ -122,6 +122,7 @@ int main(int argc, char **argv)
 			}
 			else
 			{
+				std::cout << "\n";
 				server.readSocks();
 				// displayDev(&server);
 			}

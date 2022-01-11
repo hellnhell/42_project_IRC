@@ -10,7 +10,10 @@ void	Server::partCmmd(std::vector<std::string>const &tokens, User *usr)
 
     if (tokens.size() == 1 ) //se puede meter el quit
         return this->replyMsg(ERR_NOSUCHCHANNEL, "<empty> :No such channel", usr);
+
 	std::cout << "\n\n\n token1: " << tokens[1] << std::endl;
+	if (tokens.size() > 2)
+		leave_msg = tokens[2];
     ss.str(tokens[1]);
 	while(getline(ss, tmp, ','))
 	{
@@ -34,13 +37,16 @@ void	Server::partCmmd(std::vector<std::string>const &tokens, User *usr)
 			{
 				if (leave_msg.size() > 0)
 				{
+                    leave_msg += usr->getNickMask() + " PART " + (*it)->getName() + "\n";;
                     msgToChannel(leave_msg, usr, *it);
+					break ;
 					//send leve_msg to all users in channel
 				}
 				else
 				{
                     leave_msg = usr->getNickMask() + " PART " + (*it)->getName() + "\n";;
                     msgToChannel(leave_msg, usr, *it);
+					break ;
 					// ???? send generic msg to all users in channel
 				}
 				(*it)->disconnectUser(usr);

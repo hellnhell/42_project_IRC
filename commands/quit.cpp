@@ -20,7 +20,6 @@ void    Server::quitCmmd(std::vector<std::string> const &tokens, User *usr)
 	    replyMsg(ERR_UNKNOWNERROR, msg, usr);
 		it--;
 	}
-    // this->partCmmd(tokens,usr);
 	actionDisplay("Quited : ", "", usr);
 	this->deleteUser(usr); 
 }

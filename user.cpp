@@ -19,12 +19,13 @@ User::User(int &_fd, struct sockaddr_in const &client_addr) : fd(_fd)
 	// this->realName = "";
 	this->t_ping = 10000;
 	this->ping_on = false;
-	this->address = client_addr;
-	this->connection_pswd = 0;
 	this->check_user = false;
 	this->check_nick = false;
 	this->check_regist = false;
-	std::cout << "\r User created with fd: " << this->fd  <<std::endl;
+	this->op_mode = false;
+	this->address = client_addr;
+	this->connection_pswd = 0;
+	std::cout << "User created with fd: " << this->fd  <<std::endl;
 	user_modes_init(&this->modes);
 	this->address = client_addr;
 }
@@ -34,21 +35,21 @@ User::~User() {} //Puedes meter aquí el actionDispl
 
 //getters setters
 
-int User::getFD() {  return (this->fd); }
+int 	User::getFD() {  return (this->fd); }
 
-const std::string User::getUser() const { return (this->user); }
-void User::setUser(std::string _user) {	this->user = _user; }
+const 	std::string User::getUser() const { return (this->user); }
+void 	User::setUser(std::string _user) {	this->user = _user; }
 
-const std::string User::getRealName() const { return (this->realName); }
-void User::setRealName(std::string _realName) {	this->realName = _realName; }
+const 	std::string User::getRealName() const { return (this->realName); }
+void 	User::setRealName(std::string _realName) {	this->realName = _realName; }
 
-const std::string User::getNick() const { return (this->nick); }
-void User::setNick(std::string _nick) {	this->nick = _nick; }
+const	std::string User::getNick() const { return (this->nick); }
+void	User::setNick(std::string _nick) {	this->nick = _nick; }
 
-const std::string User::getNickMask() const { return (this->nickMask); }
-void User::setNickMask(std::string _nickMask) {	this->nickMask = _nickMask; }
+const 	std::string User::getNickMask() const { return (this->nickMask); }
+void 	User::setNickMask(std::string _nickMask) {	this->nickMask = _nickMask; }
 
-const std::string User::getModes() const
+const 	std::string User::getModes() const
 {
 	std::string ret;
 
@@ -77,6 +78,9 @@ void User::setModes(int modes)
 	if(modesbit.test(2))
 		this->modes.w = 1;
 }
+
+bool	User::getOper() const { return (this->op_mode); }
+void	User::setOper(bool op) { this->op_mode = op; }
 
 bool	User::getConnectionPswd() const { return (this->connection_pswd); }
 void	User::setConnectionPswd(bool cp) { this->connection_pswd = cp; }

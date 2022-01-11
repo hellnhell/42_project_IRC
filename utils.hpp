@@ -62,8 +62,10 @@ class User;
 
 void						timerDisplay( void );
 void						actionDisplay(std::string const &action, std::string const &cmd, User *usr);
+
 uint64_t	                getTime(void);
 
+std::string					toUpper(std::string str);
 
 
 #endif

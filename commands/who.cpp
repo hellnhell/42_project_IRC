@@ -12,8 +12,8 @@ void Server::whoCmmd(std::vector<std::string>const& tokens, User *usr)
         {
             if ((*it)->getNick() == tokens[1])
             {
-                msg = (*it)->getUser() + " " + (*it)->getClientAdd() + " " + (*it)->getNick() + " H+ :0 " + (*it)->getRealName();
-                replyMsg(RPL_WHOREPLY, msg, usr);
+                msg = (*it)->getUser() + " " + (*it)->getNick() + " " + (*it)->getRealName() + " " + (*it)->getClientAdd();
+                replyMsg(RPL_WHOREPLY," :" + msg, usr);
                 replyMsg(RPL_ENDOFWHO, (*it)->getUser() + " :End of WHO list.", usr);
                 return ;
             }
@@ -26,8 +26,8 @@ void Server::whoCmmd(std::vector<std::string>const& tokens, User *usr)
 			    	if (tokens[1] == (*it2)->getName())
                     {
                         for(it3 = (*it2)->getUsers().begin(); it3 != (*it2)->getUsers().end(); it3++)
-                            msg += "\n" + (*it3)->getUser() + " " + (*it3)->getClientAdd() + " " + (*it3)->getNick();
-                        replyMsg(RPL_WHOREPLY, msg, usr);
+                            msg +=  (*it3)->getUser() + " " + (*it3)->getNick() + " " + (*it3)->getClientAdd() + ", ";
+                        replyMsg(RPL_WHOREPLY, " :" + msg, usr);
 				    }
                     //Wait for OPS
                     // if (tokens.size() == 3 && tokens[2] == "o")
@@ -36,16 +36,16 @@ void Server::whoCmmd(std::vector<std::string>const& tokens, User *usr)
                     //         msg += "\n" + (*it3)->getUser() + " " + (*it3)->getClientAdd() + " " + (*it3)->getNick();
                     //     replyMsg(RPL_WHOREPLY, msg, usr);
                     // }
-                    replyMsg(RPL_ENDOFWHO, (*it3--)->getUser() + " :End of WHO list.", usr); //?
+                    replyMsg(RPL_ENDOFWHO, usr->getUser() + " :End of WHO list.", usr); //?
 			    }
                 return ;
             }
         }
         else
         {
-            msg = (*it)->getUser() + " " + (*it)->getClientAdd() + " " + (*it)->getNick() + "  " + (*it)->getRealName();
+            msg = (usr)->getUser()  + " " + (usr)->getNick() + " " + (usr)->getClientAdd();
             replyMsg(RPL_WHOREPLY, msg, usr);
-            replyMsg(RPL_ENDOFWHO, (*it)->getUser() + " :End of WHO list.", usr); //?
+            replyMsg(RPL_ENDOFWHO, usr->getUser() + " :End of WHO list.", usr); //?
         }
 	}
 	

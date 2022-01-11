@@ -68,6 +68,7 @@ Server::Server()
 		throw Server::ServerException();
 	}
 	this->highsock = this->listening_socket;
+	this->op_password = "duck123";
 }
 
 Server::~Server()

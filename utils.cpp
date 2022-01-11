@@ -15,10 +15,11 @@
 void	actionDisplay(std::string const &action, std::string const &cmd, User *usr)
 {
 	// timerDisplay();
-	std::cout << action.substr(0,25);
-	std::cout << " IP: " <<  usr->getClientAdd();
-	std::cout << " Socket: " << usr->getFD();
-	std::cout << cmd << std::endl;
+	std::cout << action.substr(0,25) 
+	<< " IP: " <<  usr->getClientAdd()
+	<< " Socket: " << usr->getFD()
+	<< " " 
+	<<  cmd << std::endl;
 }
 
 void	timerDisplay()
@@ -42,3 +43,8 @@ uint64_t	getTime(void)
 }
 
 
+std::string		toUpper(std::string str)
+{
+	transform(str.begin(), str.end(), str.begin(), ::toupper);
+	return (str);
+}
