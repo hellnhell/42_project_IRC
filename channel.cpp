@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:34 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/10 19:20:07 by nazurmen         ###   ########.fr       */
+/*   Updated: 2022/01/10 19:53:58 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -325,7 +325,7 @@ void Channel::setMode(char mode, bool value)
 	}
 }
 
-User *Channel::getUsers(std::string nickName) const
+User *Channel::getNick(std::string nickName) const
 {
 	std::vector<User *>::const_iterator it;
 

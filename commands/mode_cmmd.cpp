@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 20:11:02 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/10 19:23:24 by nazurmen         ###   ########.fr       */
+/*   Updated: 2022/01/10 19:55:36 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	Server::mode_cmmd(std::vector<std::string> const &tokens, User *usr, Server
 				}
 				else if(tokens[2][i] == 'o')
 				{
-					User *user = channel->getUsers(tokens[3]);
+					User *user = channel->getNick(tokens[3]);
 					if(!user)
 						return reply_msg(ERR_USERNOTINCHANNEL, tokens[3], usr);
 					if(mode_set)

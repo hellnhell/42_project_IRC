@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:47 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/10 19:19:49 by nazurmen         ###   ########.fr       */
+/*   Updated: 2022/01/10 19:54:10 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ class Channel
 		unsigned int			getCurrentUsers() const;
 		std::string 			getKey() const;
 		std::vector<User *>		const &getUsers() const;
-		User *					getUsers(std::string userName) const;
+		User *					getNick(std::string userName) const;
 		std::vector<User *>		const &getOps() const;
 		std::vector<User *>		const &getBans() const;
 		std::string				const getModes() const;
