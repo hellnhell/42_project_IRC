@@ -1,6 +1,6 @@
 #include "../server.hpp"
 
-void    Server::quitCmmd(std::vector<std::string> const &tokens, User *usr)
+void	Server::quitCmmd(std::vector<std::string> const &tokens, User *usr)
 {
 	std::string msg;
 
@@ -18,7 +18,7 @@ void    Server::quitCmmd(std::vector<std::string> const &tokens, User *usr)
 	{
 		(*it)->disconnectUser(usr);
 		usr->leaveChannel(*it);
-	    replyMsg(ERR_UNKNOWNERROR, msg, usr);
+		replyMsg(ERR_UNKNOWNERROR, msg, usr);
 		it--;
 	}
 	actionDisplay("Quited : ", "", usr);
