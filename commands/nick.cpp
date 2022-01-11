@@ -25,6 +25,9 @@ void Server::nickCmmd(std::vector<std::string> const &tokens, User *usr)
 {
 
 	std::map<int, User*>::iterator it;
+    std::string                    old_nick;
+    std::string                    msg;
+
 
 	if (!usr->getConnectionPswd()) //No se si es necesario
 		replyMsg(ERR_PASSWDMISMATCH ,"Password mismatch", usr);
@@ -52,9 +55,16 @@ void Server::nickCmmd(std::vector<std::string> const &tokens, User *usr)
 			}
 		}
 	}
+    old_nick = usr->getNickMask();
 	usr->setNick(tokens[1]);
 	usr->setNickMask(usr->getNick() + "!" + usr->getUser() + "@ft_irc.com");
+    if (!usr->getNick().empty())
+    {
+        std::vector<Channel *>::iterator it;
+        msg = old_nick + " NOW IS " + usr->getNickMask() + "\n";
+		for (it = usr->getChannels().begin(); usr->getChannels().size() > 1 && it != usr->getChannels().end(); it++)
+            return msgToChannel(msg, usr, *it);
+    }
 	usr->setCheckedNick(true);
 	actionDisplay( "Nick created", "", usr);
-
 }

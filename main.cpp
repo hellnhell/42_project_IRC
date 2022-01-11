@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 14:11:46 by emartin-          #+#    #+#             */
-/*   Updated: 2022/01/11 15:36:42 by nazurmen         ###   ########.fr       */
+/*   Updated: 2022/01/11 17:40:11 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,9 @@ int	getPort(std::string str)
 
 void signal_kill ( int number )
 {
-	if ( number == SIGINT ) //  number == SIGQUIT || number == SIGTERM???
+	if ( number == SIGINT) //  number == SIGQUIT || number == SIGTERM???
 	{
+		std::cout << RED "\n💀  KILLED 💀 \n" << WHITE;
 		gservptr->~Server();
 		std::cout << "----- KILLED -----\n";
 		exit(EXIT_FAILURE);
@@ -106,6 +107,7 @@ int main(int argc, char **argv)
 			return 0;
 		}
 	}
+	int i = 1;
 	try
 	{
 		port = getPort(argv[1]);
@@ -123,11 +125,30 @@ int main(int argc, char **argv)
 			{
 				std::cout << "\r";
 				timerDisplay();
-				//server.checkPing();
+				std::cout <<  "  Connections : " << YELLOW << server.getUsers().size() << WHITE << "\tChannels: " << YELLOW << server.getChannels().size() << WHITE " ";
+				if ( i == 4)
+					i = 1;
+				 switch (i)
+				 {
+				 	case 1:
+				 		std::cout << "\t☁️\t" ; // "** O" << " O **" 🌎 POSIBILIDADES VARIAS
+				 		break;
+				 	case 2:
+				 		std::cout << "\t🌧️\t"; // "** ^" << " ^ **" 🌏
+				 		break;
+					case 3:
+				 		std::cout << "\t🌨️\t" ; // "** -" << " - **" 🌍
+				 		break;
+				 	default:
+				 		break;
+				}
+				i++;
+				// server.checkPing();
 				std::cout.flush();
 			}
 			else
 			{
+				std::cout << "\n";
 				server.readSocks();
 				displayDev(&server);
 			}

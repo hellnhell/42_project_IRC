@@ -35,6 +35,7 @@ class User
 		bool				check_nick;
 		bool                check_regist;
 		bool				ping_on;
+		bool				op_mode;
 		std::string			user;
 		std::string			realName;
 		std::string			nick;
@@ -65,52 +66,49 @@ class User
 		void	setUser(std::string _user);
 
 		const std::string	getRealName() const;
-		void	setRealName(std::string _nick);
+		void				setRealName(std::string _nick);
 
 		const std::string	getNick() const;
-		void	setNick(std::string _nick);
+		void				setNick(std::string _nick);
 		
 		const std::string	getNickMask() const;
-		void	setNickMask(std::string _nickMask);
+		void				setNickMask(std::string _nickMask);
 
 		const std::string	getPass() const;
-		void	setPass(std::string _nick);
+		void				setPass(std::string _nick);
+		bool				getConnectionPswd() const;
+		void				setConnectionPswd(bool cp);
 
-		const std::string	getModes() const;
-		void	setModes(int modes);
-
-		bool		getConnectionPswd() const;
-		void		setConnectionPswd(bool cp);
+		const std::string	getModes() const;		//Mis dudas
+		void				setModes(int modes);
+		bool				getOper() const;
+		void				setOper(bool op);
 
 		const bool		&getCheckedUser() const;
 		void			setCheckedUser(bool cu);
-
 		const bool		&getCheckedNick() const;
 		void			setCheckedNick(bool nu);
+		bool			&getCheckedRegist();
 
-		bool		&getCheckedRegist();
-
-		const bool		&getPingOn() const;
-		void			setPingOn(bool po);
-
+		const bool			&getPingOn() const;
+		void				setPingOn(bool po);
 		const std::string 	&getPing() const;
 		void				setPing(std::string p);
-
-		std::string	getReply();
-		void		setReply(std::string const &msg);
-
-		std::string getClientAdd() const;
-
-		void		joinChannel(Channel *channel);
-		void		leaveChannel(Channel *channel);
-
-		std::vector<Channel*> const		&getChannels() { return this->channels; }
-
 		const uint64_t		&getTimeZero() const;
 		void				setTimeZero(uint64_t const & time_zero);
-		
 		const uint64_t		&getTimePing() const;
 		void				setTimePing(uint64_t const & time_ping);
+
+		std::string		getReply();
+		void			setReply(std::string const &msg);
+
+		std::string 	getClientAdd() const;
+
+		void		                joinChannel(Channel *channel);
+		void		                leaveChannel(Channel *channel);
+		std::vector<Channel*> 		&getChannels();
+
+		
 
 };
 

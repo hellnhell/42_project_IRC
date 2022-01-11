@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:41 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/11 15:19:31 by nazurmen         ###   ########.fr       */
+/*   Updated: 2022/01/11 17:40:14 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,19 @@ static bool checkIfChannel(const std::string &str)
 {
 	if (str[0] == '#' || str[0] == '&' || str[0] == '!' || str[0] == '+')
 		return true;
-	return false;
+    return false;
 }
 
 void Server::joinCmmd(std::vector<std::string> const &tokens, User* usr)
 {
-std::string     msg;
-std::cout << "join_cmd\n\n\n\n" << std::endl;
+	std::string     msg;
+
 	size_t i = 1;
 	if (tokens.size() < 2)
 	{
 		std::cout << "Usage: /join <channel>" << std::endl;
 		return;
 	}
-	//enviar informacion al usuario joineado sobre el canal y sus comandos disponibles
 	while(i < tokens.size())
 	{
 		if(checkIfChannel(tokens[i]))
@@ -46,6 +45,7 @@ std::cout << "join_cmd\n\n\n\n" << std::endl;
 					(*it)->joinUser(usr);
 					usr->joinChannel(*it);
 					replyMsg(RPL_TOPIC, ":" + (*it)->getTopic(), usr);
+                    usr->getChannels().push_back(*it);
 					msg = usr->getNickMask() + " JOIN " + (*it)->getName() + "\n";
  					msgToChannel(msg, usr, (*it));
 					return ;
@@ -57,6 +57,7 @@ std::cout << "join_cmd\n\n\n\n" << std::endl;
 				this->channels.push_back(chan);
 				this->channels.back()->joinUser(usr);
 				replyMsg(RPL_TOPIC, ":" + this->channels.back()->getTopic(), usr);
+                usr->getChannels().push_back(chan); //E
 				msg = usr->getNickMask() + " JOIN " + chan->getName() + "\n";
  				msgToChannel(msg, usr, chan);
 				return ;

@@ -68,6 +68,7 @@ Server::Server()
 		throw Server::ServerException();
 	}
 	this->highsock = this->listening_socket;
+	this->op_password = "duck123";
 }
 
 Server::~Server()
@@ -78,7 +79,7 @@ Server::~Server()
 	{
 		std::cout << "\r";
 		actionDisplay("Connection closed", "", this->list_users[it->first] );
-		delete it->second;
+        delete it->second;
 		close(it->first);
 		FD_CLR(it->first, &this->reads);
 		it++;

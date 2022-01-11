@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 12:56:36 by emartin-          #+#    #+#             */
-/*   Updated: 2022/01/11 15:40:30 by nazurmen         ###   ########.fr       */
+/*   Updated: 2022/01/11 17:59:04 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,13 @@ void    Server::parseCommands(std::vector<std::string> const &tokens, User *usr,
 		else if(tokens[0] == "PART" || tokens[0] == "part")
 		 	return this->partCmmd(tokens, usr);
 		else if(tokens[0] == "TOPIC" || tokens[0] == "topic")
-			this->topicCmmd(tokens, usr, *this);
+			return this->topicCmmd(tokens, usr, *this);
 		else if(tokens[0] == "MODE" || tokens[0] == "mode")
-			this->modeCmmd(tokens, usr, *this);
+			return this->modeCmmd(tokens, usr, *this);
+        else if(tokens[0] == "WHO" || tokens[0] == "who")
+		 	return this->whoCmmd(tokens, usr);
+		else if(tokens[0] == "OPER" || tokens[0] == "oper")
+		 	return this->operCmmd(tokens, usr);
 		return replyMsg(ERR_UNKNOWNCOMMAND, tokens[0] + " :Unkown command", usr);
 	}
 }
