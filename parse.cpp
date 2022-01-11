@@ -6,7 +6,7 @@
 /*   By: javier <javier@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 12:56:36 by emartin-          #+#    #+#             */
-/*   Updated: 2021/12/15 13:34:39 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/10 13:42:12 by javier           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,9 @@ void    Server::parseCommands(std::vector<std::string> const &tokens, User *usr,
 		 	return this->pongCmmd(tokens, usr);
 		else if(tokens[0] == "QUIT" || tokens[0] == "quit")
 		 	return this->quitCmmd(tokens, usr);
+		else if(tokens[0] == "NOTICE" || tokens[0] == "notice")
+		 	return this->noticeCmmd(tokens, usr);
+
 		return replyMsg(ERR_UNKNOWNCOMMAND, tokens[0] + " :Unkown command", usr);
 	}	
 }
