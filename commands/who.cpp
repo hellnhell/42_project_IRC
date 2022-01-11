@@ -3,8 +3,7 @@
 void Server::whoCmmd(std::vector<std::string>const& tokens, User *usr)
 {
 	std::string msg;
-
- 
+     
 	std::list<User *>::iterator it;
 	for (it = users_on.begin(); it != users_on.end(); ++it)
 	{
@@ -30,12 +29,12 @@ void Server::whoCmmd(std::vector<std::string>const& tokens, User *usr)
                         replyMsg(RPL_WHOREPLY, " :" + msg, usr);
 				    }
                     //Wait for OPS
-                    // if (tokens.size() == 3 && tokens[2] == "o")
-                    // {
-                    //     for(it3 = (*it2)->getOps().begin(); it3 != (*it2)->getOps().end(); ++it3)
-                    //         msg += "\n" + (*it3)->getUser() + " " + (*it3)->getClientAdd() + " " + (*it3)->getNick();
-                    //     replyMsg(RPL_WHOREPLY, msg, usr);
-                    // }
+                    if (tokens.size() == 3 && tokens[2] == "o")
+                    {
+                        for(it3 = (*it2)->getOps().begin(); it3 != (*it2)->getOps().end(); ++it3)
+                            msg += (*it3)->getUser() + " @" + (*it3)->getNick()  + " " + (*it3)->getClientAdd();
+                        replyMsg(RPL_WHOREPLY, msg, usr);
+                    }
                     replyMsg(RPL_ENDOFWHO, usr->getUser() + " :End of WHO list.", usr); //?
 			    }
                 return ;
@@ -44,7 +43,7 @@ void Server::whoCmmd(std::vector<std::string>const& tokens, User *usr)
         else
         {
             msg = (usr)->getUser()  + " " + (usr)->getNick() + " " + (usr)->getClientAdd();
-            replyMsg(RPL_WHOREPLY, msg, usr);
+            replyMsg(RPL_WHOREPLY," :" + msg, usr);
             replyMsg(RPL_ENDOFWHO, usr->getUser() + " :End of WHO list.", usr); //?
         }
 	}

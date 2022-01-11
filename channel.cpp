@@ -212,6 +212,17 @@ void Channel::deopUser(User *user)
 	}
 }
 
+bool const Channel::isOperator(User *usr) const
+{
+    std::vector<User *>::const_iterator it;
+
+    if((it = std::find(_ops.begin(), _ops.end(), usr)) != _ops.end())
+    {
+        return true;
+    }
+    return false;
+}
+
 std::string Channel::getName() const
 {
 	return _name;
@@ -245,4 +256,16 @@ std::vector<User *> const &Channel::getOps() const
 std::vector<User *> const &Channel::getBans() const
 {
 	return _bans;
+}
+
+User *Channel::getNick(std::string nickName) const
+{
+    std::vector<User *>::const_iterator it;
+
+    for (it = this->_users.begin(); it != this->_users.end(); it++)
+    {
+        if ((*it)->getNick() == nickName)
+            return (*it);
+    }
+    return (NULL);
 }

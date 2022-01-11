@@ -37,6 +37,8 @@ SRCS			= main.cpp \
 					commands/part.cpp	\
 					commands/who.cpp	\
 					commands/oper.cpp	\
+					commands/kill.cpp	\
+					commands/kick.cpp	\
 					commands/ping-pong.cpp \
 					utils.cpp
 

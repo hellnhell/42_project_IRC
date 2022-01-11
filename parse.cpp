@@ -62,6 +62,10 @@ void    Server::parseCommands(std::vector<std::string> const &tokens, User *usr,
 		 	return this->whoCmmd(tokens, usr);
 		else if(tokens[0] == "OPER" || tokens[0] == "oper")
 		 	return this->operCmmd(tokens, usr);
+		else if(tokens[0] == "KILL" || tokens[0] == "kill")
+		 	return this->killCmmd(tokens, usr);
+		else if(tokens[0] == "KICK" || tokens[0] == "kick")
+		 	return this->kickCmmd(tokens, usr);
 		return replyMsg(ERR_UNKNOWNCOMMAND, tokens[0] + " :Unkown command", usr);
 	}	
 }

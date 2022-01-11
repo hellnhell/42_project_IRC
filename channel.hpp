@@ -94,6 +94,8 @@ class Channel
 		void					unbanUser(User *user);
 		void					opUser(User *user);
 		void					deopUser(User *user);
+		bool                    const isOperator(User *usr) const;
+
 
 		std::string				getName() const;
 		std::string				getTopic() const;
@@ -102,6 +104,9 @@ class Channel
 		std::vector<User *>		const &getUsers() const;
 		std::vector<User *>		const &getOps() const;
 		std::vector<User *>		const &getBans() const;
+
+		User *                    getNick(std::string userName) const;
+
 };
 
 #endif // CHANNEL_HPP

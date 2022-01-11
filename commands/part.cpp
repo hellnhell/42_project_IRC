@@ -7,6 +7,7 @@ void	Server::partCmmd(std::vector<std::string>const &tokens, User *usr)
 	std::istringstream			ss;
 	std::string					leave_msg;
 	std::string::size_type		pos;
+	Channel						*chan;
 
     if (tokens.size() == 1 ) //se puede meter el quit
         return this->replyMsg(ERR_NOSUCHCHANNEL, "<empty> :No such channel", usr);
@@ -30,29 +31,22 @@ void	Server::partCmmd(std::vector<std::string>const &tokens, User *usr)
 			std::cout << "User " << usr->getUser() << " is not in any channel" << std::endl;
 			return ;
 		}
-		std::vector<Channel *>::iterator it;
-		for (it = usr->getChannels().begin(); usr->getChannels().size() > 0 && it != usr->getChannels().end(); ++it)
+		if ((chan = this->getChannel(tok[i])))
 		{
-			if ((*it)->getName() == tok[i])
+			if (leave_msg.size() > 0)
 			{
-				if (leave_msg.size() > 0)
-				{
-                    leave_msg += usr->getNickMask() + " PART " + (*it)->getName() + "\n";;
-                    msgToChannel(leave_msg, usr, *it);
-					break ;
-					//send leve_msg to all users in channel
-				}
-				else
-				{
-                    leave_msg = usr->getNickMask() + " PART " + (*it)->getName() + "\n";;
-                    msgToChannel(leave_msg, usr, *it);
-					break ;
-					// ???? send generic msg to all users in channel
-				}
-				(*it)->disconnectUser(usr);
-				usr->leaveChannel(*it);
-				it--;
+                   leave_msg += usr->getNickMask() + " PART " + (chan)->getName() + "\n";;
+                   msgToChannel(leave_msg, usr, chan);
+				//send leve_msg to all users in channel
 			}
+			else
+			{
+                   leave_msg = usr->getNickMask() + " PART " + (chan)->getName() + "\n";;
+                   msgToChannel(leave_msg, usr, chan);
+				// ???? send generic msg to all users in channel
+			}
+			(chan)->disconnectUser(usr);
+			usr->leaveChannel(chan);
 		}
 	}
 }
