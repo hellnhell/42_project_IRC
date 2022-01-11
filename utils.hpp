@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: javier <javier@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 14:04:23 by emartin-          #+#    #+#             */
-/*   Updated: 2021/12/13 19:31:33 by nazurmen         ###   ########.fr       */
+/*   Updated: 2021/12/10 14:18:48 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <netinet/in.h>
 # include <string.h>
 # include <arpa/inet.h>
+# include "user.hpp"
 # include <errno.h>
 # include <stdio.h>
 # include <sys/time.h>
@@ -58,9 +59,12 @@ class User;
 // yellow=$'\e[0;92;33m'
 // nc=$'\e[0m'
 
+
 void						timerDisplay( void );
 void						actionDisplay(std::string const &action, std::string const &cmd, User *usr);
 // void						displayDev(Server *serv);
+uint64_t	                getTime(void);
+
 
 
 #endif

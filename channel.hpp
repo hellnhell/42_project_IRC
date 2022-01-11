@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:47 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/10 19:54:10 by nazurmen         ###   ########.fr       */
+/*   Updated: 2022/01/11 15:28:12 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <iostream>
 # include <vector>
 # include <algorithm>
+# include <list>
 # include "user.hpp"
 # include "server.hpp"
 
@@ -27,6 +28,9 @@ class Server;
 //       1 -> & local server
 //       2 -> + modeless channel
 //       3 -> ! timestamped channel en no timestamped network
+
+typedef std::vector<std::string>::iterator	it_str_list_chnl;
+typedef std::vector<User *>::iterator			it_usr_list_chnl;
 
 typedef struct s_modes
 {

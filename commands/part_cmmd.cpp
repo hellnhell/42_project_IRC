@@ -6,13 +6,13 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 15:09:08 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/20 18:45:21 by nazurmen         ###   ########.fr       */
+/*   Updated: 2022/01/11 15:22:20 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../server.hpp"
 
-void	Server::part_cmmd(std::vector<std::string> const& tokens, User *usr)
+void	Server::partCmmd(std::vector<std::string> const& tokens, User *usr)
 {
 	std::vector<std::string>	tok;
 	std::istringstream			ss(tokens[1]);

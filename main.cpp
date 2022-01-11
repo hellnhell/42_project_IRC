@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 14:11:46 by emartin-          #+#    #+#             */
-/*   Updated: 2022/01/10 18:53:23 by nazurmen         ###   ########.fr       */
+/*   Updated: 2022/01/11 15:36:42 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ void displayDev(Server *serv)
 	{
 		std::cout << "Socket: " << it->first << "\tIP: " << it->second->getClientAdd() << "\tUser: " << it->second->getUser() << "\n";
 	}
-
-
 	std::cout << "Channels: " << serv->getChannels().size() << std::endl;
 	std::vector<Channel *>::const_iterator it2;
 	std::vector<User *>::const_iterator it3;
@@ -66,7 +64,6 @@ void displayDev(Server *serv)
 		}
 	}
 }
-
 
 int	getPort(std::string str)
 {
@@ -119,18 +116,19 @@ int main(int argc, char **argv)
 		while(1)
 		{
 			signal(SIGINT, signal_kill);
-			server.build_select_list();
-			if((set_read = server.get_read_socks()) < 0)
+			server.buildSelectList();
+			if((set_read = server.getReadSocks()) < 0)
 				throw Server::ServerException();
 			if(set_read == 0)
 			{
 				std::cout << "\r";
 				timerDisplay();
+				//server.checkPing();
 				std::cout.flush();
 			}
 			else
 			{
-				server.read_socks();
+				server.readSocks();
 				displayDev(&server);
 			}
 		}

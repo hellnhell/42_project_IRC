@@ -6,7 +6,7 @@
 #    By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/22 11:59:14 by emartin-          #+#    #+#              #
-#    Updated: 2022/01/09 14:22:05 by nazurmen         ###   ########.fr        #
+#    Updated: 2022/01/11 15:32:27 by nazurmen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,6 @@
 NAME			= irc-server
 
 SRCS_DIR= ./
-
 
 SRCS			= main.cpp \
 					server.cpp \
@@ -27,12 +26,14 @@ SRCS			= main.cpp \
 					commands/pass.cpp	\
 					commands/time.cpp	\
 					commands/privmsg.cpp \
-					commands/join_cmmd.cpp \
-					commands/names_cmmd.cpp \
+					commands/join.cpp \
+					commands/names.cpp \
 					commands/motd.cpp	\
 					commands/part_cmmd.cpp	\
 					commands/topic_cmmd.cpp	\
 					commands/mode_cmmd.cpp	\
+					commands/quit.cpp	\
+					commands/ping-pong.cpp \
 					utils.cpp
 
 OBJS_DIR = objects/
@@ -41,15 +42,16 @@ OBJS = $(addprefix $(OBJS_DIR), $(OBJ))
 
 CC				= clang++
 RM				= rm -rf
-CFLAGS			= -g3 -std=c++98 -fsanitize=address -Wall -Wextra -Werror -I.
+CFLAGS			= -g3 -std=c++98 -Wall -Wextra -Werror -I.
 
 $(OBJS_DIR)%.o : $(SRCS_DIR)%.cpp
 	@mkdir -p $(OBJS_DIR) $(OBJS_DIR)commands/
 	@echo "\033[0;33mCompiling: $<\033[0m"
 	@${CC} $(FLAGS) -c $< -o $@
-
 $(NAME):		$(OBJS)
 				${CC} ${CFLAGS} -o ${NAME} ${OBJS} ${LIBS}
+
+all: $(NAME)
 
 all: $(NAME)
 

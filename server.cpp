@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:52 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/09 14:57:05 by nazurmen         ###   ########.fr       */
+/*   Updated: 2022/01/11 15:29:17 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ Server::Server()
 	int reuse_addr = 1;
 	FD_ZERO(&this->reads);
 	this->highsock = 0;
+	this->flag = 0;
 	this->listening_socket = 0;
 	this->listening_socket = socket(AF_INET, SOCK_STREAM, 0);
 	if(this->listening_socket < 0)
@@ -67,19 +68,6 @@ Server::Server()
 		throw Server::ServerException();
 	}
 	this->highsock = this->listening_socket;
-	this->cmd_list.push_back("PASS");
-	this->cmd_list.push_back("USER");
-	this->cmd_list.push_back("NICK");
-	this->cmd_list.push_back("EXIT");
-	this->cmd_list.push_back("TIME");
-	this->cmd_list.push_back("JOIN");
-	this->cmd_list.push_back("PRIVMSG");
-	this->cmd_list.push_back("MOTD");
-	this->cmd_list.push_back("NAMES");
-	this->cmd_list.push_back("PART");
-	this->cmd_list.push_back("TOPIC");
-	this->cmd_list.push_back("MODE");
-
 }
 
 Server::~Server()
@@ -103,7 +91,7 @@ Server::~Server()
 	std::cout << "Destructor Server\n";
 }
 
-void Server::build_select_list()
+void Server::buildSelectList()
 {
 	int listnum;
 
@@ -120,14 +108,14 @@ void Server::build_select_list()
 	}
 }
 
-int Server::get_read_socks()
+int Server::getReadSocks()
 {
 	this->timeout.tv_sec = 1;
 	this->timeout.tv_usec = 0;
 	return select((this->highsock + 1 ), &this->reads, (fd_set *) 0, (fd_set *) 0 , &this->timeout);
 }
 
-void Server::handle_new_connection()
+void Server::handleNewConnection()
 {
 	int connection;
 	struct sockaddr_in client_address;
@@ -150,9 +138,10 @@ void Server::handle_new_connection()
 				this->list_users[connection]->setConnectionPswd(1);
 			else
 				this->list_users[connection]->setConnectionPswd(0);
+			this->list_users[this->_list_connected_user[listnum]]->setTimeZero(getTime());
+			std::cout << "\r";
 			// printf("Connection accepted: fd=%d Slot=%lu\n", connection, listnum);
 			actionDisplay("Connection accepted", "", list_users[connection]);
-
 			connection = -1;
 		}
 	}
@@ -162,7 +151,7 @@ void Server::handle_new_connection()
 	}
 }
 
-void Server::deal_with_data(int listnum)
+void Server::dealWithData(int listnum)
 {
 	char 			buffer[512];
 	std::string		buff_input;
@@ -179,100 +168,50 @@ void Server::deal_with_data(int listnum)
 	{
 		//delete user?
 		actionDisplay("Connection lost", "", this->list_users[this->_list_connected_user[listnum]]);
-		delete (this->list_users[this->_list_connected_user[listnum]]);
-		// std::cout << std::endl << "Connection lost fd -> " << this->_list_connected_user[listnum] << " slot -> " <<  listnum << std::endl;
-		close(this->_list_connected_user[listnum]);
-		this->_list_connected_user[listnum] = 0;
+		deleteUser(this->list_users[this->_list_connected_user[listnum]]);
+		// delete (this->list_users[this->_list_connected_user[listnum]]);
+		// // std::cout << std::endl << "Connection lost fd -> " << this->_list_connected_user[listnum] << " slot -> " <<  listnum << std::endl;
+		// close(this->_list_connected_user[listnum]);
+		// this->_list_connected_user[listnum] = 0;
 	}
 	else
 	{
 		User *tmpuser = this->list_users[this->_list_connected_user[listnum]];
-		tokens = parse_message(recived);
+		tokens = parseMessage(recived);
 		if (tokens[0].empty())
 			return;
-		std::transform(tokens[0].begin(), tokens[0].end(),tokens[0].begin(), ::toupper);
 		actionDisplay("Attend client", " CMD:" + tokens[0], tmpuser);
-		if ((std::find(cmd_list.begin(), cmd_list.end(), tokens[0]) == cmd_list.end()))
-			return reply_msg(ERR_UNKNOWNCOMMAND, tokens[0] + " :Unkown command", tmpuser);
-		if(tokens[0] == "USER" || tokens[0] == "user")
-		{
-			tmpuser = this->list_users[this->_list_connected_user[listnum]];
-			this->user_cmd(tokens, tmpuser);
-		}
-		else if(tokens[0] == "NICK" || tokens[0] == "nick")
-		{
-			tmpuser = this->list_users[this->_list_connected_user[listnum]];
-			this->nick_cmd(tokens, tmpuser);
-		}
-		else if(tokens[0] == "PASS" || tokens[0] == "pass")
-		{
-			this->pass(tokens, tmpuser); //N: esto no está definido
-		}
-		else if(tokens[0] == "PRIVMSG" || tokens[0] == "PRIVMSG")
-		{
-			this->privmsg(tokens, tmpuser);
-		}
-		else if(tokens[0] == "TIME" || tokens[0] == "time")
-		{
-			if (this->list_users[this->_list_connected_user[listnum]] == NULL)
-				this->time_cmd(tmpuser, this->_list_connected_user[listnum]);
-			else
-			 	return reply_msg(ERR_NOTREGISTERED, "TIME :You have not registered.", tmpuser);
-		}
-		else if(tokens[0] == "NICK" || tokens[0] == "nick")
-		{
-			tmpuser = this->list_users[this->_list_connected_user[listnum]];
-			this->nick_cmd(tokens, tmpuser);
-		}
-		else if(tokens[0] == "JOIN" || tokens[0] == "join")
-		{
-			this->join_cmd(tokens, tmpuser);
-		}
-		else if(tokens[0] == "MOTD" || tokens[0] == "motd")
-		{
-			this->motd_cmmd(listnum);
-		}
-		else if(tokens[0] == "NAMES" || tokens[0] == "names")
-		{
-			this->names_cmmd(tokens, tmpuser, *this);
-		}
-		else if(tokens[0] == "PART" || tokens[0] == "part")
-		{
-			this->part_cmmd(tokens, tmpuser);
-		}
-		else if(tokens[0] == "TOPIC" || tokens[0] == "topic")
-		{
-			this->topic_cmmd(tokens, tmpuser, *this);
-		}
-		else if(tokens[0] == "MODE" || tokens[0] == "mode")
-		{
-			this->mode_cmmd(tokens, tmpuser, *this);
-		}
-
-
-
+		parseCommands(tokens, tmpuser, listnum);
 		std::cout << std::endl << "Received:  " << recived << std::endl;
 		send(this->_list_connected_user[listnum], recived.c_str(), recived.length(), 0);
 		send(this->_list_connected_user[listnum], (char *)"\n", strlen((char *)"\n"), 0);
-		// sock_puts(this->_list_connected_user[listnum], buffer);
-		// sock_puts(this->_list_connected_user[listnum], (char *)"\n");
-		std::cout << "Responded: " << recived << std::endl;
 	}
 }
 
-void Server::read_socks()
+void Server::readSocks()
 {
 	if(FD_ISSET(this->listening_socket, &this->reads))
-		this->handle_new_connection();
+		this->handleNewConnection();
 	for(size_t listnum = 0; listnum < FD_SETSIZE; listnum++)
 	{
 		if(FD_ISSET(this->_list_connected_user[listnum], &this->reads))
-			deal_with_data(listnum);
+		{
+			this->list_users[this->_list_connected_user[listnum]]->setTimeZero(getTime());
+			std::cout << "\r";
+			dealWithData(listnum);
+		}
 	}
 }
 
+
+//SETTERs-GETTERs
+
 void Server::setPassword(std::string psswd) { this->password = psswd; }
 std::string	Server::getPassword() const { return this->password; };
+
+std::map<int, User *> const& Server::getUsers() const { return this->list_users; }
+std::vector<Channel *> const& Server::getChannels() const { return this->channels; }
+
 
 void Server::removeChannel(Channel *channel)
 {
@@ -281,11 +220,6 @@ void Server::removeChannel(Channel *channel)
 	if (it != this->channels.end())
 		this->channels.erase(it);
 }
-
-
-std::map<int, User *> const &Server::getUsers() const { return list_users; }
-
-std::vector<Channel *> const &Server::getChannels() const { return this->channels; }
 
 void	Server::deleteUser(User *usr) // REVISAR
 {
