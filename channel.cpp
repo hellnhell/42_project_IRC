@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:34 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/11 15:17:24 by nazurmen         ###   ########.fr       */
+/*   Updated: 2022/01/11 17:29:13 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,7 @@ void Channel::disconnectUser(User *user)
 
 	if((it = std::find(_users.begin(), _users.end(), user)) != _users.end())
 	{
+std::cout << "User " << user->getUser() << " disconnected from channel " << _name << std::endl;
 		_users.erase(it);
 		this->_current_users--;
 	}
