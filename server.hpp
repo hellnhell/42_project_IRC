@@ -6,7 +6,7 @@
 /*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:50 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/11 11:45:43 by javrodri         ###   ########.fr       */
+/*   Updated: 2022/01/11 13:41:33 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,6 +214,7 @@ class Server
 		void                        privmsgCmmd(std::vector<std::string> const& tokens, User* usr);
         void	                    partCmmd(std::vector<std::string> const& tokens, User *usr);
 		void					    noticeCmmd(std::vector<std::string> const& tokens, User* usr);
+		void						awayCmmd(std::vector<std::string> const &tokens, User *usr);
         
 		
 		void						checkPing();

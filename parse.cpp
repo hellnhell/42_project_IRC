@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javier <javier@student.42.fr>              +#+  +:+       +#+        */
+/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 12:56:36 by emartin-          #+#    #+#             */
-/*   Updated: 2022/01/10 13:42:12 by javier           ###   ########.fr       */
+/*   Updated: 2022/01/11 18:37:11 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void    Server::parseCommands(std::vector<std::string> const &tokens, User *usr,
 			return this->nickCmmd(tokens, usr);
 		else if(tokens[0] == "PASS" || tokens[0] == "pass")
 			return this->passCmmd(tokens, usr);
-		else if(tokens[0] == "PRIVMSG" || tokens[0] == "PRIVMSG")
+		else if(tokens[0] == "PRIVMSG" || tokens[0] == "privmsg")
 			return this->privmsgCmmd(tokens, usr);
 		else if(tokens[0] == "TIME" || tokens[0] == "time")
 			return this->timeCmmd(usr, this->_list_connected_user[fd]);
@@ -58,6 +58,8 @@ void    Server::parseCommands(std::vector<std::string> const &tokens, User *usr,
 		 	return this->quitCmmd(tokens, usr);
 		else if(tokens[0] == "NOTICE" || tokens[0] == "notice")
 		 	return this->noticeCmmd(tokens, usr);
+		else if(tokens[0] == "AWAY" || tokens[0] == "away")
+		 	return this->awayCmmd(tokens, usr);
 
 		return replyMsg(ERR_UNKNOWNCOMMAND, tokens[0] + " :Unkown command", usr);
 	}	

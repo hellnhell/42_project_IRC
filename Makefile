@@ -6,7 +6,7 @@
 #    By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/22 11:59:14 by emartin-          #+#    #+#              #
-#    Updated: 2022/01/09 18:50:13 by javrodri         ###   ########.fr        #
+#    Updated: 2022/01/11 18:51:25 by javrodri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,8 @@ SRCS			= main.cpp \
 					commands/motd.cpp	\
 					commands/quit.cpp	\
 					commands/ping-pong.cpp \
+					commands/away.cpp \
+					commands/notice.cpp \
 					utils.cpp
 
 OBJS_DIR = objects/

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:52 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/15 14:28:18 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/11 18:47:16 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,8 +183,8 @@ void Server::dealWithData(int listnum)
 		actionDisplay("Attend client", " CMD:" + tokens[0], tmpuser);
 		parseCommands(tokens, tmpuser, listnum);
 		std::cout << std::endl << "Received:  " << recived << std::endl;
-		send(this->_list_connected_user[listnum], recived.c_str(), recived.length(), 0);
-		send(this->_list_connected_user[listnum], (char *)"\n", strlen((char *)"\n"), 0);
+		// send(this->_list_connected_user[listnum], recived.c_str(), recived.length(), 0);
+		// send(this->_list_connected_user[listnum], (char *)"\n", strlen((char *)"\n"), 0);
 	}
 }
 

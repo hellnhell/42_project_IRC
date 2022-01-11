@@ -19,6 +19,7 @@ User::User(int &_fd, struct sockaddr_in const &client_addr) : fd(_fd)
 	// this->realName = "";
 	this->t_ping = 10000;
 	this->ping_on = false;
+	this->away_on = false;
 	this->address = client_addr;
 	this->connection_pswd = 0;
 	this->check_user = false;
@@ -142,4 +143,10 @@ const bool			&User::getPingOn() const { return (this->ping_on); }
 void				User::setPingOn(bool po) { this->ping_on = po; }
 
 const std::string 	&User::getPing() const { return this->ping; }
-void				User::setPing(std::string p) { this->ping = p; };
+void				User::setPing(std::string p) { this->ping = p; }
+
+const bool			&User::getAwayOn() const { return (this->away_on); }
+void				User::setAwayOn(bool po) { this->away_on = po; }
+
+const std::string 	&User::getAway() const { return this->away; }
+void				User::setAway(std::string p) { this->away = p; }

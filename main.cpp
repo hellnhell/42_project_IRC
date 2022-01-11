@@ -6,7 +6,7 @@
 /*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 14:11:46 by emartin-          #+#    #+#             */
-/*   Updated: 2022/01/09 18:49:53 by javrodri         ###   ########.fr       */
+/*   Updated: 2022/01/11 13:47:57 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int main(int argc, char **argv)
 			{
 				std::cout << "\r";
 				timerDisplay();
-				server.checkPing();
+				//server.checkPing();
 				std::cout.flush();
 			}
 			else

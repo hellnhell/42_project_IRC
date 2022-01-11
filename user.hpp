@@ -35,11 +35,13 @@ class User
 		bool				check_nick;
 		bool                check_regist;
 		bool				ping_on;
+		bool				away_on;
 		std::string			user;
 		std::string			realName;
 		std::string			nick;
 		std::string			nickMask;
 		std::string			password;
+		std::string			away;
 		t_user_modes 		modes;
 		struct sockaddr_in	address;
 
@@ -95,6 +97,12 @@ class User
 
 		const std::string 	&getPing() const;
 		void				setPing(std::string p);
+
+		const bool		&getAwayOn() const;
+		void			setAwayOn(bool po);
+
+		const std::string 	&getAway() const;
+		void				setAway(std::string p);
 
 		std::string	getReply();
 		void		setReply(std::string const &msg);

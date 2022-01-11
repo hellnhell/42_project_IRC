@@ -6,7 +6,7 @@
 /*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 12:58:34 by javrodri          #+#    #+#             */
-/*   Updated: 2022/01/09 18:53:57 by javrodri         ###   ########.fr       */
+/*   Updated: 2022/01/11 18:50:35 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,11 @@ void    Server::privmsgCmmd(std::vector<std::string> const& tokens, User* usr){
         }
         msg.append("PRIVMSG " + usr->getNickMask() + " :" + tokens[2]);
         send(destUser->getFD(), msg.c_str(), msg.length(), 0);
+    }
+    if (destUser->getAwayOn()){
+        std::string msgAwayReply;
+        msgAwayReply.append("AWAY " + destUser->getNickMask() + " :" + destUser->getAway()) + "\n";
+        send(usr->getFD(), msgAwayReply.c_str(), msgAwayReply.length(), 0);
     }
 }
 
