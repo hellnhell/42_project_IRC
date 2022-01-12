@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:50 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/09 18:51:40 by javrodri         ###   ########.fr       */
+/*   Updated: 2022/01/11 17:45:25 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,8 @@
 
 # define RPL_ENDOFWHO				"315"
 
+# define RPL_CHANNELMODEIS			"324"
+
 # define RPL_WHOREPLY				"352"
 # define RPL_NAMREPLY				"353"
 # define RPL_ENDOFNAMES				"366"
@@ -130,9 +132,12 @@
 # define RPL_MOTDSTART				"375"
 # define RPL_ENDOFMOTD				"376"
 
-# define RPL_YOUREOPER				"381"
+# define RPL_TOPIC					"332"
 
 # define RPL_TIME 					"391"		//"<server> :<string showing server's local time>""
+
+# define RPL_YOUREOPER				"381"
+
 
 
 class User;
@@ -184,13 +189,13 @@ class Server
 		std::vector<std::string>	parseMessage(std::string buffer);
 		void					    parseCommands(std::vector<std::string> const &tokens, User *usr, int fd);
 
-		void						replyMsg(std::string rep, std::string str, User *usr);
-		void	                    msgToChannel(std::string msg,  User *usr, Channel *chnl);
-		void						display();
-		void						checkPing();
+		void							replyMsg(std::string rep, std::string str, User *usr);
+		void	                   		msgToChannel(std::string msg,  User *usr, Channel *chnl);
+		void							display();
+		void							checkPing();
 
-		void						setPassword(std::string psswd);
-		std::string					getPassword() const;
+		void							setPassword(std::string psswd);
+		std::string						getPassword() const;
 
 		std::map<int, User *> const 	&getUsers() const;
 		std::vector<Channel *> const 	&getChannels() const;
@@ -202,16 +207,19 @@ class Server
 
 		void						userCmmd(std::vector<std::string> const &tokens, User *usr);
 		void						timeCmmd(User *usr, int fd_usr);
+		//void						privmsg(std::vector<std::string> const& tokens, User* usr);
+		void						privmsgCmmd(std::vector<std::string> const& tokens, User* usr);
 		void						nickCmmd(std::vector<std::string> const &tokens, User *usr);
-		void						passCmmd(std::vector<std::string> const &tokens, User *usr);
-		void						joinCmmd(std::vector<std::string> const &tokens, User *usr);
-		void						motdCmmd(int const &fd);
-		void 						namesCmmd( std::vector<std::string> const &tokens, User *usr, Server &serv);
-		void 					   	quitCmmd(std::vector<std::string> const &tokens, User *usr);
-		void   						pongCmmd(std::vector<std::string> const &tokens, User *usr);
-		void                        privmsgCmmd(std::vector<std::string> const &tokens, User *usr);
-        void	                    partCmmd(std::vector<std::string> const &tokens, User *usr);
-        void                        whoCmmd( std::vector<std::string> const &tokens, User *usr );
+		void						passCmmd(std::vector<std::string> const &tokens, User* usr);
+		void						joinCmmd(std::vector<std::string> const &tokens, User* usr);
+		void						motdCmmd(int const & fd);
+		void						namesCmmd(std::vector<std::string> const& tokens, User *usr, Server &Serv);
+		void						partCmmd(std::vector<std::string> const& tokens, User *usr);
+		void						topicCmmd(std::vector<std::string> const& tokens, User *usr, Server &Serv);
+		void						modeCmmd(std::vector<std::string> const& tokens, User *usr, Server &Serv);
+		void						quitCmmd(std::vector<std::string> const &tokens, User *usr);
+		void						pongCmmd(std::vector<std::string> const &tokens, User *usr);
+		void                        whoCmmd( std::vector<std::string> const &tokens, User *usr );
 		void						operCmmd(std::vector<std::string> const &tokens, User *usr);
 		void						killCmmd(std::vector<std::string>const &tokens, User *usr);
 		void						kickCmmd(std::vector<std::string>const &tokens, User *usr);

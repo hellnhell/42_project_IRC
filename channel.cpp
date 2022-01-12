@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:34 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/09 18:49:42 by javrodri         ###   ########.fr       */
+/*   Updated: 2022/01/11 17:29:13 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ static void initModes(t_modes *modes)
 	modes->n = 0;
 	modes->p = 0;
 	modes->s = 0;
-	modes->t = 0;
+	modes->t = 1;
 	modes->r = 0;
-	modes->k = 0;
+	modes->k = "";
 	modes->l = 0;
 	modes->b = 0;
 	modes->e = 0;
@@ -60,7 +60,7 @@ Channel::Channel(Server *server, User *creator, const std::string &name)
 		this->_server = server;
 		this->_name = name;
 		this->_topic = "";
-		this->_password = "";
+//		this->_password = "";
 		this->_type = initType(name);
 		this->_modes.O = creator->getUser();
 		this->_max_users = 1024;
@@ -93,11 +93,12 @@ Channel::~Channel() {}
 
 Channel &Channel::operator=(const Channel &rhs)
 {
+//updatear asignaciones
 	if (this != &rhs)
 	{
 		this->_name = rhs._name;
 		this->_topic = rhs._topic;
-		this->_password = rhs._password;
+//		this->_password = rhs._password;
 		this->_type = rhs._type;
 		this->_modes = rhs._modes;
 		this->_max_users = rhs._max_users;
@@ -147,6 +148,7 @@ void Channel::disconnectUser(User *user)
 
 	if((it = std::find(_users.begin(), _users.end(), user)) != _users.end())
 	{
+std::cout << "User " << user->getUser() << " disconnected from channel " << _name << std::endl;
 		_users.erase(it);
 		this->_current_users--;
 	}
@@ -190,15 +192,22 @@ void Channel::unbanUser(User *user)
 	}
 }
 
-void Channel::opUser(User *user)
+int Channel::opUser(User *user)
 {
 	std::vector<User *>::iterator it;
 
 	if((it = std::find(_ops.begin(), _ops.end(), user)) != _ops.end())
 	{
-		_ops.push_back(*it);
-		_users.erase(it);
+		perror("User is already op");
+		return -1;
 	}
+	if((it = std::find(_users.begin(), _users.end(), user)) == _ops.end())
+	{
+		perror("User not in channel");
+		return -1;
+	}
+	_ops.push_back(user);
+	return 0;
 }
 
 void Channel::deopUser(User *user)
@@ -207,21 +216,11 @@ void Channel::deopUser(User *user)
 
 	if((it = std::find(_ops.begin(), _ops.end(), user)) != _ops.end())
 	{
+	//	_users.push_back(*it);
 		_ops.erase(it);
-		_users.push_back(*it);
 	}
 }
 
-bool const Channel::isOperator(User *usr) const
-{
-    std::vector<User *>::const_iterator it;
-
-    if((it = std::find(_ops.begin(), _ops.end(), usr)) != _ops.end())
-    {
-        return true;
-    }
-    return false;
-}
 
 std::string Channel::getName() const
 {
@@ -258,14 +257,92 @@ std::vector<User *> const &Channel::getBans() const
 	return _bans;
 }
 
+std::string const Channel::getModes() const
+{
+	std::string modes;
+
+	if (this->_modes.n)
+		modes += "n";
+	if (this->_modes.t)
+		modes += "t";
+	if (this->_modes.k.size())
+		modes += "k";
+	if (this->_modes.o)
+		modes += "o";
+
+	return modes;
+}
+
+bool const Channel::getMode(char mode) const
+{
+	switch (mode)
+	{
+		case 'n':
+			return this->_modes.n;
+		case 't':
+			return this->_modes.t;
+		case 'k':
+		{
+			if (this->_modes.k.size())
+				return true;
+			else
+				return false;
+		}
+		case 'o':
+			return this->_modes.o;
+		default:
+			return false;
+	}
+}
+
+bool const Channel::isOperator(User *usr) const
+{
+	std::vector<User *>::const_iterator it;
+
+	if((it = std::find(_ops.begin(), _ops.end(), usr)) != _ops.end())
+		return true;
+	return false;
+}
+
+void Channel::setMode(char mode, bool value)
+{
+	switch (mode)
+	{
+		case 'n':
+			this->_modes.n = value;
+			break;
+		case 't':
+			this->_modes.t = value;
+			break;
+		case 'k':
+			this->_modes.k = value;
+			break;
+		case 'o':
+			this->_modes.o = value;
+			break;
+		default:
+			break;
+	}
+}
+
 User *Channel::getNick(std::string nickName) const
 {
-    std::vector<User *>::const_iterator it;
+	std::vector<User *>::const_iterator it;
 
-    for (it = this->_users.begin(); it != this->_users.end(); it++)
-    {
-        if ((*it)->getNick() == nickName)
-            return (*it);
-    }
-    return (NULL);
+	for (it = this->_users.begin(); it != this->_users.end(); it++)
+	{
+		if ((*it)->getNick() == nickName)
+			return (*it);
+	}
+	return (NULL);
+}
+
+void Channel::setKey(std::string key)
+{
+	this->_modes.k = key;
+}
+
+std::string Channel::getKey() const
+{
+	return this->_modes.k;
 }

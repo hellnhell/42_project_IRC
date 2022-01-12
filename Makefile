@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+         #
+#    By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/22 11:59:14 by emartin-          #+#    #+#              #
-#    Updated: 2022/01/09 18:50:13 by javrodri         ###   ########.fr        #
+#    Updated: 2022/01/11 17:46:46 by nazurmen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,8 @@ SRCS			= main.cpp \
 					commands/join.cpp \
 					commands/names.cpp \
 					commands/motd.cpp	\
+					commands/topic_cmmd.cpp	\
+					commands/mode_cmmd.cpp	\
 					commands/quit.cpp	\
 					commands/part.cpp	\
 					commands/who.cpp	\

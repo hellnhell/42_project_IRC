@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 14:11:46 by emartin-          #+#    #+#             */
-/*   Updated: 2022/01/09 18:49:53 by javrodri         ###   ########.fr       */
+/*   Updated: 2022/01/11 17:40:11 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,36 @@ void displayDev(Server *serv)
 	std::vector<User *>::const_iterator it3;
 	for (it2 = serv->getChannels().begin(); it2 != serv->getChannels().end(); it2++)
 	{
+
+		//print ops on channel
+		std::cout << "Channel: " << (*it2)->getName() << "\tOps: ";
+		for (it3 = (*it2)->getOps().begin(); it3 != (*it2)->getOps().end(); it3++)
+		{
+			std::cout << (*it3)->getNick() << " ";
+		}
+		std::cout << std::endl;
+
+
 		std::cout << "Channel: " << (*it2)->getName() << " Users: " << (*it2)->getUsers().size() << std::endl;
 		for(it3 = (*it2)->getUsers().begin(); it3 != (*it2)->getUsers().end(); it3++)
 		{
-			std::cout << "User: " << (*it3)->getUser() << " IP: " << (*it3)->getClientAdd() << " Socket: " << (*it3)->getFD() << std::endl;
+			std::cout << "nick: ";
+
+			std::vector<User *>::const_iterator it4;
+			for (it4 = (*it2)->getOps().begin(); it4 != (*it2)->getOps().end(); it4++)
+			{
+				std::cout << "check: " << (*it3)->getNick() << " " << (*it4)->getNick() << std::endl;
+				if ((*it3)->getNick() == (*it4)->getNick())
+				{
+					std::cout << "*";
+					it4 = (*it2)->getOps().end();
+					it4--;
+				}
+			}
+
+			std::cout << (*it3)->getNick() << " ";
+			std::cout << (*it3)->getFD() << std::endl;
+			//std::cout << (*it3)->getUser() << " IP: " << (*it3)->getClientAdd() << " Socket: " << (*it3)->getFD() << std::endl;
 		}
 	}
 }
@@ -57,6 +83,7 @@ void signal_kill ( int number )
 	{
 		std::cout << RED "\n💀  KILLED 💀 \n" << WHITE;
 		gservptr->~Server();
+		std::cout << "----- KILLED -----\n";
 		exit(EXIT_FAILURE);
 	}
 }
@@ -98,8 +125,7 @@ int main(int argc, char **argv)
 			{
 				std::cout << "\r";
 				timerDisplay();
-                std::cout
-				<<  "  Connections : " << YELLOW << server.getUsers().size() << WHITE << "\tChannels: " << YELLOW << server.getChannels().size() << WHITE " ";
+				std::cout <<  "  Connections : " << YELLOW << server.getUsers().size() << WHITE << "\tChannels: " << YELLOW << server.getChannels().size() << WHITE " ";
 				if ( i == 4)
 					i = 1;
 				 switch (i)
@@ -110,7 +136,7 @@ int main(int argc, char **argv)
 				 	case 2:
 				 		std::cout << "\t🌧️\t"; // "** ^" << " ^ **" 🌏
 				 		break;
-                    case 3:
+					case 3:
 				 		std::cout << "\t🌨️\t" ; // "** -" << " - **" 🌍
 				 		break;
 				 	default:
@@ -124,7 +150,7 @@ int main(int argc, char **argv)
 			{
 				std::cout << "\n";
 				server.readSocks();
-				// displayDev(&server);
+				displayDev(&server);
 			}
 		}
 		return(0);

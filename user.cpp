@@ -30,7 +30,16 @@ User::User(int &_fd, struct sockaddr_in const &client_addr) : fd(_fd)
 	this->address = client_addr;
 }
 
-User::~User() {} //Puedes meter aquí el actionDispl
+User::~User()
+{
+	std::vector<Channel *>::const_iterator it;
+	for (it = this->getChannels().begin(); this->getChannels().size() > 0 && it != this->getChannels().end(); ++it)
+	{
+		(*it)->disconnectUser(this);
+		this->leaveChannel(*it);
+		it--;
+	}
+} //Puedes meter aquí el actionDispl
 
 
 //getters setters
@@ -93,10 +102,10 @@ const bool	&User::getCheckedNick() const { return (this->check_nick); }
 void		User::setCheckedNick(bool nu) { this->check_nick = nu; }
 
 bool	&User::getCheckedRegist()
-{ 
+{
 	if (getCheckedNick() && getCheckedUser())
-		this->check_regist = true;    
-	return this->check_regist; 
+		this->check_regist = true;
+	return this->check_regist;
 }
 
 void 			User::setReply(std::string const &msg) { this->reply.push_back(msg); }
@@ -111,7 +120,7 @@ std::string 	User::getReply()
 	return temp;
 }
 
-std::string User::getClientAdd(  ) const 
+std::string User::getClientAdd(  ) const
 {
 	struct in_addr clientIP;
 	clientIP = this->address.sin_addr;

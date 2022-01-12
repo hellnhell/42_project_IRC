@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   user_cmmd.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 12:35:45 by emartin-          #+#    #+#             */
-/*   Updated: 2021/12/15 12:50:01 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/11 17:40:16 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void Server::userCmmd(std::vector<std::string> const &tokens, User *usr)
 {
 	//Salen todos los mensajes de error??
-	
+
 	if (!usr->getConnectionPswd())
 		return replyMsg(ERR_PASSWDMISMATCH, " :Password mismatch", usr);
 	if (tokens.size() < 5)

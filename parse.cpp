@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javier <javier@student.42.fr>              +#+  +:+       +#+        */
+/*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 12:56:36 by emartin-          #+#    #+#             */
-/*   Updated: 2021/12/15 13:34:39 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/11 17:59:04 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void    Server::parseCommands(std::vector<std::string> const &tokens, User *usr, int fd)
 {
-	
+
 	if (!usr->getCheckedRegist())
 	{
 		if(tokens[0] == "USER" || tokens[0] == "user")
@@ -32,7 +32,7 @@ void    Server::parseCommands(std::vector<std::string> const &tokens, User *usr,
 		else if((tokens[0] == "PONG" || tokens[0] == "pong"))
 			return this->pongCmmd(tokens, usr);
 		else
-			return replyMsg(ERR_NOTREGISTERED, ":You should enter <USER> and <NICK> command to register", usr);  
+			return replyMsg(ERR_NOTREGISTERED, ":You should enter <USER> and <NICK> command to register", usr);
 	}
 	else if (usr->getCheckedRegist())
 	{
@@ -56,8 +56,12 @@ void    Server::parseCommands(std::vector<std::string> const &tokens, User *usr,
 		 	return this->pongCmmd(tokens, usr);
 		else if(tokens[0] == "QUIT" || tokens[0] == "quit")
 		 	return this->quitCmmd(tokens, usr);
-        else if(tokens[0] == "PART" || tokens[0] == "part")
+		else if(tokens[0] == "PART" || tokens[0] == "part")
 		 	return this->partCmmd(tokens, usr);
+		else if(tokens[0] == "TOPIC" || tokens[0] == "topic")
+			return this->topicCmmd(tokens, usr, *this);
+		else if(tokens[0] == "MODE" || tokens[0] == "mode")
+			return this->modeCmmd(tokens, usr, *this);
         else if(tokens[0] == "WHO" || tokens[0] == "who")
 		 	return this->whoCmmd(tokens, usr);
 		else if(tokens[0] == "OPER" || tokens[0] == "oper")
@@ -67,7 +71,7 @@ void    Server::parseCommands(std::vector<std::string> const &tokens, User *usr,
 		else if(tokens[0] == "KICK" || tokens[0] == "kick")
 		 	return this->kickCmmd(tokens, usr);
 		return replyMsg(ERR_UNKNOWNCOMMAND, tokens[0] + " :Unkown command", usr);
-	}	
+	}
 }
 
 bool 	BothAreSpaces(char lhs, char rhs) { return (lhs == rhs) && (lhs == ' '); }
@@ -77,14 +81,14 @@ std::vector<std::string>   Server::parseMessage(std::string buffer)
 	std::vector<std::string>    tok_tmp;
 	std::vector<std::string>    tokens;
 	size_t                      pos;
-	std::string                 tmps;    
+	std::string                 tmps;
 	std::stringstream           s(buffer);
 	std::istringstream          ss;
-	
+
 	if (buffer[0] == '\n' || buffer[0] == '\r' )
 		tokens.push_back("");
 	std::string::iterator new_end = std::unique(buffer.begin(), buffer.end(), BothAreSpaces);
-	buffer.erase(new_end, buffer.end()); 
+	buffer.erase(new_end, buffer.end());
 	if (((pos = buffer.find('\n')) != std::string::npos) || ((pos = buffer.find('\r')) != std::string::npos))
 		buffer.erase(pos, buffer.size() - pos);
 	while(getline(s, tmps, ':'))

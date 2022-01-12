@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:52 by nazurmen          #+#    #+#             */
-/*   Updated: 2021/12/15 14:28:18 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/11 15:29:17 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,7 +235,7 @@ void Server::removeChannel(Channel *channel)
 void	Server::deleteUser(User *usr) // REVISAR
 {
 	this->users_on.remove(usr);
-	for (int i = 0; i < FD_SETSIZE; i++) //close fd
+	for (int i = 0; i < FD_SETSIZE; i++)
 		if( this->_list_connected_user[i] == usr->getFD())
 			this->_list_connected_user[i] = 0;
 	close (usr->getFD());
@@ -244,3 +244,4 @@ void	Server::deleteUser(User *usr) // REVISAR
 	//Remove el resto de cosas q no se q son
 	delete usr;
 }
+
