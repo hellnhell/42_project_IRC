@@ -35,7 +35,6 @@ void    Server::privmsgCmmd(std::vector<std::string> const& tokens, User* usr){
     else{
         tokenDest = tokens[1];
         if (tokenDest[0] == '#' || tokenDest[0] == '&' || tokenDest[0] == '!' || tokenDest[0] == '+'){
-                std::cout << "AQUII" << std::endl;
                 for (;it2 != it3; ++it2){
                     if ((*it2)->getName() == tokenDest){
                         destChannel = *it2;

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   user.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/12 12:39:03 by nazurmen          #+#    #+#             */
+/*   Updated: 2022/01/12 18:13:10 by javrodri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "user.hpp"
 
 
@@ -25,31 +37,43 @@ User::User(int &_fd, struct sockaddr_in const &client_addr) : fd(_fd)
 	this->check_user = false;
 	this->check_nick = false;
 	this->check_regist = false;
+	this->op_mode = false;
+	this->address = client_addr;
+	this->connection_pswd = 0;
 	std::cout << "User created with fd: " << this->fd  <<std::endl;
 	user_modes_init(&this->modes);
 	this->address = client_addr;
 }
 
-User::~User() {} //Puedes meter aquí el actionDispl
+User::~User()
+{
+	std::vector<Channel *>::const_iterator it;
+	for (it = this->getChannels().begin(); this->getChannels().size() > 0 && it != this->getChannels().end(); ++it)
+	{
+		(*it)->disconnectUser(this);
+		this->leaveChannel(*it);
+		it--;
+	}
+} //Puedes meter aquí el actionDispl
 
 
 //getters setters
 
-int User::getFD() {  return (this->fd); }
+int 	User::getFD() {  return (this->fd); }
 
-const std::string User::getUser() const { return (this->user); }
-void User::setUser(std::string _user) {	this->user = _user; }
+const 	std::string User::getUser() const { return (this->user); }
+void 	User::setUser(std::string _user) {	this->user = _user; }
 
-const std::string User::getRealName() const { return (this->realName); }
-void User::setRealName(std::string _realName) {	this->realName = _realName; }
+const 	std::string User::getRealName() const { return (this->realName); }
+void 	User::setRealName(std::string _realName) {	this->realName = _realName; }
 
-const std::string User::getNick() const { return (this->nick); }
-void User::setNick(std::string _nick) {	this->nick = _nick; }
+const	std::string User::getNick() const { return (this->nick); }
+void	User::setNick(std::string _nick) {	this->nick = _nick; }
 
-const std::string User::getNickMask() const { return (this->nickMask); }
-void User::setNickMask(std::string _nickMask) {	this->nickMask = _nickMask; }
+const 	std::string User::getNickMask() const { return (this->nickMask); }
+void 	User::setNickMask(std::string _nickMask) {	this->nickMask = _nickMask; }
 
-const std::string User::getModes() const
+const 	std::string User::getModes() const
 {
 	std::string ret;
 
@@ -79,6 +103,9 @@ void User::setModes(int modes)
 		this->modes.w = 1;
 }
 
+bool	User::getOper() const { return (this->op_mode); }
+void	User::setOper(bool op) { this->op_mode = op; }
+
 bool	User::getConnectionPswd() const { return (this->connection_pswd); }
 void	User::setConnectionPswd(bool cp) { this->connection_pswd = cp; }
 
@@ -90,10 +117,10 @@ const bool	&User::getCheckedNick() const { return (this->check_nick); }
 void		User::setCheckedNick(bool nu) { this->check_nick = nu; }
 
 bool	&User::getCheckedRegist()
-{ 
+{
 	if (getCheckedNick() && getCheckedUser())
-		this->check_regist = true;    
-	return this->check_regist; 
+		this->check_regist = true;
+	return this->check_regist;
 }
 
 void 			User::setReply(std::string const &msg) { this->reply.push_back(msg); }
@@ -108,13 +135,15 @@ std::string 	User::getReply()
 	return temp;
 }
 
-std::string User::getClientAdd(  ) const 
+std::string User::getClientAdd(  ) const
 {
 	struct in_addr clientIP;
 	clientIP = this->address.sin_addr;
 	char ipStr[INET_ADDRSTRLEN];
 	return inet_ntop(AF_INET, &clientIP, ipStr, INET_ADDRSTRLEN);
 }
+
+std::vector<Channel*> 		&User::getChannels() { return this->channels; };
 
 void User::joinChannel(Channel *channel)
 {

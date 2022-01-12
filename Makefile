@@ -6,11 +6,15 @@
 #    By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/22 11:59:14 by emartin-          #+#    #+#              #
-#    Updated: 2022/01/11 18:51:25 by javrodri         ###   ########.fr        #
+#    Updated: 2022/01/12 18:11:32 by javrodri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #No me va en linux para variar
+NAME			= irc-server
+
+SRCS_DIR= ./
+
 NAME			= irc-server
 
 SRCS_DIR= ./
@@ -29,7 +33,14 @@ SRCS			= main.cpp \
 					commands/join.cpp \
 					commands/names.cpp \
 					commands/motd.cpp	\
+					commands/topic_cmmd.cpp	\
+					commands/mode_cmmd.cpp	\
 					commands/quit.cpp	\
+					commands/part.cpp	\
+					commands/who.cpp	\
+					commands/oper.cpp	\
+					commands/kill.cpp	\
+					commands/kick.cpp	\
 					commands/ping-pong.cpp \
 					commands/away.cpp \
 					commands/notice.cpp \

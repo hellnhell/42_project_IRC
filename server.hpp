@@ -6,7 +6,7 @@
 /*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:50 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/11 13:41:33 by javrodri         ###   ########.fr       */
+/*   Updated: 2022/01/12 18:14:56 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,6 @@
 # include "channel.hpp"
 # include "utils.hpp"
 
-
-class User;
-class Channel;
 //ERRORS
 //Error replies are found in the range from 400 to 599.
 
@@ -118,12 +115,16 @@ class Channel;
 # define ERR_UMODEUNKNOWNFLAG      "501"       //":Unknown MODE flag"- Returned by the server to indicate that a MODE message was sent with a nickname parameter and that the a mode flag sent was not recognized.
 # define ERR_USERSDONTMATCH        "502"       //":Cannot change mode for other users"- Error sent to any user trying to view or change the user mode for a user other than themselves.
 
-
 # define RPL_WELCOME				"001"
 # define RPL_YOURHOST				"002"
 # define RPL_CREATE					"003"
 # define RPL_MYINFO					"004"
 
+# define RPL_ENDOFWHO				"315"
+
+# define RPL_CHANNELMODEIS			"324"
+
+# define RPL_WHOREPLY				"352"
 # define RPL_NAMREPLY				"353"
 # define RPL_ENDOFNAMES				"366"
 
@@ -131,12 +132,18 @@ class Channel;
 # define RPL_MOTDSTART				"375"
 # define RPL_ENDOFMOTD				"376"
 
+# define RPL_TOPIC					"332"
+
 # define RPL_TIME 					"391"		//"<server> :<string showing server's local time>""
+
+# define RPL_YOUREOPER				"381"
+
+
 
 class User;
 class Channel;
 
-typedef std::list<std::string>::iterator	it_str_list;
+typedef std::list<std::string>::iterator	it_str_list; 			
 typedef std::list<User *>::iterator			it_usr_list;
 
 class Server
@@ -153,21 +160,15 @@ class Server
 		int 					port;
 		struct sockaddr_in 		server_address;
 
-		// std::deque<std::string> cmd_list;
-		time_t 					ping_start;
-		time_t 					ping_end;
-		double					ping_diff;
-		std::deque<std::string> cmd_list;
-
-		
 		std::list<User *>		users_on;
 		std::string				password;
+		std::string				op_password;
 
 		std::vector<Channel *>	channels;
 
 		Server(const Server &other);
-	protected:
-		int flag;
+	// protected: Creo q no lo usamos
+	// 	int flag;
 
 	public:
 		Server();
@@ -188,27 +189,30 @@ class Server
 		std::vector<std::string>	parseMessage(std::string buffer);
 		void					    parseCommands(std::vector<std::string> const &tokens, User *usr, int fd);
 
-		void						replyMsg(std::string rep, std::string str, User *usr);
-		void						display();
+		void							replyMsg(std::string rep, std::string str, User *usr);
+		void	                   		msgToChannel(std::string msg,  User *usr, Channel *chnl);
+		void							display();
+		void							checkPing();
 
-		void						setPassword(std::string psswd);
-		std::string					getPassword() const;
+		void							setPassword(std::string psswd);
+		std::string						getPassword() const;
 
+		std::map<int, User *> const 	&getUsers() const;
+		std::vector<Channel *> const 	&getChannels() const;
+		Channel                     	*getChannel(std::string name) const;
+ 		void 							removeChannel(Channel *channel);
 
-		std::map<int, User *> 		const &getUsers() const;
-		std::vector<Channel *>      const &getChannels() const;
- 		void 						removeChannel(Channel *channel);
-
-		void						deleteUser(User *usr);
+		void							deleteUser(User *usr);
+        
 
 		void						userCmmd(std::vector<std::string> const &tokens, User *usr);
-
 		void						timeCmmd(User *usr, int fd_usr);
+		//void						privmsg(std::vector<std::string> const& tokens, User* usr);
+		void						privmsgCmmd(std::vector<std::string> const& tokens, User* usr);
 		void						nickCmmd(std::vector<std::string> const &tokens, User *usr);
 		void						passCmmd(std::vector<std::string> const &tokens, User* usr);
 		void						joinCmmd(std::vector<std::string> const &tokens, User* usr);
 		void						motdCmmd(int const & fd);
-		void 						namesCmmd( std::vector<std::string> const &tokens, User *usr, Server &serv);
 		void 					   	quitCmmd(std::vector<std::string> const &tokens, User *usr);
 		void   						pongCmmd(std::vector<std::string> const &tokens, User *usr);
 		void                        privmsgCmmd(std::vector<std::string> const& tokens, User* usr);
@@ -223,6 +227,13 @@ class Server
 
 
 
+		void						namesCmmd(std::vector<std::string> const& tokens, User *usr, Server &Serv);
+		void						topicCmmd(std::vector<std::string> const& tokens, User *usr, Server &Serv);
+		void						modeCmmd(std::vector<std::string> const& tokens, User *usr, Server &Serv);
+		void                        whoCmmd( std::vector<std::string> const &tokens, User *usr );
+		void						operCmmd(std::vector<std::string> const &tokens, User *usr);
+		void						killCmmd(std::vector<std::string>const &tokens, User *usr);
+		void						kickCmmd(std::vector<std::string>const &tokens, User *usr);
 };
 
 #endif

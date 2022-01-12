@@ -6,7 +6,7 @@
 /*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 14:11:46 by emartin-          #+#    #+#             */
-/*   Updated: 2022/01/11 13:47:57 by javrodri         ###   ########.fr       */
+/*   Updated: 2022/01/12 18:11:17 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,35 @@ void displayDev(Server *serv)
 	std::vector<User *>::const_iterator it3;
 	for (it2 = serv->getChannels().begin(); it2 != serv->getChannels().end(); it2++)
 	{
+
+		//print ops on channel
+		std::cout << "Channel: " << (*it2)->getName() << "\tOps: ";
+		for (it3 = (*it2)->getOps().begin(); it3 != (*it2)->getOps().end(); it3++)
+		{
+			std::cout << (*it3)->getNick() << " ";
+		}
+		std::cout << std::endl;
+
+
 		std::cout << "Channel: " << (*it2)->getName() << " Users: " << (*it2)->getUsers().size() << std::endl;
 		for(it3 = (*it2)->getUsers().begin(); it3 != (*it2)->getUsers().end(); it3++)
 		{
-			std::cout << "User: " << (*it3)->getUser() << " IP: " << (*it3)->getClientAdd() << " Socket: " << (*it3)->getFD() << std::endl;
+			std::cout << "nick: ";
+
+			std::vector<User *>::const_iterator it4;
+			for (it4 = (*it2)->getOps().begin(); it4 != (*it2)->getOps().end(); it4++)
+			{
+				if ((*it3)->getNick() == (*it4)->getNick())
+				{
+					std::cout << "*";
+					it4 = (*it2)->getOps().end();
+					it4--;
+				}
+			}
+
+			std::cout << (*it3)->getNick() << " ";
+			std::cout << (*it3)->getFD() << std::endl;
+			//std::cout << (*it3)->getUser() << " IP: " << (*it3)->getClientAdd() << " Socket: " << (*it3)->getFD() << std::endl;
 		}
 	}
 }
@@ -53,10 +78,11 @@ int	getPort(std::string str)
 
 void signal_kill ( int number )
 {
-	if ( number == SIGINT ) //  number == SIGQUIT || number == SIGTERM???
+	if ( number == SIGINT) //  number == SIGQUIT || number == SIGTERM???
 	{
-		std::cout << "----- KILLED -----\n";
+		std::cout << RED "\n💀  KILLED 💀 \n" << WHITE;
 		gservptr->~Server();
+		std::cout << "----- KILLED -----\n";
 		exit(EXIT_FAILURE);
 	}
 }
@@ -80,6 +106,7 @@ int main(int argc, char **argv)
 			return 0;
 		}
 	}
+	int i = 1;
 	try
 	{
 		port = getPort(argv[1]);
@@ -98,12 +125,32 @@ int main(int argc, char **argv)
 				std::cout << "\r";
 				timerDisplay();
 				//server.checkPing();
+				std::cout <<  "  Connections : " << YELLOW << server.getUsers().size() << WHITE << "\tChannels: " << YELLOW << server.getChannels().size() << WHITE " ";
+				if ( i == 4)
+					i = 1;
+				 switch (i)
+				 {
+				 	case 1:
+				 		std::cout << "\t☁️\t" ; // "** O" << " O **" 🌎 POSIBILIDADES VARIAS
+				 		break;
+				 	case 2:
+				 		std::cout << "\t🌧️\t"; // "** ^" << " ^ **" 🌏
+				 		break;
+					case 3:
+				 		std::cout << "\t🌨️\t" ; // "** -" << " - **" 🌍
+				 		break;
+				 	default:
+				 		break;
+				}
+				i++;
+				// server.checkPing();
 				std::cout.flush();
 			}
 			else
 			{
+				std::cout << "\n";
 				server.readSocks();
-				// displayDev(&server);
+				displayDev(&server);
 			}
 		}
 		return(0);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   user.hpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/12 12:39:06 by nazurmen          #+#    #+#             */
+/*   Updated: 2022/01/12 18:12:32 by javrodri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef USER_HPP
 # define USER_HPP
 
@@ -16,11 +28,11 @@ class Channel;
 
 typedef struct s_user_modes //esto copiado de freenode
 {
-	bool a;			
-	bool i;			
-	bool w;			
-	bool r;			
-	bool o;			
+	bool a;
+	bool i;
+	bool w;
+	bool r;
+	bool o;
 	bool co;
 }		t_user_modes;
 
@@ -36,6 +48,7 @@ class User
 		bool                check_regist;
 		bool				ping_on;
 		bool				away_on;
+		bool				op_mode;
 		std::string			user;
 		std::string			realName;
 		std::string			nick;
@@ -67,36 +80,38 @@ class User
 		void	setUser(std::string _user);
 
 		const std::string	getRealName() const;
-		void	setRealName(std::string _nick);
+		void				setRealName(std::string _nick);
 
 		const std::string	getNick() const;
-		void	setNick(std::string _nick);
-		
+		void				setNick(std::string _nick);
+
 		const std::string	getNickMask() const;
-		void	setNickMask(std::string _nickMask);
+		void				setNickMask(std::string _nickMask);
 
 		const std::string	getPass() const;
-		void	setPass(std::string _nick);
+		void				setPass(std::string _nick);
+		bool				getConnectionPswd() const;
+		void				setConnectionPswd(bool cp);
 
-		const std::string	getModes() const;
-		void	setModes(int modes);
-
-		bool		getConnectionPswd() const;
-		void		setConnectionPswd(bool cp);
+		const std::string	getModes() const;		//Mis dudas
+		void				setModes(int modes);
+		bool				getOper() const;
+		void				setOper(bool op);
 
 		const bool		&getCheckedUser() const;
 		void			setCheckedUser(bool cu);
-
 		const bool		&getCheckedNick() const;
 		void			setCheckedNick(bool nu);
+		bool			&getCheckedRegist();
 
-		bool		&getCheckedRegist();
-
-		const bool		&getPingOn() const;
-		void			setPingOn(bool po);
-
+		const bool			&getPingOn() const;
+		void				setPingOn(bool po);
 		const std::string 	&getPing() const;
 		void				setPing(std::string p);
+		const uint64_t		&getTimeZero() const;
+		void				setTimeZero(uint64_t const & time_zero);
+		const uint64_t		&getTimePing() const;
+		void				setTimePing(uint64_t const & time_ping);
 
 		const bool		&getAwayOn() const;
 		void			setAwayOn(bool po);
@@ -107,18 +122,13 @@ class User
 		std::string	getReply();
 		void		setReply(std::string const &msg);
 
-		std::string getClientAdd() const;
+		std::string 	getClientAdd() const;
 
-		void		joinChannel(Channel *channel);
-		void		leaveChannel(Channel *channel);
+		void		                joinChannel(Channel *channel);
+		void		                leaveChannel(Channel *channel);
+		std::vector<Channel*> 		&getChannels();
 
-		std::vector<Channel*> const		&getChannels() { return this->channels; }
 
-		const uint64_t		&getTimeZero() const;
-		void				setTimeZero(uint64_t const & time_zero);
-		
-		const uint64_t		&getTimePing() const;
-		void				setTimePing(uint64_t const & time_ping);
 
 };
 

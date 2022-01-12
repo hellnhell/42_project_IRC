@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   names.cpp                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/12 12:37:10 by nazurmen          #+#    #+#             */
+/*   Updated: 2022/01/12 12:37:11 by nazurmen         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../server.hpp"
 
  // ERR_TOOMANYMATCHES              ERR_NOSUCHSERVER       RPL_NAMREPLY                    RPL_ENDOFNAMES
 void    Server::namesCmmd(std::vector<std::string> const& tokens, User *usr, Server &serv)
 {
 	std::vector<std::string>	tok;
-	std::istringstream          ss(tokens[1]);
+	std::istringstream          ss;
 	std::string                 tmp;
 	std::string                 msg;
 	Channel						*channel;
@@ -22,7 +34,14 @@ void    Server::namesCmmd(std::vector<std::string> const& tokens, User *usr, Ser
 			msg += "\nChannel: " + (*it2)->getName();
 			for(it3 = (*it2)->getUsers().begin(); it3 != (*it2)->getUsers().end(); it3++)
 			{
-				msg += "\nUser: " + (*it3)->getUser();
+				msg += "\nUser: ";
+				std::vector<User *>::const_iterator it4;
+				for(it4 = (*it2)->getOps().begin(); it4 != (*it2)->getOps().end(); it4++)
+				{
+					if((*it3)->getNick() == (*it4)->getNick())
+						msg += "@";
+				}
+				msg += (*it3)->getUser();
 			}
 		}
 		std::map<int, User *>::const_iterator it;
@@ -42,6 +61,7 @@ void    Server::namesCmmd(std::vector<std::string> const& tokens, User *usr, Ser
 	}
 	else
 	{
+		ss.str(tokens[1]);
 		while(getline(ss, tmp, ','))
 		{
 			std::cout << tmp << std::endl;
@@ -57,7 +77,16 @@ void    Server::namesCmmd(std::vector<std::string> const& tokens, User *usr, Ser
 				{
 					msg = "\nChannel: " + (*it2)->getName();
 					for(it3 = (*it2)->getUsers().begin(); it3 != (*it2)->getUsers().end(); it3++)
-						msg += "\nUser: " + (*it3)->getUser();
+					{
+						msg += "\nUser: ";
+						std::vector<User *>::const_iterator it4;
+						for(it4 = (*it2)->getOps().begin(); it4 != (*it2)->getOps().end(); it4++)
+						{
+							if((*it3)->getNick() == (*it4)->getNick())
+								msg += "@";
+						}
+						msg += (*it3)->getUser();
+					}
 					replyMsg(RPL_NAMREPLY, msg, usr);
 				}
 			}

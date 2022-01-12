@@ -1,14 +1,38 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   quit.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/12 12:38:04 by nazurmen          #+#    #+#             */
+/*   Updated: 2022/01/12 12:38:04 by nazurmen         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../server.hpp"
 
-void    Server::quitCmmd(std::vector<std::string> const &tokens, User *usr)
+void	Server::quitCmmd(std::vector<std::string> const &tokens, User *usr)
 {
 	std::string msg;
-	
+
 	if (tokens.size() > 1)
 		msg = "QUIT :" + tokens[1];
 	else
 		msg = "QUIT : see you soon babe ;)";
-	replyMsg(ERR_UNKNOWNERROR, "QUIT command executed", usr);
+	if(usr->getChannels().size() <= 0)
+	{
+		std::cout << "User " << usr->getUser() << " is not in any channel" << std::endl;
+		replyMsg(ERR_UNKNOWNERROR, msg, usr) ;
+	}
+	std::vector<Channel *>::const_iterator it;
+	for (it = usr->getChannels().begin(); usr->getChannels().size() > 0 && it != usr->getChannels().end(); ++it)
+	{
+		(*it)->disconnectUser(usr);
+		usr->leaveChannel(*it);
+		replyMsg(ERR_UNKNOWNERROR, msg, usr);
+		it--;
+	}
 	actionDisplay("Quited : ", "", usr);
-    this->deleteUser(usr); //Recorrer channels... Nestor help
+	this->deleteUser(usr);
 }
