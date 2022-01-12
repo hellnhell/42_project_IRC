@@ -143,7 +143,7 @@
 class User;
 class Channel;
 
-typedef std::list<std::string>::iterator	it_str_list; 		//	??????
+typedef std::list<std::string>::iterator	it_str_list; 			
 typedef std::list<User *>::iterator			it_usr_list;
 
 class Server
@@ -167,8 +167,8 @@ class Server
 		std::vector<Channel *>	channels;
 
 		Server(const Server &other);
-	protected:
-		int flag;
+	// protected: Creo q no lo usamos
+	// 	int flag;
 
 	public:
 		Server();
@@ -189,23 +189,21 @@ class Server
 		std::vector<std::string>	parseMessage(std::string buffer);
 		void					    parseCommands(std::vector<std::string> const &tokens, User *usr, int fd);
 
-		void						replyMsg(std::string rep, std::string str, User *usr);
-		void						msgToChannel(std::string msg,  User *usr, Channel *chnl);
+		void							replyMsg(std::string rep, std::string str, User *usr);
+		void	                   		msgToChannel(std::string msg,  User *usr, Channel *chnl);
+		void							display();
+		void							checkPing();
 
-		void						display();
+		void							setPassword(std::string psswd);
+		std::string						getPassword() const;
 
-		void						setPassword(std::string psswd);
-		std::string					getPassword() const;
+		std::map<int, User *> const 	&getUsers() const;
+		std::vector<Channel *> const 	&getChannels() const;
+		Channel                     	*getChannel(std::string name) const;
+ 		void 							removeChannel(Channel *channel);
 
-		// void						setHosting(std::string hosting);
-		// std::string					getHosting() const;
-		// void						setPortNt(int portnt);
-		// int							getPortNt() const;
-		// void						setPassNt(std::string psswnt);
-		// std::string					getPassNt() const;
-
-		void						removeChannel(Channel *chan);
-		void						deleteUser(User *usr);
+		void							deleteUser(User *usr);
+        
 
 		void						userCmmd(std::vector<std::string> const &tokens, User *usr);
 		void						timeCmmd(User *usr, int fd_usr);
@@ -223,18 +221,8 @@ class Server
 		void						pongCmmd(std::vector<std::string> const &tokens, User *usr);
 		void                        whoCmmd( std::vector<std::string> const &tokens, User *usr );
 		void						operCmmd(std::vector<std::string> const &tokens, User *usr);
-
-
-
-
-
-
-		void						checkPing();
-
-		std::map<int, User *>		const &getUsers() const;
-		std::vector<Channel *>		const &getChannels() const;
-		Channel 					*getChannel(std::string name) const;
-//		Channel						*getChannel(std::string name) const;
+		void						killCmmd(std::vector<std::string>const &tokens, User *usr);
+		void						kickCmmd(std::vector<std::string>const &tokens, User *usr);
 };
 
 #endif

@@ -57,9 +57,9 @@ void Server::joinCmmd(std::vector<std::string> const &tokens, User* usr)
 				this->channels.push_back(chan);
 				this->channels.back()->joinUser(usr);
 				replyMsg(RPL_TOPIC, ":" + this->channels.back()->getTopic(), usr);
-                usr->getChannels().push_back(chan); //E
+                usr->getChannels().push_back(chan);
 				msg = usr->getNickMask() + " JOIN " + chan->getName() + "\n";
- 				msgToChannel(msg, usr, chan);
+ 				msgToChannel(msg, usr, chan);;
 				return ;
 			}
 			catch(const std::exception& e)

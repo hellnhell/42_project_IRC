@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:47 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/11 20:22:33 by nazurmen         ###   ########.fr       */
+/*   Updated: 2022/01/12 12:54:07 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,11 @@ class Channel
 		void					joinUser(User *user);
 		void					disconnectUser(User *user);
 		void					kickUser(User *user);
-		int						banUser(User *user);
+		int						banUser(User *user, User *banned);
 		void					unbanUser(User *user);
 		int						opUser(User *user);
 		void					deopUser(User *user);
+
 
 		std::string				getName() const;
 		std::string				getTopic() const;
@@ -103,9 +104,10 @@ class Channel
 		unsigned int			getCurrentUsers() const;
 		std::string 			getKey() const;
 		std::vector<User *>		const &getUsers() const;
-		User *					getNick(std::string userName) const;
 		std::vector<User *>		const &getOps() const;
 		std::vector<User *>		const &getBans() const;
+		User *					getNick(std::string userName) const;
+
 		std::string				const getModes() const;
 		bool					const getMode(char mode) const;
 		bool					const isOperator(User *usr) const;

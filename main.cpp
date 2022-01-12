@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 14:11:46 by emartin-          #+#    #+#             */
-/*   Updated: 2022/01/11 17:40:11 by nazurmen         ###   ########.fr       */
+/*   Updated: 2022/01/12 13:18:12 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void displayDev(Server *serv)
 			std::vector<User *>::const_iterator it4;
 			for (it4 = (*it2)->getOps().begin(); it4 != (*it2)->getOps().end(); it4++)
 			{
-				std::cout << "check: " << (*it3)->getNick() << " " << (*it4)->getNick() << std::endl;
 				if ((*it3)->getNick() == (*it4)->getNick())
 				{
 					std::cout << "*";

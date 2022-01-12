@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   user.hpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/12 12:39:06 by nazurmen          #+#    #+#             */
+/*   Updated: 2022/01/12 12:39:07 by nazurmen         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef USER_HPP
 # define USER_HPP
 
@@ -16,11 +28,11 @@ class Channel;
 
 typedef struct s_user_modes //esto copiado de freenode
 {
-	bool a;			
-	bool i;			
-	bool w;			
-	bool r;			
-	bool o;			
+	bool a;
+	bool i;
+	bool w;
+	bool r;
+	bool o;
 	bool co;
 }		t_user_modes;
 
@@ -70,7 +82,7 @@ class User
 
 		const std::string	getNick() const;
 		void				setNick(std::string _nick);
-		
+
 		const std::string	getNickMask() const;
 		void				setNickMask(std::string _nickMask);
 
@@ -108,7 +120,7 @@ class User
 		void		                leaveChannel(Channel *channel);
 		std::vector<Channel*> 		&getChannels();
 
-		
+
 
 };
 

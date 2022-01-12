@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:52 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/11 20:35:47 by nazurmen         ###   ########.fr       */
+/*   Updated: 2022/01/12 12:40:10 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ Server::Server()
 	int reuse_addr = 1;
 	FD_ZERO(&this->reads);
 	this->highsock = 0;
-	this->flag = 0;
+	// this->flag = 0;
 	this->listening_socket = 0;
 	this->listening_socket = socket(AF_INET, SOCK_STREAM, 0);
 	if(this->listening_socket < 0)
@@ -213,6 +213,16 @@ std::string	Server::getPassword() const { return this->password; };
 std::map<int, User *> const& Server::getUsers() const { return this->list_users; }
 std::vector<Channel *> const& Server::getChannels() const { return this->channels; }
 
+Channel	*Server::getChannel(std::string name) const
+{
+    if (this->channels.size() == 0)
+        return NULL;
+    std::vector<Channel *>::const_iterator it;
+    it = std::find_if(this->channels.begin(), this->channels.end(), [&name](Channel *c) { return c->getName() == name; });
+	if (it != this->channels.end())
+        return *it;
+    return NULL;
+}
 
 void Server::removeChannel(Channel *channel)
 {
@@ -233,16 +243,4 @@ void	Server::deleteUser(User *usr) // REVISAR
 	actionDisplay("Removed user", usr->getNick(), usr);
 	//Remove el resto de cosas q no se q son
 	delete usr;
-}
-
-//Channel *Server::getChannel(std::string name) const
-Channel			*Server::getChannel(std::string name) const
-{
-	if (this->channels.size() == 0)
-		return NULL;
-	std::vector<Channel *>::const_iterator it;
-	it = std::find_if(this->channels.begin(), this->channels.end(), [&name](Channel *c) { return c->getName() == name; });
-	if (it != this->channels.end())
-		return *it;
-	return NULL;
 }
