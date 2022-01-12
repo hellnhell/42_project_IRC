@@ -29,9 +29,9 @@ void    Server::privmsgCmmd(std::vector<std::string> const& tokens, User* usr){
     std::string     msg;
     // std::cout << "tokens.size(): " << tokens.size() << "\n" << std::cout;
     if (tokens.size() > 3)
-        replyMsg(ERR_TOOMANYTARGETS, ":Too many targets", usr);
+        return replyMsg(ERR_TOOMANYTARGETS, ":Too many targets", usr);
     if (tokens.size() < 2)
-        replyMsg(ERR_NORECIPIENT, ":No recipient given(privmsg)", usr);
+        return replyMsg(ERR_NORECIPIENT, ":No recipient given(privmsg)", usr);
     else{
         tokenDest = tokens[1];
         if (tokenDest[0] == '#' || tokenDest[0] == '&' || tokenDest[0] == '!' || tokenDest[0] == '+'){
@@ -44,7 +44,7 @@ void    Server::privmsgCmmd(std::vector<std::string> const& tokens, User* usr){
                     }
                     else{
                         msg = tokens[1] + " :No such nick/channel";
-                        replyMsg(ERR_NOSUCHNICK, msg, usr);
+                        return replyMsg(ERR_NOSUCHNICK, msg, usr);
                     }
                 }
         }
@@ -60,7 +60,7 @@ void    Server::privmsgCmmd(std::vector<std::string> const& tokens, User* usr){
                 }
                 else{
                     msg = tokens[1] + " :No such nick/channel";
-                    replyMsg(ERR_NOSUCHNICK, msg, usr);
+                    return replyMsg(ERR_NOSUCHNICK, msg, usr);
                 }
             }
         }

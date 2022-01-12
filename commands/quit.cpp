@@ -11,14 +11,14 @@ void	Server::quitCmmd(std::vector<std::string> const &tokens, User *usr)
 	if(usr->getChannels().size() <= 0)
 	{
 		std::cout << "User " << usr->getUser() << " is not in any channel" << std::endl;
-		replyMsg(ERR_UNKNOWNERROR, msg, usr) ;
+		return replyMsg(ERR_UNKNOWNERROR, msg, usr) ;
 	}
 	std::vector<Channel *>::const_iterator it;
 	for (it = usr->getChannels().begin(); usr->getChannels().size() > 0 && it != usr->getChannels().end(); ++it)
 	{
 		(*it)->disconnectUser(usr);
 		usr->leaveChannel(*it);
-		replyMsg(ERR_UNKNOWNERROR, msg, usr);
+		return replyMsg(ERR_UNKNOWNERROR, msg, usr);
 		it--;
 	}
 	actionDisplay("Quited : ", "", usr);
