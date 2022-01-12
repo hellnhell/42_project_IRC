@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:52 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/11 15:29:17 by nazurmen         ###   ########.fr       */
+/*   Updated: 2022/01/11 20:35:47 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -242,5 +242,7 @@ Channel			*Server::getChannel(std::string name) const
 		return NULL;
 	std::vector<Channel *>::const_iterator it;
 	it = std::find_if(this->channels.begin(), this->channels.end(), [&name](Channel *c) { return c->getName() == name; });
-	return *it;
+	if (it != this->channels.end())
+		return *it;
+	return NULL;
 }

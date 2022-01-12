@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:47 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/11 15:28:12 by nazurmen         ###   ########.fr       */
+/*   Updated: 2022/01/11 20:22:33 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,9 @@ class Channel
 		void					joinUser(User *user);
 		void					disconnectUser(User *user);
 		void					kickUser(User *user);
-		void					banUser(User *user);
+		int						banUser(User *user);
 		void					unbanUser(User *user);
-		int					opUser(User *user);
+		int						opUser(User *user);
 		void					deopUser(User *user);
 
 		std::string				getName() const;

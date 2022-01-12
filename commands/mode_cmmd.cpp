@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 20:11:02 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/11 15:21:49 by nazurmen         ###   ########.fr       */
+/*   Updated: 2022/01/11 20:22:09 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,19 @@ void	Server::modeCmmd(std::vector<std::string> const &tokens, User *usr, Server 
 					}
 					else
 						channel->deopUser(user);
+				}
+				else if(tokens[2][i] == 'b')
+				{
+					User *user = channel->getNick(tokens[3]);
+					if(!user)
+						return replyMsg(ERR_USERNOTINCHANNEL, tokens[3], usr);
+					if(mode_set)
+					{
+						if(channel->banUser(user) == -1)
+							return replyMsg(ERR_USERSDONTMATCH, ":Cannot change mode for other users", usr);
+					}
+					else
+						channel->unbanUser(user);
 				}
 				else
 					return replyMsg(ERR_UNKNOWNMODE, &tokens[2][i], usr);

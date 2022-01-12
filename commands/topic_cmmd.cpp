@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 18:40:47 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/11 15:24:23 by nazurmen         ###   ########.fr       */
+/*   Updated: 2022/01/11 20:36:08 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void Server::topicCmmd(std::vector<std::string> const &tokens, User *usr, Server
 	else if (tokens.size() == 3)
 	{
 		channel = serv.getChannel(tokens[1]);
-		if (channel != *this->channels.end())
+		if (channel)
 		{
 			//if(std::find(usr->getChannels().begin(), usr->getChannels().end(), channel) != usr->getChannels().end())
 			if(is_op)

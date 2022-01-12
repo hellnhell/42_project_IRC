@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:34 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/11 17:29:13 by nazurmen         ###   ########.fr       */
+/*   Updated: 2022/01/11 20:25:14 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,15 +171,24 @@ void Channel::kickUser(User *user)
 	}
 }
 
-void Channel::banUser(User *user)
+int Channel::banUser(User *user)
 {
+
 	std::vector<User *>::iterator it;
 
-	if((it = std::find(_users.begin(), _users.end(), user)) != _users.end())
+	if((it = std::find(_bans.begin(), _bans.end(), user)) != _bans.end())
 	{
-		_bans.push_back(*it);
-		_users.erase(it);
+		perror("User is already banned");
+		return -1;
 	}
+	if((it = std::find(_users.begin(), _users.end(), user)) == _users.end())
+	{
+		perror("User not in channel");
+		return -1;
+	}
+	_bans.push_back(user);
+	//kick user
+	return 0;
 }
 
 void Channel::unbanUser(User *user)
@@ -201,7 +210,7 @@ int Channel::opUser(User *user)
 		perror("User is already op");
 		return -1;
 	}
-	if((it = std::find(_users.begin(), _users.end(), user)) == _ops.end())
+	if((it = std::find(_users.begin(), _users.end(), user)) == _users.end())
 	{
 		perror("User not in channel");
 		return -1;
