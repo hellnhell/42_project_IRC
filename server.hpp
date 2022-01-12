@@ -6,7 +6,7 @@
 /*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:50 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/12 18:14:56 by javrodri         ###   ########.fr       */
+/*   Updated: 2022/01/12 18:16:50 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,18 +215,9 @@ class Server
 		void						motdCmmd(int const & fd);
 		void 					   	quitCmmd(std::vector<std::string> const &tokens, User *usr);
 		void   						pongCmmd(std::vector<std::string> const &tokens, User *usr);
-		void                        privmsgCmmd(std::vector<std::string> const& tokens, User* usr);
         void	                    partCmmd(std::vector<std::string> const& tokens, User *usr);
 		void					    noticeCmmd(std::vector<std::string> const& tokens, User* usr);
 		void						awayCmmd(std::vector<std::string> const &tokens, User *usr);
-        
-		
-		void						checkPing();
-		void	                    msgToChannel(std::string msg,  User *usr, Channel *chnl);
-
-
-
-
 		void						namesCmmd(std::vector<std::string> const& tokens, User *usr, Server &Serv);
 		void						topicCmmd(std::vector<std::string> const& tokens, User *usr, Server &Serv);
 		void						modeCmmd(std::vector<std::string> const& tokens, User *usr, Server &Serv);
