@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   user.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 12:39:06 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/12 12:39:07 by nazurmen         ###   ########.fr       */
+/*   Updated: 2022/01/12 18:12:32 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,14 @@ class User
 		bool				check_nick;
 		bool                check_regist;
 		bool				ping_on;
+		bool				away_on;
 		bool				op_mode;
 		std::string			user;
 		std::string			realName;
 		std::string			nick;
 		std::string			nickMask;
 		std::string			password;
+		std::string			away;
 		t_user_modes 		modes;
 		struct sockaddr_in	address;
 
@@ -111,8 +113,14 @@ class User
 		const uint64_t		&getTimePing() const;
 		void				setTimePing(uint64_t const & time_ping);
 
-		std::string		getReply();
-		void			setReply(std::string const &msg);
+		const bool		&getAwayOn() const;
+		void			setAwayOn(bool po);
+
+		const std::string 	&getAway() const;
+		void				setAway(std::string p);
+
+		std::string	getReply();
+		void		setReply(std::string const &msg);
 
 		std::string 	getClientAdd() const;
 

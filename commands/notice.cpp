@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   privmsg.cpp                                        :+:      :+:    :+:   */
+/*   notice.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: javier <javier@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/07 12:58:34 by javrodri          #+#    #+#             */
-/*   Updated: 2022/01/11 18:50:35 by javrodri         ###   ########.fr       */
+/*   Created: 2022/01/10 13:44:25 by javier            #+#    #+#             */
+/*   Updated: 2022/01/10 15:21:14 by javier           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../server.hpp"
+#include "../server.hpp"
+#include "../user.hpp"
 
-void    Server::privmsgCmmd(std::vector<std::string> const& tokens, User* usr){
+void    Server::noticeCmmd(std::vector<std::string> const& tokens, User* usr){
     
     User            *destUser;
     Channel         *destChannel;
@@ -31,14 +32,14 @@ void    Server::privmsgCmmd(std::vector<std::string> const& tokens, User* usr){
     if (tokens.size() > 3)
         replyMsg(ERR_TOOMANYTARGETS, ":Too many targets", usr);
     if (tokens.size() < 2)
-        replyMsg(ERR_NORECIPIENT, ":No recipient given(privmsg)", usr);
+        replyMsg(ERR_NORECIPIENT, ":No recipient given(notice)", usr);
     else{
         tokenDest = tokens[1];
         if (tokenDest[0] == '#' || tokenDest[0] == '&' || tokenDest[0] == '!' || tokenDest[0] == '+'){
                 for (;it2 != it3; ++it2){
                     if ((*it2)->getName() == tokenDest){
                         destChannel = *it2;
-                        msg = "PRIVMSG :" + destChannel->getName() + " " + tokens[2];
+                        msg = "NOTICE :" + destChannel->getName() + " " + tokens[2];
                         msgToChannel(msg, usr, destChannel);
                         break;
                     }
@@ -64,13 +65,7 @@ void    Server::privmsgCmmd(std::vector<std::string> const& tokens, User* usr){
                 }
             }
         }
-        msg.append("PRIVMSG " + usr->getNickMask() + " :" + tokens[2]);
+        msg.append("NOTICE " + usr->getNickMask() + " :" + tokens[2]);
         send(destUser->getFD(), msg.c_str(), msg.length(), 0);
     }
-    if (destUser->getAwayOn()){
-        std::string msgAwayReply;
-        msgAwayReply.append("AWAY " + destUser->getNickMask() + " :" + destUser->getAway()) + "\n";
-        send(usr->getFD(), msgAwayReply.c_str(), msgAwayReply.length(), 0);
-    }
 }
-

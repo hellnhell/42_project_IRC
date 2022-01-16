@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:50 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/11 17:45:25 by nazurmen         ###   ########.fr       */
+/*   Updated: 2022/01/12 18:16:50 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,12 +213,14 @@ class Server
 		void						passCmmd(std::vector<std::string> const &tokens, User* usr);
 		void						joinCmmd(std::vector<std::string> const &tokens, User* usr);
 		void						motdCmmd(int const & fd);
+		void 					   	quitCmmd(std::vector<std::string> const &tokens, User *usr);
+		void   						pongCmmd(std::vector<std::string> const &tokens, User *usr);
+        void	                    partCmmd(std::vector<std::string> const& tokens, User *usr);
+		void					    noticeCmmd(std::vector<std::string> const& tokens, User* usr);
+		void						awayCmmd(std::vector<std::string> const &tokens, User *usr);
 		void						namesCmmd(std::vector<std::string> const& tokens, User *usr, Server &Serv);
-		void						partCmmd(std::vector<std::string> const& tokens, User *usr);
 		void						topicCmmd(std::vector<std::string> const& tokens, User *usr, Server &Serv);
 		void						modeCmmd(std::vector<std::string> const& tokens, User *usr, Server &Serv);
-		void						quitCmmd(std::vector<std::string> const &tokens, User *usr);
-		void						pongCmmd(std::vector<std::string> const &tokens, User *usr);
 		void                        whoCmmd( std::vector<std::string> const &tokens, User *usr );
 		void						operCmmd(std::vector<std::string> const &tokens, User *usr);
 		void						killCmmd(std::vector<std::string>const &tokens, User *usr);

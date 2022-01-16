@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 14:11:46 by emartin-          #+#    #+#             */
-/*   Updated: 2022/01/12 13:18:12 by nazurmen         ###   ########.fr       */
+/*   Updated: 2022/01/12 18:11:17 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ int main(int argc, char **argv)
 			{
 				std::cout << "\r";
 				timerDisplay();
+				//server.checkPing();
 				std::cout <<  "  Connections : " << YELLOW << server.getUsers().size() << WHITE << "\tChannels: " << YELLOW << server.getChannels().size() << WHITE " ";
 				if ( i == 4)
 					i = 1;
