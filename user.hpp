@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   user.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 12:39:06 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/12 18:12:32 by javrodri         ###   ########.fr       */
+/*   Updated: 2022/01/17 19:19:22 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ class User
 		bool				ping_on;
 		bool				away_on;
 		bool				op_mode;
+//		std::string			reply;
 		std::string			user;
 		std::string			realName;
 		std::string			nick;

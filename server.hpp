@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:50 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/12 18:16:50 by javrodri         ###   ########.fr       */
+/*   Updated: 2022/01/17 19:34:25 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@
 class User;
 class Channel;
 
-typedef std::list<std::string>::iterator	it_str_list; 			
+typedef std::list<std::string>::iterator	it_str_list;
 typedef std::list<User *>::iterator			it_usr_list;
 
 class Server
@@ -161,14 +161,13 @@ class Server
 		struct sockaddr_in 		server_address;
 
 		std::list<User *>		users_on;
+		std::vector<User *>		buff_users;
 		std::string				password;
 		std::string				op_password;
 
 		std::vector<Channel *>	channels;
 
 		Server(const Server &other);
-	// protected: Creo q no lo usamos
-	// 	int flag;
 
 	public:
 		Server();
@@ -187,10 +186,13 @@ class Server
 		void						handleNewConnection();
 		void						dealWithData(int listnum);
 		std::vector<std::string>	parseMessage(std::string buffer);
-		void					    parseCommands(std::vector<std::string> const &tokens, User *usr, int fd);
+		void						parseCommands(std::vector<std::string> const &tokens, User *usr, int fd);
+		void						sendBuffMsg(User *usr);
+		void						deleteBuffUser(User *usr);
+
 
 		void							replyMsg(std::string rep, std::string str, User *usr);
-		void	                   		msgToChannel(std::string msg,  User *usr, Channel *chnl);
+		void							msgToChannel(std::string msg,  User *usr, Channel *chnl);
 		void							display();
 		void							checkPing();
 
@@ -199,11 +201,11 @@ class Server
 
 		std::map<int, User *> const 	&getUsers() const;
 		std::vector<Channel *> const 	&getChannels() const;
-		Channel                     	*getChannel(std::string name) const;
+		Channel							*getChannel(std::string name) const;
  		void 							removeChannel(Channel *channel);
 
 		void							deleteUser(User *usr);
-        
+
 
 		void						userCmmd(std::vector<std::string> const &tokens, User *usr);
 		void						timeCmmd(User *usr, int fd_usr);

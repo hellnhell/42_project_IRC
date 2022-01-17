@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:52 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/16 15:12:53 by nazurmen         ###   ########.fr       */
+/*   Updated: 2022/01/17 19:54:12 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ Server::Server()
 	std::cout << "Server Constructor:" << std::endl;
 	int reuse_addr = 1;
 	FD_ZERO(&this->reads);
+	FD_ZERO(&this->writes);
 	this->highsock = 0;
 	// this->flag = 0;
 	this->listening_socket = 0;
@@ -101,11 +102,17 @@ void Server::buildSelectList()
 	FD_SET(this->listening_socket, &this->reads);
 	for (listnum = 0; listnum < FD_SETSIZE; listnum++) {
 		if (this->_list_connected_user[listnum] != 0) {
-			FD_SET(this->_list_connected_user[listnum],&this->reads);
-			FD_SET(this->_list_connected_user[listnum],&this->writes);
+			FD_SET(this->_list_connected_user[listnum], &this->reads);
 			if (this->_list_connected_user[listnum] > this->highsock)
 				this->highsock = this->_list_connected_user[listnum];
 		}
+	}
+	if(buff_users.empty())
+		return ;
+	std::vector<User *>::iterator it;
+	for(it = this->buff_users.begin(); it != buff_users.end(); it++)
+	{
+		FD_SET((*it)->getFD(), &this->writes);//cambiar fd
 	}
 }
 
@@ -113,7 +120,7 @@ int Server::getReadSocks()
 {
 	this->timeout.tv_sec = 1;
 	this->timeout.tv_usec = 0;
-	return select((this->highsock + 1 ), &this->reads, (fd_set *) 0, (fd_set *) 0 , &this->timeout);
+	return select((this->highsock + 1 ), &this->reads, &this->writes, (fd_set *) 0 , &this->timeout);
 }
 
 void Server::handleNewConnection()
@@ -182,6 +189,7 @@ void Server::dealWithData(int listnum)
 		if (tokens[0].empty())
 			return;
 		actionDisplay("Attend client", " CMD:" + tokens[0], tmpuser);
+		replyMsg("asdasdasdasdasdasdasd\r\n", "asdasdasd\r\n", tmpuser);
 		parseCommands(tokens, tmpuser, listnum);
 		std::cout << std::endl << "Received:  " << recived << std::endl;
 		// send(this->_list_connected_user[listnum], recived.c_str(), recived.length(), 0);
@@ -189,8 +197,56 @@ void Server::dealWithData(int listnum)
 	}
 }
 
+void Server::sendBuffMsg(User *usr)
+{
+	int			diff;
+	size_t		len;
+	std::string	messages;
+	std::vector<User *>::iterator it;
+
+	diff = 0;
+	len = 0;
+
+
+	while ( ( messages = usr->getReply() ).size() != 0)
+	{
+		if ( messages.length() > 512 )
+		{
+			messages = messages.substr(0, 512);
+			messages[510] = '\r';
+			messages[511] = '\n';
+		}
+		len = send(usr->getFD(), messages.c_str(), messages.length(), 0);
+		diff = messages.length() - len;
+		if ( diff > 0 )
+		{
+			usr->setReply(messages.substr(diff, messages.length()) );
+			break ;
+		}
+	}
+	if ( diff == 0 )
+	{
+		if ((it = std::find(buff_users.begin(), buff_users.end(), usr)) != buff_users.end())
+			this->buff_users.erase(it);
+	}
+}
+
+//Maybe we should delete this in delete user/destruct
+// void Server::deleteBuffUser(User * usr)
+// {
+// }
+
 void Server::readSocks()
 {
+	std::vector<User *>::iterator it;
+	for(it = this->buff_users.begin(); it != buff_users.end(); it++)
+	{
+		if(FD_ISSET((*it)->getFD(), &this->writes))
+		{
+			this->sendBuffMsg((*it));
+			it--;
+		}
+	}
 	if(FD_ISSET(this->listening_socket, &this->reads))
 		this->handleNewConnection();
 	for(size_t listnum = 0; listnum < FD_SETSIZE; listnum++)

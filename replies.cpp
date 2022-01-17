@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 13:07:11 by emartin-          #+#    #+#             */
-/*   Updated: 2022/01/11 17:41:20 by nazurmen         ###   ########.fr       */
+/*   Updated: 2022/01/17 19:40:19 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,26 @@
 void	Server::replyMsg(std::string rep, std::string str, User *usr)
 {
 	std::string msg;
+	//Comprobar q hay mensaje
 
 	if (rep >= "400")
 		msg = RED SERVER_MASK + rep  + " "  + usr->getNick() + " " + str + WHITE "\r\n";
 	else
 		msg = GREEN SERVER_MASK + rep  + " "  + usr->getNick() + " " + str + WHITE "\r\n";
-	send(usr->getFD(), msg.c_str(), msg.length(), 0);
-	// usr->setReply(error);
+	usr->setReply(msg);
+
+	std::vector<User *>::iterator it;
+	if ((it = std::find(buff_users.begin(), buff_users.end(), usr)) != buff_users.end())
+	{
+		perror("Finded");
+		return ;
+	}
+	buff_users.push_back(usr);
+	// while (usr->getReply().size() = 0)
+	// {
+
+	// }
+	// send(usr->getFD(), msg.c_str(), msg.length(), 0);
 }
 
 void	Server::msgToChannel(std::string msg,  User *usr, Channel *chnl)
