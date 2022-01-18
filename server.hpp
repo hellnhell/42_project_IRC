@@ -6,7 +6,7 @@
 /*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:50 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/12 18:16:50 by javrodri         ###   ########.fr       */
+/*   Updated: 2022/01/18 17:36:42 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,6 +191,7 @@ class Server
 
 		void							replyMsg(std::string rep, std::string str, User *usr);
 		void	                   		msgToChannel(std::string msg,  User *usr, Channel *chnl);
+		bool							isInChannel(User *usr, Channel *chnl);
 		void							display();
 		void							checkPing();
 
