@@ -6,7 +6,7 @@
 /*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 13:07:11 by emartin-          #+#    #+#             */
-/*   Updated: 2022/01/18 17:59:34 by javrodri         ###   ########.fr       */
+/*   Updated: 2022/01/18 20:00:28 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,16 @@ void	Server::msgToChannel(std::string msg,  User *usr, Channel *chnl)
 	it3 = chnl->getUsers().end();
 	modes = chnl->getModes();
 
-	for (int i = 0; modes.size() < i; i++){
-		if (modes[i] == 'n'){				//usar strchr
-			if (isInChannel(usr, chnl)){
+	std::cout << "modes: " << modes << std::endl;
+	std::cout << "modes_size: " << modes.size() << std::endl;
+
+	for (int i = 0; i < modes.size(); i++){
+		std::cout << "aqui" << std::endl;
+		if (modes[i] == 'n'){	
+		std::cout << "aqui2" << std::endl;
+						//usar strchr
+			if (isInChannel(usr, chnl) == true){
+				std::cout <<"en el canal" << std::endl;
 				for (;it2 != it3; ++it2){
 					send((*it2)->getFD(), msg.c_str(), msg.length(), 0);
 				}
