@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:50 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/17 19:34:25 by nazurmen         ###   ########.fr       */
+/*   Updated: 2022/01/18 19:10:48 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,7 @@ class Server
 		std::vector<User *>		buff_users;
 		std::string				password;
 		std::string				op_password;
-		
+
 
 		std::string				buffCommand;
 		std::vector<Channel *>	channels;

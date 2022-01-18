@@ -6,7 +6,7 @@
 /*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:52 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/17 19:54:12 by nazurmen         ###   ########.fr       */
+/*   Updated: 2022/01/18 19:25:04 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void Server::buildSelectList()
 	if(buff_users.empty())
 		return ;
 	std::vector<User *>::iterator it;
-	for(it = this->buff_users.begin(); it != buff_users.end(); it++)
+	for(it = this->buff_users.begin(); it != buff_users.end(); ++it)
 	{
 		FD_SET((*it)->getFD(), &this->writes);//cambiar fd
 	}
@@ -118,8 +118,16 @@ void Server::buildSelectList()
 
 int Server::getReadSocks()
 {
+// std::cout << "getReadSocks " << std::endl;
+// int temp;
+
 	this->timeout.tv_sec = 1;
 	this->timeout.tv_usec = 0;
+
+	// temp = select((this->highsock + 1 ), &this->reads, &this->writes, (fd_set *) 0 , &this->timeout);
+	// if(temp)
+	// 	std::cout << ""
+std::cout << "fd read: " << *(int *)&this->reads << " fd write: " << *(int *)&this->writes << std::endl;
 	return select((this->highsock + 1 ), &this->reads, &this->writes, (fd_set *) 0 , &this->timeout);
 }
 
@@ -171,11 +179,13 @@ void Server::dealWithData(int listnum)
 
 	recived = this->buffCommand;
 
+	std::cout << std::endl << "entraaqui:  " << std::endl;
 	while ((verify = recv(this->_list_connected_user[listnum], buffer, 512, 0)) > 0)
 	{
 		buffer[verify] = 0;
 		recived += buffer;
 	}
+	std::cout << std::endl << "recived:  " << recived << std::endl;
 	if(recived.length() <= 0)
 	{
 		//delete user?
@@ -269,6 +279,7 @@ void Server::sendBuffMsg(User *usr)
 
 void Server::readSocks()
 {
+	std::cout << YELLOW"patata"WHITE << std::endl;
 	std::vector<User *>::iterator it;
 	for(it = this->buff_users.begin(); it != buff_users.end(); it++)
 	{

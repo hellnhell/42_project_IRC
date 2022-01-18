@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 14:11:46 by emartin-          #+#    #+#             */
-/*   Updated: 2022/01/12 18:11:17 by javrodri         ###   ########.fr       */
+/*   Updated: 2022/01/18 19:16:04 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,12 @@ int main(int argc, char **argv)
 			signal(SIGINT, signal_kill);
 			server.buildSelectList();
 			if((set_read = server.getReadSocks()) < 0)
+			{
+				std::cout << RED "mal" WHITE << std::endl;
 				throw Server::ServerException();
+			}
+			std::cout << RED << set_read << WHITE << std::endl;
+
 			if(set_read == 0)
 			{
 				std::cout << "\r";
@@ -144,7 +149,7 @@ int main(int argc, char **argv)
 				}
 				i++;
 				// server.checkPing();
-				std::cout.flush();
+				//std::cout.flush();
 			}
 			else
 			{
