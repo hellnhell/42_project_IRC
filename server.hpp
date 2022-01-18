@@ -164,7 +164,9 @@ class Server
 		std::vector<User *>		buff_users;
 		std::string				password;
 		std::string				op_password;
+		
 
+		std::string				buffCommand;
 		std::vector<Channel *>	channels;
 
 		Server(const Server &other);

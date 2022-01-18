@@ -18,10 +18,12 @@ void	Server::replyMsg(std::string rep, std::string str, User *usr)
 	std::string msg;
 	//Comprobar q hay mensaje
 
-	if (rep >= "400")
-		msg = RED SERVER_MASK + rep  + " "  + usr->getNick() + " " + str + WHITE "\r\n";
-	else
-		msg = GREEN SERVER_MASK + rep  + " "  + usr->getNick() + " " + str + WHITE "\r\n";
+	// if (rep >= "400")
+	// 	msg = RED SERVER_MASK + rep  + " "  + usr->getNick() + " " + str + WHITE "\r\n";
+	// else
+	// 	msg = GREEN SERVER_MASK + rep  + " "  + usr->getNick() + " " + str + WHITE "\r\n";
+	msg  = SERVER_MASK + rep  + " "  + usr->getNick() + " " + str + "\r\n";
+
 	usr->setReply(msg);
 
 	std::vector<User *>::iterator it;

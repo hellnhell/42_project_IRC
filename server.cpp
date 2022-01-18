@@ -165,7 +165,11 @@ void Server::dealWithData(int listnum)
 	std::string		buff_input;
 	ssize_t			verify;
 	std::string 	recived;
+	std::string 	recived2;
+	size_t			pos;
 	std::vector<std::string> tokens;
+
+	recived = this->buffCommand;
 
 	while ((verify = recv(this->_list_connected_user[listnum], buffer, 512, 0)) > 0)
 	{
@@ -184,16 +188,43 @@ void Server::dealWithData(int listnum)
 	}
 	else
 	{
-		User *tmpuser = this->list_users[this->_list_connected_user[listnum]];
-		tokens = parseMessage(recived);
-		if (tokens[0].empty())
-			return;
-		actionDisplay("Attend client", " CMD:" + tokens[0], tmpuser);
-		replyMsg("asdasdasdasdasdasdasd\r\n", "asdasdasd\r\n", tmpuser);
-		parseCommands(tokens, tmpuser, listnum);
-		std::cout << std::endl << "Received:  " << recived << std::endl;
-		// send(this->_list_connected_user[listnum], recived.c_str(), recived.length(), 0);
-		// send(this->_list_connected_user[listnum], (char *)"\n", strlen((char *)"\n"), 0);
+		while(recived.length())
+		{
+			if((pos = recived.find('\n')) != std::string::npos)
+			{
+				recived2 = recived.substr(0, pos + 1);
+				recived.erase(0, pos + 1);
+				if(recived2.length() > 510)
+					recived2 = recived2.substr(0, 510);
+				if(recived2[0] != '\r' && recived2[0] != '\n')
+				{
+					User *tmpuser = this->list_users[this->_list_connected_user[listnum]];
+					tokens = parseMessage(recived2);
+					if (tokens[0].empty())
+						return;
+					actionDisplay("Attend client", " CMD:" + tokens[0], tmpuser);
+					parseCommands(tokens, tmpuser, listnum);
+					std::cout << std::endl << "Received:  " << recived2 << std::endl;
+				}
+				this->buffCommand.clear();
+				// this->buffCommand = "";
+			}
+			else
+			{
+				this->buffCommand = this->buffCommand + recived;
+				recived.clear();
+			}
+
+			// User *tmpuser = this->list_users[this->_list_connected_user[listnum]];
+			// tokens = parseMessage(recived);
+			// if (tokens[0].empty())
+			// 	return;
+			// actionDisplay("Attend client", " CMD:" + tokens[0], tmpuser);
+			// parseCommands(tokens, tmpuser, listnum);
+			// std::cout << std::endl << "Received:  " << recived << std::endl;
+
+		}
+		//limpiar lista de usuarios que envian mensaje
 	}
 }
 
