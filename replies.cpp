@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replies.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 13:07:11 by emartin-          #+#    #+#             */
-/*   Updated: 2022/01/17 19:40:19 by nazurmen         ###   ########.fr       */
+/*   Updated: 2022/01/20 12:27:25 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	Server::replyMsg(std::string rep, std::string str, User *usr)
 	// 	msg = RED SERVER_MASK + rep  + " "  + usr->getNick() + " " + str + WHITE "\r\n";
 	// else
 	// 	msg = GREEN SERVER_MASK + rep  + " "  + usr->getNick() + " " + str + WHITE "\r\n";
-	msg  = SERVER_MASK + rep  + " "  + usr->getNick() + " " + str + "\r\n";
+	msg  = rep  + " "  + usr->getNick() + " " + str + "\r\n";
 
 	usr->setReply(msg);
 

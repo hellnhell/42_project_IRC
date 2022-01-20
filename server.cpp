@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:52 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/18 19:25:04 by nazurmen         ###   ########.fr       */
+/*   Updated: 2022/01/20 12:32:45 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ int Server::getReadSocks()
 	// temp = select((this->highsock + 1 ), &this->reads, &this->writes, (fd_set *) 0 , &this->timeout);
 	// if(temp)
 	// 	std::cout << ""
-std::cout << "fd read: " << *(int *)&this->reads << " fd write: " << *(int *)&this->writes << std::endl;
+// std::cout << "fd read: " << *(int *)&this->reads << " fd write: " << *(int *)&this->writes << std::endl;
 	return select((this->highsock + 1 ), &this->reads, &this->writes, (fd_set *) 0 , &this->timeout);
 }
 
@@ -279,7 +279,7 @@ void Server::sendBuffMsg(User *usr)
 
 void Server::readSocks()
 {
-	std::cout << YELLOW"patata"WHITE << std::endl;
+	// std::cout << YELLOW"patata"WHITE << std::endl;
 	std::vector<User *>::iterator it;
 	for(it = this->buff_users.begin(); it != buff_users.end(); it++)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ping-pong.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 12:37:45 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/12 12:37:45 by nazurmen         ###   ########.fr       */
+/*   Updated: 2022/01/20 12:35:02 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void    Server::checkPing()
 		if ((getTime() - usr->getTimeZero()) > usr->getTimePing())
 		{
 			if ((usr->getCheckedRegist() == false || usr->getPingOn() == true)
-			 && (getTime() - usr->getTimeZero() > usr->getTimePing() + 10000))
+			 && (getTime() - usr->getTimeZero() > usr->getTimePing() + 100000))
 			{
 				if (usr->getPingOn() && !usr->getCheckedRegist())
 					replyMsg("ERROR :Registration timeout ", " [Connection aborted]", usr);
@@ -55,8 +55,12 @@ void    Server::pongCmmd(std::vector<std::string> const &tokens, User *usr)
 	if (tokens.size() > 1 && tokens[1] == usr->getPing())
 	{
 		usr->setPingOn(false);
-		usr->setTimePing(12000);
+		usr->setTimePing(120000);
 		actionDisplay("Ping introduced", "", usr);
+		std::string msg = "396 " + usr->getNick() + " 127.0.0.1 :is now your displayed host\n";
+		send(usr->getFD(), msg.c_str(), msg.size(), 0);
+		//motdCmmd(usr->getFD());
+		send(usr->getFD(), "396 ---WELCOME---\n", 18, 0);
 	}
 	else
 	{

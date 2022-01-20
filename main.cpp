@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 14:11:46 by emartin-          #+#    #+#             */
-/*   Updated: 2022/01/18 19:16:04 by nazurmen         ###   ########.fr       */
+/*   Updated: 2022/01/20 12:33:08 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,16 +120,16 @@ int main(int argc, char **argv)
 			server.buildSelectList();
 			if((set_read = server.getReadSocks()) < 0)
 			{
-				std::cout << RED "mal" WHITE << std::endl;
+				// std::cout << RED "mal" WHITE << std::endl;
 				throw Server::ServerException();
 			}
-			std::cout << RED << set_read << WHITE << std::endl;
+			// std::cout << RED << set_read << WHITE << std::endl;
 
 			if(set_read == 0)
 			{
 				std::cout << "\r";
 				timerDisplay();
-				//server.checkPing();
+				server.checkPing();
 				std::cout <<  "  Connections : " << YELLOW << server.getUsers().size() << WHITE << "\tChannels: " << YELLOW << server.getChannels().size() << WHITE " ";
 				if ( i == 4)
 					i = 1;
@@ -149,7 +149,7 @@ int main(int argc, char **argv)
 				}
 				i++;
 				// server.checkPing();
-				//std::cout.flush();
+				std::cout.flush();
 			}
 			else
 			{

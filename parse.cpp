@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 12:56:36 by emartin-          #+#    #+#             */
-/*   Updated: 2022/01/18 18:25:19 by nazurmen         ###   ########.fr       */
+/*   Updated: 2022/01/20 12:31:34 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void    Server::parseCommands(std::vector<std::string> const &tokens, User *usr,
 			return this->joinCmmd(tokens, usr);
 		else if(tokens[0] == "MOTD" || tokens[0] == "motd")
 		{
-			std::cout << YELLOW  "AQUI-1" WHITE << std::endl;
+			// std::cout << YELLOW  "AQUI-1" WHITE << std::endl;
 			return this->motdCmmd(fd);
 		}
 		else if(tokens[0] == "NAMES" || tokens[0] == "names")
