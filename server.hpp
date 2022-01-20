@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:50 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/18 19:10:48 by nazurmen         ###   ########.fr       */
+/*   Updated: 2022/01/20 13:14:56 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,6 +207,7 @@ class Server
  		void 							removeChannel(Channel *channel);
 
 		void							deleteUser(User *usr);
+void   initMsg(int const & fd);
 
 
 		void						userCmmd(std::vector<std::string> const &tokens, User *usr);

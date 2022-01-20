@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replies.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 13:07:11 by emartin-          #+#    #+#             */
-/*   Updated: 2022/01/20 12:27:25 by javrodri         ###   ########.fr       */
+/*   Updated: 2022/01/20 13:13:58 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,13 @@ void	Server::replyMsg(std::string rep, std::string str, User *usr)
 	// 	msg = RED SERVER_MASK + rep  + " "  + usr->getNick() + " " + str + WHITE "\r\n";
 	// else
 	// 	msg = GREEN SERVER_MASK + rep  + " "  + usr->getNick() + " " + str + WHITE "\r\n";
-	msg  = rep  + " "  + usr->getNick() + " " + str + "\r\n";
+	msg  = rep  + " " + SERVER_MASK + " "  + usr->getNick() + " " + str + "\r\n";
 
 	usr->setReply(msg);
 
 	std::vector<User *>::iterator it;
 	if ((it = std::find(buff_users.begin(), buff_users.end(), usr)) != buff_users.end())
-	{
-		perror("Finded");
 		return ;
-	}
 	buff_users.push_back(usr);
 	// while (usr->getReply().size() = 0)
 	// {
