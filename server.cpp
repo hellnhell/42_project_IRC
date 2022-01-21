@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:52 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/20 12:32:45 by javrodri         ###   ########.fr       */
+/*   Updated: 2022/01/21 13:56:39 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ Server::Server()
 	FD_ZERO(&this->writes);
 	this->highsock = 0;
 	// this->flag = 0;
+	this->buffCommand = "";
 	this->listening_socket = 0;
 	this->listening_socket = socket(AF_INET, SOCK_STREAM, 0);
 	if(this->listening_socket < 0)
@@ -169,7 +170,7 @@ void Server::handleNewConnection()
 
 void Server::dealWithData(int listnum)
 {
-	char 			buffer[512];
+	char 			buffer[513];
 	std::string		buff_input;
 	ssize_t			verify;
 	std::string 	recived;
@@ -188,13 +189,8 @@ void Server::dealWithData(int listnum)
 	std::cout << std::endl << "recived:  " << recived << std::endl;
 	if(recived.length() <= 0)
 	{
-		//delete user?
 		actionDisplay("Connection lost", "", this->list_users[this->_list_connected_user[listnum]]);
 		deleteUser(this->list_users[this->_list_connected_user[listnum]]);
-		// delete (this->list_users[this->_list_connected_user[listnum]]);
-		// // std::cout << std::endl << "Connection lost fd -> " << this->_list_connected_user[listnum] << " slot -> " <<  listnum << std::endl;
-		// close(this->_list_connected_user[listnum]);
-		// this->_list_connected_user[listnum] = 0;
 	}
 	else
 	{
@@ -204,10 +200,14 @@ void Server::dealWithData(int listnum)
 			{
 				recived2 = recived.substr(0, pos + 1);
 				recived.erase(0, pos + 1);
-				if(recived2.length() > 510)
-					recived2 = recived2.substr(0, 510);
-				if(recived2[0] != '\r' && recived2[0] != '\n')
-				{
+
+				
+				// if(recived2.length() > 510)
+				// {
+				//  	recived2 = recived2.substr(0, 510);
+				// }
+				// if(recived2[0] != '\r' && recived2[0] != '\n')
+				// {
 					User *tmpuser = this->list_users[this->_list_connected_user[listnum]];
 					tokens = parseMessage(recived2);
 					if (tokens[0].empty())
@@ -215,28 +215,20 @@ void Server::dealWithData(int listnum)
 					actionDisplay("Attend client", " CMD:" + tokens[0], tmpuser);
 					parseCommands(tokens, tmpuser, listnum);
 					std::cout << std::endl << "Received:  " << recived2 << std::endl;
-				}
+				// }
 				this->buffCommand.clear();
-				// this->buffCommand = "";
 			}
 			else
 			{
-				this->buffCommand = this->buffCommand + recived;
+				this->buffCommand += recived;
 				recived.clear();
 			}
-
-			// User *tmpuser = this->list_users[this->_list_connected_user[listnum]];
-			// tokens = parseMessage(recived);
-			// if (tokens[0].empty())
-			// 	return;
-			// actionDisplay("Attend client", " CMD:" + tokens[0], tmpuser);
-			// parseCommands(tokens, tmpuser, listnum);
-			// std::cout << std::endl << "Received:  " << recived << std::endl;
-
 		}
-		//limpiar lista de usuarios que envian mensaje
+
 	}
 }
+
+
 
 void Server::sendBuffMsg(User *usr)
 {
@@ -272,14 +264,8 @@ void Server::sendBuffMsg(User *usr)
 	}
 }
 
-//Maybe we should delete this in delete user/destruct
-// void Server::deleteBuffUser(User * usr)
-// {
-// }
-
 void Server::readSocks()
 {
-	// std::cout << YELLOW"patata"WHITE << std::endl;
 	std::vector<User *>::iterator it;
 	for(it = this->buff_users.begin(); it != buff_users.end(); it++)
 	{
@@ -311,17 +297,6 @@ std::string	Server::getPassword() const { return this->password; };
 std::map<int, User *> const& Server::getUsers() const { return this->list_users; }
 std::vector<Channel *> const& Server::getChannels() const { return this->channels; }
 
-// Channel	*Server::getChannel(std::string name) const
-// {
-// 	if (this->channels.size() == 0)
-// 		return NULL;
-// 	std::vector<Channel *>::const_iterator it;
-// 	it = std::find_if(this->channels.begin(), this->channels.end(), [&name](Channel *c) { return c->getName() == name; });
-// 	if (it != this->channels.end())
-// 		return *it;
-// 	return NULL;
-// }
-
 Channel *Server::getChannel(std::string name) const
 {
 	if (this->channels.size() == 0)
@@ -343,15 +318,14 @@ void Server::removeChannel(Channel *channel)
 		this->channels.erase(it);
 }
 
-void	Server::deleteUser(User *usr) // REVISAR
+void	Server::deleteUser(User *usr)
 {
+	actionDisplay("Removed user", usr->getNick(), usr);
 	this->users_on.remove(usr);
 	for (int i = 0; i < FD_SETSIZE; i++)
 		if( this->_list_connected_user[i] == usr->getFD())
 			this->_list_connected_user[i] = 0;
-	close (usr->getFD());
 	this->list_users.erase(usr->getFD());
-	actionDisplay("Removed user", usr->getNick(), usr);
-	//Remove el resto de cosas q no se q son
+	close (usr->getFD());
 	delete usr;
 }

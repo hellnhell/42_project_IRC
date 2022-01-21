@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 12:58:34 by javrodri          #+#    #+#             */
-/*   Updated: 2022/01/20 13:45:26 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/21 11:14:29 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void    Server::privmsgCmmd(std::vector<std::string> const& tokens, User* usr){
 					if ((*it2)->getName() == tokenDest){
 						destChannel = *it2;
 						msg = "PRIVMSG :" + destChannel->getName() + " " + tokens[2];
+						msgToChannel(msg, usr, destChannel);
 						break;
 					}
 					else{
@@ -70,7 +71,6 @@ void    Server::privmsgCmmd(std::vector<std::string> const& tokens, User* usr){
 	if (destUser && destUser->getAwayOn()){
 		std::string msgAwayReply;
 		msgAwayReply.append("AWAY " + destUser->getNickMask() + " :" + destUser->getAway()) + "\n";
-		std::cout << GREEN "patata2" WHITE << std::endl;
 		send(usr->getFD(), msgAwayReply.c_str(), msgAwayReply.length(), 0);
 	}
 }

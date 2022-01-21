@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:50 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/20 13:14:56 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/21 12:23:52 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@
 //ERRORS
 //Error replies are found in the range from 400 to 599.
 
-# define ERR_UNKNOWNERROR		"400"
+# define ERR_UNKNOWNERROR		   "400"
 # define ERR_ALREADYREGISTRED      "462"		// - Returned by the server to any link which tries to change part of the registered details (such as password or user details from second USER message)
 # define ERR_NEEDMOREPARAMS        "461"
 # define ERR_NOSUCHNICK            "401"       //"<nickname> :No such nick/channel"        - Used to indicate the nickname parameter supplied to a command is currently unused.

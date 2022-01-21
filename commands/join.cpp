@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   join.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:41 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/11 17:40:14 by nazurmen         ###   ########.fr       */
+/*   Updated: 2022/01/21 12:58:24 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void Server::joinCmmd(std::vector<std::string> const &tokens, User* usr)
 					(*it)->joinUser(usr);
 					usr->joinChannel(*it);
 					replyMsg(RPL_TOPIC, ":" + (*it)->getTopic(), usr);
-                    usr->getChannels().push_back(*it);
+                    // usr->getChannels().push_back(*it);
 					msg = usr->getNickMask() + " JOIN " + (*it)->getName() + "\n";
  					msgToChannel(msg, usr, (*it));
 					return ;
