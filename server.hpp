@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:50 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/21 12:23:52 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/25 13:53:21 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,6 +194,7 @@ class Server
 
 
 		void							replyMsg(std::string rep, std::string str, User *usr);
+		void							dataMsg(std::string rep, User *usr, User *usr2);
 		void							msgToChannel(std::string msg,  User *usr, Channel *chnl);
 		void							display();
 		void							checkPing();

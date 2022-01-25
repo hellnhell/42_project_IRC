@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:41 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/21 12:58:24 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/25 14:05:04 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void Server::joinCmmd(std::vector<std::string> const &tokens, User* usr)
 					usr->joinChannel(*it);
 					replyMsg(RPL_TOPIC, ":" + (*it)->getTopic(), usr);
                     // usr->getChannels().push_back(*it);
+					dataMsg("JOIN :" + tokens[i], usr, usr);
 					msg = usr->getNickMask() + " JOIN " + (*it)->getName() + "\n";
  					msgToChannel(msg, usr, (*it));
 					return ;
@@ -56,10 +57,12 @@ void Server::joinCmmd(std::vector<std::string> const &tokens, User* usr)
 				Channel* chan = new Channel(this, usr, tokens[i]);
 				this->channels.push_back(chan);
 				this->channels.back()->joinUser(usr);
+                // usr->getChannels().push_back(chan);
+				std::cout << BLUE << tokens[i] << WHITE << std::endl;
+				dataMsg("JOIN :" + tokens[i], usr, usr);
+				msg = " JOIN " + chan->getName() + "\n";
+ 				msgToChannel(msg, usr, chan);
 				replyMsg(RPL_TOPIC, ":" + this->channels.back()->getTopic(), usr);
-                usr->getChannels().push_back(chan);
-				msg = usr->getNickMask() + " JOIN " + chan->getName() + "\n";
- 				msgToChannel(msg, usr, chan);;
 				return ;
 			}
 			catch(const std::exception& e)

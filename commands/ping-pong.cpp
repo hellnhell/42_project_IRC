@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 12:37:45 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/25 12:22:33 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/25 14:35:14 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,19 +87,13 @@ void    Server::initMsg(int const & fd)
 	std::string s9 = "  '---'  ''-'   `'-'       `._____.'           /_______.'  '---'     '---'      `._____.'     (_,_) '---'  ";                           
 
 
+	std::string s10 = "         Welcome: " + usr->getNick();
 
-
-	std::string challenge[] = {RED " Welcome: And, when you want something, all the universe conspires in helping you to achieve it",
-								YELLOW " Welcome: It's the possibility of having a dream come true that makes life interesting",
-								BLUE " Welcome: One is loved because one is loved. No reason is needed for loving.",
-								PINK " Welcome: When we love, we always strive to become better than we are. When we strive to become better than we are, everything around us becomes better too",
-								CIAN " Welcome: So, I love you because the entire universe conspired to help me find you"};
-
-	replyMsg(RPL_WELCOME, " : Welcome to the ft_irc Network " + usr->getNick() + "!" + usr->getUser() + "@"+ this->list_users[fd]->getClientAdd() , usr); //
-	replyMsg(RPL_YOURHOST, " : Your host is ft_irc.com, running version v:0.01",  this->list_users[fd]);
-	replyMsg(RPL_CREATE, " : This server is connstantly under construction", this->list_users[fd]);
-	replyMsg(RPL_MYINFO, " : ft_irc v:0.41 io iobl", this->list_users[fd]);
-	replyMsg(RPL_MOTDSTART, " : ft_irc.com W E L C O M E enjoy " , this->list_users[fd]);
+	replyMsg(RPL_WELCOME, " :Welcome to the ft_irc Network " + usr->getNick() + "!" + usr->getUser() + "@"+ this->list_users[fd]->getClientAdd() , usr); //
+	replyMsg(RPL_YOURHOST, " :Your host is ft_irc.com, running version v:0.01",  this->list_users[fd]);
+	replyMsg(RPL_CREATE, " :This server is connstantly under construction", this->list_users[fd]);
+	replyMsg(RPL_MYINFO, " :ft_irc v:0.01 io iobl", this->list_users[fd]);
+	replyMsg(RPL_MOTDSTART, " :ft_irc.com W E L C O M E enjoy " , this->list_users[fd]);
 	replyMsg(RPL_MOTD, " :" , usr);
 	replyMsg(RPL_MOTD, " :" GREEN + s1 + WHITE, usr);
 	replyMsg(RPL_MOTD, " :" GREEN + s2 + WHITE, usr);
@@ -113,9 +107,7 @@ void    Server::initMsg(int const & fd)
 	replyMsg(RPL_MOTD, " :"  , usr);
 	replyMsg(RPL_MOTD, " :"  , usr);
 	replyMsg(RPL_MOTD, " :"  , usr);
-	// replyMsg(RPL_MOTD, " :" + wlc, usr);
 	replyMsg(RPL_MOTD, " :"  , usr);
-	replyMsg(RPL_MOTD, " :"  , usr);
-	replyMsg(RPL_ENDOFMOTD, " : End of welcome message", this->list_users[fd]);
+	replyMsg(RPL_ENDOFMOTD, " :End of welcome message", this->list_users[fd]);
 }
 

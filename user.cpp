@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 12:39:03 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/20 13:37:38 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/25 14:29:03 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,16 @@ User::User(int &_fd, struct sockaddr_in const &client_addr) : fd(_fd)
 	this->ping_on = false;
 	this->away_on = false;
 	this->address = client_addr;
+	this->address = client_addr; // dos veces
+	this->address = client_addr; // 3
 	this->connection_pswd = 0;
 	this->check_user = false;
 	this->check_nick = false;
 	this->check_regist = false;
 	this->op_mode = false;
-	this->address = client_addr;
 	this->connection_pswd = 0;
 	std::cout << "User created with fd: " << this->fd  <<std::endl;
 	user_modes_init(&this->modes);
-	this->address = client_addr;
 }
 
 User::~User()
@@ -135,11 +135,11 @@ std::string 	User::getReply()
 	return temp;
 }
 
-std::string User::getClientAdd(  ) const
+std::string User::getClientAdd() const
 {
 	struct in_addr clientIP;
 	clientIP = this->address.sin_addr;
-	char ipStr[INET_ADDRSTRLEN];
+	char ipStr[INET_ADDRSTRLEN]; //??
 	return inet_ntop(AF_INET, &clientIP, ipStr, INET_ADDRSTRLEN);
 }
 

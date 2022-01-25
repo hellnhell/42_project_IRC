@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   nick.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 13:15:28 by emartin-          #+#    #+#             */
-/*   Updated: 2022/01/12 12:55:53 by nazurmen         ###   ########.fr       */
+/*   Updated: 2022/01/25 14:07:23 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void Server::nickCmmd(std::vector<std::string> const &tokens, User *usr)
 	}
     old_nick = usr->getNickMask();
 	usr->setNick(tokens[1]);
-	usr->setNickMask(usr->getNick() + "!" + usr->getUser() + "@ft_irc.com");
+	usr->setNickMask(":" + usr->getNick() + "!" + usr->getUser() + "@" + usr->getClientAdd());
     if (!usr->getNick().empty())
     {
         std::vector<Channel *>::iterator it;

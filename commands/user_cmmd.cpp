@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   user_cmmd.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 12:35:45 by emartin-          #+#    #+#             */
-/*   Updated: 2022/01/11 17:40:16 by nazurmen         ###   ########.fr       */
+/*   Updated: 2022/01/25 14:10:41 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void Server::userCmmd(std::vector<std::string> const &tokens, User *usr)
 	actionDisplay("User created", "", usr);
 	usr->setCheckedUser(true);
 	usr->setTimePing(0);
+	usr->setNickMask(":" + usr->getNick() + "!" + usr->getUser() + "@" + usr->getClientAdd());
 	this->users_on.push_back(usr);
 	// std::cout << std::endl << "User:  " << usr->getUser() << "\nmodes:" << usr->getModes() << "\nReal name: " << usr->getRealName() << std::endl;
 }

@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:52 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/25 11:15:22 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/25 14:36:36 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,13 @@ void Server::handleNewConnection()
 	int connection;
 	struct sockaddr_in client_address;
 
-	connection = accept(this->listening_socket, NULL, NULL);
+	//mio
+	memset( (char *) &client_address, 0, sizeof(client_address));
+	socklen_t sock_len = sizeof(client_address);
+	connection = accept(this->listening_socket, (struct sockaddr *)&client_address, &sock_len);
+	
+	//endmio
+//	connection = accept(this->listening_socket, NULL, NULL);
 	if (connection < 0)
 	{
 		perror("accept");
@@ -149,7 +155,7 @@ void Server::handleNewConnection()
 		if(this->_list_connected_user[listnum] == 0)
 		{
 			this->_list_connected_user[listnum] = connection;
-			this->list_users[connection] = new User(connection, client_address);
+			this->list_users[connection] = new User(connection, client_address); // no pillamos sockaddress en ningun momento
 			std::cout << "New connection: " << connection << "\nclient address: " << this->list_users[connection]->getClientAdd() << std::endl;
 			if (this->getPassword().empty())
 				this->list_users[connection]->setConnectionPswd(1);

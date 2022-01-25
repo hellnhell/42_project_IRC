@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 13:07:11 by emartin-          #+#    #+#             */
-/*   Updated: 2022/01/21 12:30:37 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/25 14:03:49 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,6 @@ void	Server::replyMsg(std::string rep, std::string str, User *usr)
 {
 	std::string msg;
 	//Comprobar q hay mensaje
-
-	// if (rep >= "400")
-	// 	msg = RED SERVER_MASK + rep  + " "  + usr->getNick() + " " + str + WHITE "\r\n";
-	// else
-	// 	msg = GREEN SERVER_MASK + rep  + " "  + usr->getNick() + " " + str + WHITE "\r\n";
 	msg  = rep  + " " + SERVER_MASK + " "  + usr->getNick() + " " + str + "\r\n";
 	usr->setReply(msg);
 
@@ -34,6 +29,20 @@ void	Server::replyMsg(std::string rep, std::string str, User *usr)
 
 	// }
 	// send(usr->getFD(), msg.c_str(), msg.length(), 0);
+}
+
+void	Server::dataMsg(std::string rep, User *usr, User *usr2)
+{
+    std::string msg;
+
+	std::cout <<GREEN << usr->getNickMask()  << WHITE << std::endl;
+	msg = usr->getNickMask() + " " + rep + "\r\n";
+
+	usr2->setReply(msg);
+	std::vector<User *>::iterator it;
+	if ((it = std::find(buff_users.begin(), buff_users.end(), usr2)) != buff_users.end())
+		return ;
+	buff_users.push_back(usr2);
 }
 
 void	Server::msgToChannel(std::string msg,  User *usr, Channel *chnl)
