@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   motd.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 13:13:31 by emartin-          #+#    #+#             */
-/*   Updated: 2022/01/11 15:28:16 by nazurmen         ###   ########.fr       */
+/*   Updated: 2022/01/25 12:23:17 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,17 @@ void    Server::motdCmmd(int const & fd)
 {
 	User *usr = this->list_users[this->_list_connected_user[fd]];
 
-	std::string s1 = "  .'(     /`-.     )-.       /(,-.  .'(  .-,.-.,-.    )).-.       .'(  ";
-	std::string s2 = "  (  )  ,' _  )  ,' ,-,_)    ,' _   ) (  ) ) ,, ,. (  ,' ,-,_)  ,') (  ) ";
-	std::string s3 = "  ) (  (  '-' ( (  .   _    (  '-' (  ) (  )( |(  )/ (  .   _  (  '-' (  ";
-	std::string s4 = "  (  )  ) ,_ .'  ) '..' )    )  _   ) (  )    ( )     ) '..' )  ) .-.  ) ";
-	std::string s5 = "   ) ) (  ' ) ) (  ,   (    (  '-' /   ) )    ( (    (  ,   (  (  ,  ) ) ";
-	std::string s6 = "    )/  )/   )/  )/'._.'     )/._.'     )/     )/     )/'._.'   )/    )/ ";
-	std::string s7 = "                                                                          ";
 
+std::string s1 = " .-./`)  .-------.           _______            _______   .-./`) ,---------.     _______     .---.  .---.  ";
+	std::string s2 = " \\ .-.') |  _ _   \\        /   __  \\           \\  ____ \\  \\ .-.')\\          \\  /   __   \\    |   |  |_ _|  ";
+	std::string s3 = " / `-' \\ | ( ' )  |       | ,_/  \\__)          | |   \\  | / `-' \\ `--.  ,---' | ,_/  \\ __)   |   |  ( ' )  ";
+	std::string s4 = "  `-'`   |(_ o _) /       ,-./  )              | |____/ /  `-'`\"`    |   \\  ,-./   )         |   '-(_{;}_) ";
+	std::string s5 = "  .---.  | (_,_).'   __  \\   '_ '`)            |   _ _ '.  .---.     :_ _: \\   '_  '`)       |      (_,_)  ";
+	std::string s6 = "  |   |  |  |\\  \\  |    | > (_)  )  __         |  ( ' )  \\ |   |     (_I_)  >  (_)   )  __   | _ _--.   |  ";
+	std::string s7 = "  |   |  |  | \\  `'    / (  .  .-'_/  )        | (_{;}_) | |   |    (_(=)_) (  .   .-'/   )  |( ' ) |   |  ";
+	std::string s8 = "  |   |  |  |  \\     /     `-'`-'     /        |  (_,_)  / |   |     (_I_)   `-'`-'      /   (_{;}_)|   |  ";
+	std::string s9 = "  '---'  ''-'   `'-'       `._____.'           /_______.'  '---'     '---'      `._____.'     (_,_) '---'  ";   
+                                                                                                 
 
 	std::string challenge[] = {RED " Welcome: And, when you want something, all the universe conspires in helping you to achieve it",
 								YELLOW " Welcome: It's the possibility of having a dream come true that makes life interesting",
@@ -46,6 +49,8 @@ void    Server::motdCmmd(int const & fd)
 	replyMsg(RPL_MOTD, " :" GREEN + s5 + WHITE, usr);
 	replyMsg(RPL_MOTD, " :" GREEN + s6 + WHITE, usr);
 	replyMsg(RPL_MOTD, " :" GREEN + s7 + WHITE, usr);
+	replyMsg(RPL_MOTD, " :" GREEN + s8 + WHITE, usr);
+	replyMsg(RPL_MOTD, " :" GREEN + s9 + WHITE, usr);
 	replyMsg(RPL_MOTD, " :"  , usr);
 	replyMsg(RPL_MOTD, " :"  , usr);
 	replyMsg(RPL_MOTD, " :"  , usr);

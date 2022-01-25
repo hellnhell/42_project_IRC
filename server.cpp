@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:52 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/21 13:56:39 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/25 11:15:22 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,6 @@ void Server::dealWithData(int listnum)
 
 	recived = this->buffCommand;
 
-	std::cout << std::endl << "entraaqui:  " << std::endl;
 	while ((verify = recv(this->_list_connected_user[listnum], buffer, 512, 0)) > 0)
 	{
 		buffer[verify] = 0;
@@ -202,12 +201,12 @@ void Server::dealWithData(int listnum)
 				recived.erase(0, pos + 1);
 
 				
-				// if(recived2.length() > 510)
-				// {
-				//  	recived2 = recived2.substr(0, 510);
-				// }
-				// if(recived2[0] != '\r' && recived2[0] != '\n')
-				// {
+				if(recived2.length() > 510)
+				{
+				 	recived2 = recived2.substr(0, 510);
+				}
+				if(recived2[0] != '\r' && recived2[0] != '\n')
+				{
 					User *tmpuser = this->list_users[this->_list_connected_user[listnum]];
 					tokens = parseMessage(recived2);
 					if (tokens[0].empty())
@@ -215,7 +214,7 @@ void Server::dealWithData(int listnum)
 					actionDisplay("Attend client", " CMD:" + tokens[0], tmpuser);
 					parseCommands(tokens, tmpuser, listnum);
 					std::cout << std::endl << "Received:  " << recived2 << std::endl;
-				// }
+				}
 				this->buffCommand.clear();
 			}
 			else

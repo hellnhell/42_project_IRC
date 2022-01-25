@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   who.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 12:38:13 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/12 12:38:13 by nazurmen         ###   ########.fr       */
+/*   Updated: 2022/01/25 12:53:05 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ void Server::whoCmmd(std::vector<std::string>const& tokens, User *usr)
         {
             if ((*it)->getNick() == tokens[1])
             {
-                msg = (*it)->getUser() + " " + (*it)->getNick() + " " + (*it)->getRealName() + " " + (*it)->getClientAdd();
+                msg = (*it)->getUser() + " " + (*it)->getNick() + " " + (*it)->getRealName() + " " + (*it)->getClientAdd() + "\n";
                 replyMsg(RPL_WHOREPLY," :" + msg, usr);
-                replyMsg(RPL_ENDOFWHO, (*it)->getUser() + " :End of WHO list.", usr);
+                replyMsg(RPL_ENDOFWHO, (*it)->getUser() + " :End of /WHO list.", usr);
                 return ;
             }
             if (tokens[1][0] == '#')
@@ -53,16 +53,16 @@ void Server::whoCmmd(std::vector<std::string>const& tokens, User *usr)
                             msg +=  (*it3)->getUser() + " " + (*it3)->getNick() + " " + (*it3)->getClientAdd() + ", ";
                         replyMsg(RPL_WHOREPLY, " :" + msg, usr);
 				    }
-                    replyMsg(RPL_ENDOFWHO, usr->getUser() + " :End of WHO list.", usr); //?
+                    replyMsg(RPL_ENDOFWHO, usr->getUser() + " :End of /WHO list.", usr); //?
 			    }
                 return ;
             }
         }
         else
         {
-            msg = (*it)->getUser()  + " " + (*it)->getNick() + " " + (*it)->getClientAdd();
+            msg = (*it)->getUser()  + " " + (*it)->getNick() + " " + (*it)->getClientAdd() + "\n";
             replyMsg(RPL_WHOREPLY," :" + msg, usr);
-            replyMsg(RPL_ENDOFWHO,  " :End of WHO list.", usr); //?
+            replyMsg(RPL_ENDOFWHO,  " :End of /WHO list.", usr); //?
         }
 	}
 

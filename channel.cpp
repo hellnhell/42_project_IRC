@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:34 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/12 14:10:00 by nazurmen         ###   ########.fr       */
+/*   Updated: 2022/01/25 11:21:39 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ Channel::Channel(Server *server, User *creator, const std::string &name)
 		throw std::invalid_argument("Channel name can't contain spaces or commas");
 	else if((name.find(7) != std::string::npos))
 		throw std::invalid_argument("Channel name can't contain control characters");
-		else
+	else
 	{
 		initModes(&_modes);
 		this->_server = server;
