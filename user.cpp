@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   user.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 12:39:03 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/26 13:37:01 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/26 17:16:08 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,13 @@ std::vector<Channel*> 		&User::getChannels() { return this->channels; };
 
 void User::joinChannel(Channel *channel)
 {
+	std::vector<Channel *>::iterator it;
+
+	if((it = std::find(channels.begin(), channels.end(), channel)) != channels.end())
+	{
+		perror("channel is already in this channel");
+		return ;
+	}
 	this->channels.push_back(channel);
 }
 

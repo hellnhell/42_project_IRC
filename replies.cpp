@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replies.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 13:07:11 by emartin-          #+#    #+#             */
-/*   Updated: 2022/01/26 14:15:01 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/26 17:55:18 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	Server::msgToChannel(std::string msg,  User *usr, Channel *chnl)
 	it3 = chnl->getUsers().end();
 
 	for (;it2 != it3; ++it2){
-		send((*it2)->getFD(), msg.c_str(), msg.length(), 0);
+		if(*it2 != usr)
+			send((*it2)->getFD(), msg.c_str(), msg.length(), 0);
 	}
 }

@@ -3,24 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   privmsg.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 12:58:34 by javrodri          #+#    #+#             */
-/*   Updated: 2022/01/26 16:20:31 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/26 18:04:54 by nazurmen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../server.hpp"
 
 void    Server::privmsgCmmd(std::vector<std::string> const& tokens, User* usr){
-	
+
 	User            *destUser;
 	Channel         *destChannel;
 	std::string     tokenDest;
-	
+
 	it_usr_list     beginUsrList = this->users_on.begin();
 	it_usr_list     endUsrList = this->users_on.end();
-	
+
 	std::vector<Channel *>::const_iterator it2;
 	std::vector<Channel *>::const_iterator it3;
 
@@ -38,10 +38,11 @@ void    Server::privmsgCmmd(std::vector<std::string> const& tokens, User* usr){
 	else{
 		tokenDest = tokens[1];
 		if (tokenDest[0] == '#' || tokenDest[0] == '&' || tokenDest[0] == '!' || tokenDest[0] == '+'){
-				for (;it2 != it3 + 1; ++it2){
+				for (;it2 != it3; ++it2){
 					if ((*it2)->getName() == tokenDest){
 						destChannel = *it2;
 						msg = usr->getNickMask() + " PRIVMSG " + destChannel->getName() + " :" + tokens[2];
+						std::cout << RED << "enviamensajeachannel" << WHITE << std::endl;
 						msgToChannel(msg, usr, destChannel);
 						asdasd = 1;
 						break;
