@@ -6,11 +6,17 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:41 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/25 14:05:04 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/26 14:09:24 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../server.hpp"
+    //  ERR_NEEDMOREPARAMS              ERR_BANNEDFROMCHAN
+    //        ERR_INVITEONLYCHAN              ERR_BADCHANNELKEY
+    //        ERR_CHANNELISFULL               ERR_BADCHANMASK
+    //        ERR_NOSUCHCHANNEL               ERR_TOOMANYCHANNELS
+    //        ERR_TOOMANYTARGETS              ERR_UNAVAILRESOURCE
+    //       RPL_TOPIC
 
 static bool checkIfChannel(const std::string &str)
 {
@@ -22,21 +28,24 @@ static bool checkIfChannel(const std::string &str)
 void Server::joinCmmd(std::vector<std::string> const &tokens, User* usr)
 {
 	std::string     msg;
+	std::stringstream ss(tokens[1]);
+	std::string		tmps;
+	std::vector<std::string> tokens2;
 
-	size_t i = 1;
-	if (tokens.size() < 2)
+	size_t i = 0;
+	if (tokens.size() < 2)  
+		return (replyMsg(ERR_NEEDMOREPARAMS, "JOIN :Not enough parameters", usr));
+	while(getline(ss, tmps, ','))
+		tokens2.push_back(tmps);
+	while(i < tokens2.size())
 	{
-		std::cout << "Usage: /join <channel>" << std::endl;
-		return;
-	}
-	while(i < tokens.size())
-	{
-		if(checkIfChannel(tokens[i]))
+		std::cout << tokens2[i] << std::endl;
+		if(checkIfChannel(tokens2[i]))
 		{
 			std::vector<Channel*>::iterator it;
 			for (it = channels.begin(); it != channels.end(); ++it)
 			{
-				if ((*it)->getName() == tokens[i])
+				if ((*it)->getName() == tokens2[i])
 				{
 					if((*it)->getKey().size())
 					{
@@ -44,26 +53,26 @@ void Server::joinCmmd(std::vector<std::string> const &tokens, User* usr)
 					}
 					(*it)->joinUser(usr);
 					usr->joinChannel(*it);
-					replyMsg(RPL_TOPIC, ":" + (*it)->getTopic(), usr);
+					dataMsg("JOIN :" + tokens2[i], usr, usr);
+					// replyMsg(RPL_TOPIC, ":" + (*it)->getTopic(), usr);
                     // usr->getChannels().push_back(*it);
-					dataMsg("JOIN :" + tokens[i], usr, usr);
 					msg = usr->getNickMask() + " JOIN " + (*it)->getName() + "\n";
  					msgToChannel(msg, usr, (*it));
-					return ;
+					// return ;
 				}
 			}
 			try
 			{
-				Channel* chan = new Channel(this, usr, tokens[i]);
+				Channel* chan = new Channel(this, usr, tokens2[i]);
 				this->channels.push_back(chan);
 				this->channels.back()->joinUser(usr);
-                // usr->getChannels().push_back(chan);
-				std::cout << BLUE << tokens[i] << WHITE << std::endl;
-				dataMsg("JOIN :" + tokens[i], usr, usr);
+				usr->joinChannel(chan);
+				
+				dataMsg("JOIN :" + tokens2[i], usr, usr);
 				msg = " JOIN " + chan->getName() + "\n";
  				msgToChannel(msg, usr, chan);
-				replyMsg(RPL_TOPIC, ":" + this->channels.back()->getTopic(), usr);
-				return ;
+				// replyMsg(RPL_TOPIC, ":" + this->channels.back()->getTopic(), usr);
+				// return ;
 			}
 			catch(const std::exception& e)
 			{
@@ -73,29 +82,29 @@ void Server::joinCmmd(std::vector<std::string> const &tokens, User* usr)
 				return ;
 			}
 		}
-		else if (checkIfChannel(tokens[i - 1]))
+		else if (checkIfChannel(tokens2[i - 1]))
 		{
 			//key
-			std::string key = tokens[i];
+			std::string key = tokens2[i];
 			std::vector<Channel*>::iterator it;
 			for(it = channels.begin(); it != channels.end(); ++it)
 			{
-				if((*it)->getName() == tokens[i - 1])
+				if((*it)->getName() == tokens2[i - 1])
 				{
 					if(key == (*it)->getKey())
 					{
 						(*it)->joinUser(usr);
 						usr->joinChannel(*it);
-						replyMsg(RPL_TOPIC, ":" + (*it)->getTopic(), usr);
-						//std::cout << "Joined channel " << (*it)->getName() << std::endl;
-						//std::cout << "Available commands: /msg <user> <message>, /leave, /list, /users, /help" << std::endl;
-						return ;
+						// replyMsg(RPL_TOPIC, ":" + (*it)->getTopic(), usr);
+							std::cout << "Joined channel " << (*it)->getName() << std::endl;
+							std::cout << "Available commands: /msg <user> <message>, /leave, /list, /users, /help" << std::endl;
+						// return ;
 					}
 					else
 					{
 						return replyMsg(ERR_BADCHANNELKEY, ":Cannot join channel (+k)", usr);
 						//std::cout << "Wrong key" << std::endl;
-						return ;
+						// return ;
 					}
 				}
 			}
@@ -114,3 +123,4 @@ void Server::joinCmmd(std::vector<std::string> const &tokens, User* usr)
 		i++;
 	}
 }
+

@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 12:37:45 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/25 14:35:14 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/26 14:11:22 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void    Server::pongCmmd(std::vector<std::string> const &tokens, User *usr)
 		usr->setPingOn(false);
 		usr->setTimePing(120000);
 		actionDisplay("Ping introduced", "", usr);
-		std::string msg = "396 " + usr->getNick() + " 127.0.0.1 :is now your displayed host\n";
+		std::string msg = "396 " + usr->getNick() + " " + usr->getClientAdd() + " :is now your displayed host\n";
 		send(usr->getFD(), msg.c_str(), msg.size(), 0);
 		send(usr->getFD(), "396 ---WELCOME---\n", 18, 0);
 	}

@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:50 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/25 13:53:21 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/26 13:51:34 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,6 +211,10 @@ class Server
 void   initMsg(int const & fd);
 
 
+		void    join_channel(std::string str1, User *usr);
+
+
+
 		void						userCmmd(std::vector<std::string> const &tokens, User *usr);
 		void						timeCmmd(User *usr, int fd_usr);
 		//void						privmsg(std::vector<std::string> const& tokens, User* usr);
@@ -231,6 +235,7 @@ void   initMsg(int const & fd);
 		void						operCmmd(std::vector<std::string> const &tokens, User *usr);
 		void						killCmmd(std::vector<std::string>const &tokens, User *usr);
 		void						kickCmmd(std::vector<std::string>const &tokens, User *usr);
+		
 };
 
 #endif

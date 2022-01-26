@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 12:37:10 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/25 13:22:41 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/26 12:11:03 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ void    Server::namesCmmd(std::vector<std::string> const& tokens, User *usr, Ser
 			}
 		}
 		replyMsg(RPL_NAMREPLY, msg, usr);
-		replyMsg(RPL_ENDOFNAMES, "= End of /NAMES list", usr);
+		replyMsg(RPL_ENDOFNAMES, msg, usr);
+
 	}
 	else
 	{
@@ -90,10 +91,11 @@ void    Server::namesCmmd(std::vector<std::string> const& tokens, User *usr, Ser
 						msg += (*it3)->getUser();
 					}
 					replyMsg(RPL_NAMREPLY, msg, usr);
+	    			replyMsg(RPL_ENDOFNAMES, msg, usr); //?
 				}
 			}
 		}
 		// replyMsg(RPL_ENDOFNAMES, "=  End of /NAMES list", usr);
 	}
-	return replyMsg(RPL_ENDOFNAMES, "=  End of /NAMES list", usr);
+    replyMsg(RPL_ENDOFNAMES, usr->getUser() + " :End of /NAMES list.", usr); //?
 }
