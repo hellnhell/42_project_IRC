@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 12:37:10 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/26 12:11:03 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/26 15:41:40 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void    Server::namesCmmd(std::vector<std::string> const& tokens, User *usr, Ser
 	int pos;
 	bool						users_no_channel = 0;
 
-	if(tokens[1].find(',') == std::string::npos)
+	if(tokens.size() == 1)
 	{
 		//channels con contenido
 		std::vector<Channel *>::const_iterator it2;
@@ -44,6 +44,7 @@ void    Server::namesCmmd(std::vector<std::string> const& tokens, User *usr, Ser
 				}
 				msg += (*it3)->getUser() + " ";
 			}
+			replyMsg(RPL_ENDOFNAMES," " +  (*it2)->getName() + " :End of /NAMES list.", usr);
 		}
 		std::map<int, User *>::const_iterator it;
 		for (it = serv.getUsers().begin(); serv.getUsers().size() >= 0 && it != serv.getUsers().end(); ++it)
@@ -51,15 +52,11 @@ void    Server::namesCmmd(std::vector<std::string> const& tokens, User *usr, Ser
 			if(it->second->getChannels().size() <= 0)
 			{
 				if(!users_no_channel)
-				{
-					// msg += "\nChannel: *";
 					users_no_channel = 1;
-				}
 				msg += it->second->getUser() + " ";
 			}
 		}
 		replyMsg(RPL_NAMREPLY, msg, usr);
-		replyMsg(RPL_ENDOFNAMES, msg, usr);
 
 	}
 	else
@@ -88,14 +85,14 @@ void    Server::namesCmmd(std::vector<std::string> const& tokens, User *usr, Ser
 							if((*it3)->getNick() == (*it4)->getNick())
 								msg += "@";
 						}
-						msg += (*it3)->getUser();
+						msg += (*it3)->getUser() + " ";
 					}
 					replyMsg(RPL_NAMREPLY, msg, usr);
-	    			replyMsg(RPL_ENDOFNAMES, msg, usr); //?
+					replyMsg(RPL_ENDOFNAMES," " +  (*it2)->getName() + " :End of /NAMES list.", usr);
+    				// replyMsg(RPL_ENDOFNAMES, usr->getUser() + " :End of /NAMES list.", usr); //?
 				}
 			}
 		}
 		// replyMsg(RPL_ENDOFNAMES, "=  End of /NAMES list", usr);
 	}
-    replyMsg(RPL_ENDOFNAMES, usr->getUser() + " :End of /NAMES list.", usr); //?
 }

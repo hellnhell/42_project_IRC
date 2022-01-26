@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:41 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/26 14:09:24 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/26 16:08:08 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void Server::joinCmmd(std::vector<std::string> const &tokens, User* usr)
 	std::stringstream ss(tokens[1]);
 	std::string		tmps;
 	std::vector<std::string> tokens2;
+	bool			finded = 0;
 
 	size_t i = 0;
 	if (tokens.size() < 2)  
@@ -54,25 +55,28 @@ void Server::joinCmmd(std::vector<std::string> const &tokens, User* usr)
 					(*it)->joinUser(usr);
 					usr->joinChannel(*it);
 					dataMsg("JOIN :" + tokens2[i], usr, usr);
-					// replyMsg(RPL_TOPIC, ":" + (*it)->getTopic(), usr);
+					replyMsg(RPL_TOPIC, ":" + (*it)->getTopic(), usr);
                     // usr->getChannels().push_back(*it);
 					msg = usr->getNickMask() + " JOIN " + (*it)->getName() + "\n";
  					msgToChannel(msg, usr, (*it));
+					finded = 1;
 					// return ;
 				}
 			}
 			try
 			{
-				Channel* chan = new Channel(this, usr, tokens2[i]);
-				this->channels.push_back(chan);
-				this->channels.back()->joinUser(usr);
-				usr->joinChannel(chan);
-				
-				dataMsg("JOIN :" + tokens2[i], usr, usr);
-				msg = " JOIN " + chan->getName() + "\n";
- 				msgToChannel(msg, usr, chan);
-				// replyMsg(RPL_TOPIC, ":" + this->channels.back()->getTopic(), usr);
-				// return ;
+				if(!finded)
+				{
+					Channel* chan = new Channel(this, usr, tokens2[i]);
+					this->channels.push_back(chan);
+					this->channels.back()->joinUser(usr);
+					usr->joinChannel(chan);
+					dataMsg("JOIN :" + tokens2[i], usr, usr); //mirar ahora xq imprime dos veces el join
+					msg = " JOIN " + chan->getName() + "\n";
+					msgToChannel(msg, usr, chan);
+					replyMsg(RPL_TOPIC, ":" + this->channels.back()->getTopic(), usr);
+					// return ;
+				}
 			}
 			catch(const std::exception& e)
 			{

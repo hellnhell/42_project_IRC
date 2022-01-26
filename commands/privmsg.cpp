@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 12:58:34 by javrodri          #+#    #+#             */
-/*   Updated: 2022/01/21 11:14:29 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/26 16:20:31 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void    Server::privmsgCmmd(std::vector<std::string> const& tokens, User* usr){
 	std::vector<Channel *>::const_iterator it2;
 	std::vector<Channel *>::const_iterator it3;
 
+	bool asdasd = 0;
+
 	destUser = NULL;
 	it2 = this->getChannels().begin();
 	it3 = this->getChannels().end();
@@ -36,18 +38,21 @@ void    Server::privmsgCmmd(std::vector<std::string> const& tokens, User* usr){
 	else{
 		tokenDest = tokens[1];
 		if (tokenDest[0] == '#' || tokenDest[0] == '&' || tokenDest[0] == '!' || tokenDest[0] == '+'){
-				for (;it2 != it3; ++it2){
+				for (;it2 != it3 + 1; ++it2){
 					if ((*it2)->getName() == tokenDest){
 						destChannel = *it2;
-						msg = "PRIVMSG :" + destChannel->getName() + " " + tokens[2];
+						msg = usr->getNickMask() + " PRIVMSG " + destChannel->getName() + " :" + tokens[2];
 						msgToChannel(msg, usr, destChannel);
+						asdasd = 1;
 						break;
 					}
-					else{
-						msg = tokens[1] + " :No such nick/channel";
-						replyMsg(ERR_NOSUCHNICK, msg, usr);
+					if(!asdasd)
+					{
+
+				msg = " " + tokenDest + " :No such nick/channel";
+				replyMsg(ERR_NOSUCHNICK, msg, usr);
 					}
-				}
+		}
 		}
 		else{
 			for(;beginUsrList != endUsrList; ++beginUsrList){
@@ -60,6 +65,7 @@ void    Server::privmsgCmmd(std::vector<std::string> const& tokens, User* usr){
 					break;
 				}
 				else{
+					std::cout << GREEN <<tokenDest << " aaaaaaaaaaaaaa2 " << std::endl;
 					msg = tokens[1] + " :No such nick/channel";
 					replyMsg(ERR_NOSUCHNICK, msg, usr);
 				}
