@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 14:11:46 by emartin-          #+#    #+#             */
-/*   Updated: 2022/01/27 14:02:21 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/27 15:47:09 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,8 @@ int main(int argc, char **argv)
 	try
 	{
 		port = getPort(argv[1]);
-		Server server;
-		gservptr = &server; //??
+		Server server(port);
+		gservptr = &server;
 		int set_read = 0;
 		server.setPassword(psswd);
 		while(1)

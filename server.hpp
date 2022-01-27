@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:50 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/27 12:44:44 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/27 18:12:16 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,29 +75,29 @@
 		   										//are returned when an invalid use of
 		   										//"PRIVMSG $<server>" or "PRIVMSG #<host>" is attempted.
 # define ERR_UNKNOWNCOMMAND	       "421"       //"<command> :Unknown command" - Returned to a registered client to indicate that the command sent is unknown by the server.
-# define ERR_NOMOTD	              "422"       //":MOTD File is missing" - Server's MOTD file could not be opened by the server.
+# define ERR_NOMOTD	               "422"       //":MOTD File is missing" - Server's MOTD file could not be opened by the server.
 # define ERR_NOADMININFO	       "423"	    //"<server> :No administrative info available"- Returned by a server in response to an ADMIN message when there is an error in finding the appropriate information.
-# define ERR_FILEERROR	       "424"       //":File error doing <file op> on <file>"- Generic error message used to report a failed file operation during the processing of a message.
-# define ERR_TOOMANYAWAY		"429"
-# define ERR_NONICKNAMEGIVEN	"431"       //":No nickname given" - Returned when a nickname parameter expected for a command and isn't found.
-# define ERR_ERRONEUSNICKNAME	"432"       //"<nick> :Erroneous nickname"- Returned after receiving a NICK message which contains characters which do not fall in the defined set.  See section 2.3.1 for details on valid nicknames.
+# define ERR_FILEERROR	           "424"       //":File error doing <file op> on <file>"- Generic error message used to report a failed file operation during the processing of a message.
+# define ERR_TOOMANYAWAY		   "429"
+# define ERR_NONICKNAMEGIVEN	   "431"       //":No nickname given" - Returned when a nickname parameter expected for a command and isn't found.
+# define ERR_ERRONEUSNICKNAME	   "432"       //"<nick> :Erroneous nickname"- Returned after receiving a NICK message which contains characters which do not fall in the defined set.  See section 2.3.1 for details on valid nicknames.
 # define ERR_NICKNAMEINUSE	       "433"       //"<nick> :Nickname is already in use" - Returned when a NICK message is processed that results in an attempt to change to a currently existing nickname.
 # define ERR_NICKCOLLISION	       "436"       //"<nick> :Nickname collision KILL from <user>@<host>"- Returned by a server to a client when it detects a nickname collision (registered of a NICK that already exists by another server).
-# define ERR_UNAVAILRESOURCE	"437"       //"<nick/channel> :Nick/channel is temporarily unavailable" - Returned by a server to a user trying to join a channel currently blocked by the channel delay mechanism.- Returned by a server to a user trying to change nickname when the desired nickname is blocked by the nick delay mechanism.
-# define ERR_USERNOTINCHANNEL	"441"       //"<nick> <channel> :They aren't on that channel"- Returned by the server to indicate that the target user of the command is not on the given channel.
+# define ERR_UNAVAILRESOURCE	   "437"       //"<nick/channel> :Nick/channel is temporarily unavailable" - Returned by a server to a user trying to join a channel currently blocked by the channel delay mechanism.- Returned by a server to a user trying to change nickname when the desired nickname is blocked by the nick delay mechanism.
+# define ERR_USERNOTINCHANNEL	   "441"       //"<nick> <channel> :They aren't on that channel"- Returned by the server to indicate that the target user of the command is not on the given channel.
 # define ERR_NOTONCHANNEL	       "442"       //"<channel> :You're not on that channel"- Returned by the server whenever a client tries to perform a channel affecting command for which the client isn't a member.
 # define ERR_USERONCHANNEL	       "443"       //"<user> <channel> :is already on channel" - Returned when a client tries to invite a user to a channel they are already on.
-# define ERR_NOLOGIN	              "444"       //"<user> :User not logged in" - Returned by the summon after a SUMMON command for a user was unable to be performed since they were not logged in.
+# define ERR_NOLOGIN	           "444"       //"<user> :User not logged in" - Returned by the summon after a SUMMON command for a user was unable to be performed since they were not logged in.
 # define ERR_SUMMONDISABLED	       "445"       //":SUMMON has been disabled"- Returned as a response to the SUMMON command.  MUST be returned by any server which doesn't implement it.
 # define ERR_USERSDISABLED	       "446"       //":USERS has been disabled" - Returned as a response to the USERS command.  MUST be returned by any server which does not implement it.
 # define ERR_NOTREGISTERED	       "451"       //":You have not registered"- Returned by the server to indicate that the client MUST be registered before the server will allow it to be parsed in detail.
 # define ERR_NEEDMOREPARAMS	       "461"       //"<command> :Not enough parameters"- Returned by the server by numerous commands to indicate to the client that it didn't supply enough parameters.
-# define ERR_ALREADYREGISTRED	"462"       //":Unauthorized command (already registered)"- Returned by the server to any link which tries to change part of the registered details (such as password or user details from second USER message).
+# define ERR_ALREADYREGISTRED	   "462"       //":Unauthorized command (already registered)"- Returned by the server to any link which tries to change part of the registered details (such as password or user details from second USER message).
 # define ERR_NOPERMFORHOST	       "463"       //":Your host isn't among the privileged"- Returned to a client which attempts to register with a server which does not been setup to allow connections from the host the attempted connection is tried.
 # define ERR_PASSWDMISMATCH	       "464"       //":Password incorrect"- Returned to indicate a failed attempt at registering a connection for which a password was required and was either not given or incorrect.
-# define ERR_YOUREBANNEDCREEP	"465"       //":You are banned from this server"- Returned after an attempt to connect and register yourself with a server which has been setup to explicitly deny connections to you.
-# define ERR_YOUWILLBEBANNED	"466"       //- Sent by a server to a user to inform that access to the server will soon be denied.
-# define ERR_KEYSET	              "467"       //"<channel> :Channel key already set"
+# define ERR_YOUREBANNEDCREEP	   "465"       //":You are banned from this server"- Returned after an attempt to connect and register yourself with a server which has been setup to explicitly deny connections to you.
+# define ERR_YOUWILLBEBANNED	   "466"       //- Sent by a server to a user to inform that access to the server will soon be denied.
+# define ERR_KEYSET	               "467"       //"<channel> :Channel key already set"
 # define ERR_CHANNELISFULL	       "471"       //"<channel> :Cannot join channel (+l)"
 # define ERR_UNKNOWNMODE	       "472"       //"<char> :is unknown mode char to me for <channel>"
 # define ERR_INVITEONLYCHAN	       "473"       //"<channel> :Cannot join channel (+i)"
@@ -107,7 +107,7 @@
 # define ERR_NOCHANMODES	       "477"       //"<channel> :Channel doesn't support modes"
 # define ERR_BANLISTFULL	       "478"       //"<channel> <char> :Channel list is full"
 # define ERR_NOPRIVILEGES	       "481"       //":Permission Denied- You're not an IRC operator" - Any command requiring operator privileges to operate MUST return this error to indicate the attempt was unsuccessful.
-# define ERR_CHANOPRIVSNEEDED	"482"       //"<channel> :You're not channel operator" - Any command requiring 'chanop' privileges (such as MODE messages) MUST return this error if the client making the attempt is not a chanop on the specified channel.
+# define ERR_CHANOPRIVSNEEDED	   "482"       //"<channel> :You're not channel operator" - Any command requiring 'chanop' privileges (such as MODE messages) MUST return this error if the client making the attempt is not a chanop on the specified channel.
 # define ERR_CANTKILLSERVER        "483"       //":You can't kill a server!"- Any attempts to use the KILL command on a server are to be refused and this error returned directly to the client.
 # define ERR_RESTRICTED            "484"       //":Your connection is restricted!"- Sent by the server to a user upon connection to indicate the restricted nature of the connection (user mode "+r").
 # define ERR_UNIQOPPRIVSNEEDED     "485"       //":You're not the original channel operator" - Any MODE requiring "channel creator" privileges MUST return this error if the client making the attempt is not a chanop on the specified channel.
@@ -137,8 +137,12 @@
 # define RPL_TIME 					"391"		//"<server> :<string showing server's local time>""
 
 # define RPL_YOUREOPER				"381"
+# define RPL_AWAY					"301" //    "<nick> :<away message>"
+# define RPL_UNAWAY					"305" //    ":You are no longer marked as being away"
+# define RPL_NOWAWAY				"306" //    ":You have been marked as being away"
 
 class Channel;
+class User;
 
 typedef std::list<std::string>::iterator	it_str_list;
 typedef std::list<User *>::iterator			it_usr_list;
@@ -167,9 +171,10 @@ class Server
 		std::vector<Channel *>	channels;
 
 		Server(const Server &other);
+		Server();
 
 	public:
-		Server();
+		Server(int port);
 		~Server();
 		Server &operator=(const Server &other);
 

@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 12:58:34 by javrodri          #+#    #+#             */
-/*   Updated: 2022/01/27 13:11:23 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/27 18:50:45 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void    Server::privmsgCmmd(std::vector<std::string> const& tokens, User* usr){
 	it_usr_list     endUsrList = this->users_on.end();
 
 	destUser = NULL;
+	bool  sended = false;
 	
 	std::string     msg;
 	if (tokens.size() > 3)
@@ -31,31 +32,34 @@ void    Server::privmsgCmmd(std::vector<std::string> const& tokens, User* usr){
 		tokenDest = tokens[1];
 		if (tokenDest[0] == '#' || tokenDest[0] == '&' || tokenDest[0] == '!' || tokenDest[0] == '+'){
 			privmsgCmmdToChannel(tokens, usr);
+			sended = true;
 			return;
 		}
 		else{
 			for(;beginUsrList != endUsrList; ++beginUsrList){
-				if ((*beginUsrList)->getNick() == tokenDest){
+				std::cout << GREEN << "\n----->> get_nick(): " << (*beginUsrList)->getNick() << WHITE <<std::endl;
+				std::cout << GREEN << "\n----->> sended: " << sended << WHITE <<std::endl;
+				if (((*beginUsrList)->getNick() == tokenDest) || ((*beginUsrList)->getNickMask() == tokenDest)){
 					destUser = *beginUsrList;
+					msg += usr->getNickMask() + " PRIVMSG " + destUser->getNick() + " :" + tokens[2] + "\n";
+					send(destUser->getFD(), msg.c_str(), msg.length(), 0);
+					sended = true;
 					break;
-				}
-				else if ((*beginUsrList)->getNickMask() == tokenDest){
-					destUser = *beginUsrList;
-					break;
-				}
-				else{
-					msg = " " + tokenDest + " :No such nick/channel";
-					replyMsg(ERR_NOSUCHNICK, msg, usr);
 				}
 			}
 		}
-		msg.append("PRIVMSG " + usr->getNickMask() + " :" + tokens[2]);
-		send(usr->getFD(), msg.c_str(), msg.length(), 0);
+		std::cout << GREEN << "\n----->> sended: " << sended << WHITE <<std::endl;
+		if (sended == false){
+			msg = tokens[1] + " : No such nick/channel";
+			replyMsg(ERR_NOSUCHNICK, msg, usr);
+		}
+
 	}
 	if (destUser && destUser->getAwayOn()){
+		std::cout << GREEN << "\n----->> away: " << destUser->getAwayOn() << WHITE <<std::endl;
 		std::string msgAwayReply;
-		msgAwayReply.append("AWAY " + destUser->getNickMask() + " :" + destUser->getAway()) + "\n";
-		send(usr->getFD(), msgAwayReply.c_str(), msgAwayReply.length(), 0);
+		msgAwayReply = " :" + destUser->getAway();
+		replyMsg(RPL_AWAY, msgAwayReply, usr);
 	}
 }
 
@@ -82,16 +86,11 @@ void    Server::privmsgCmmdToChannel(std::vector<std::string> const& tokens, Use
 				destChannel = *it2;
 				msg = usr->getNickMask() + " PRIVMSG " + destChannel->getName() + " :" + tokens[2];
 				msgToChannel(msg, usr, destChannel);
-				break;
+				return;
 			}
-			msg = " " + tokenDest + " :No such nick/channel";
-			replyMsg(ERR_NOSUCHNICK, msg, usr);
 		}
-	}
-	if (destUser && destUser->getAwayOn()){
-		std::string msgAwayReply;
-		msgAwayReply.append("AWAY " + destUser->getNickMask() + " :" + destUser->getAway()) + "\n";
-		send(usr->getFD(), msgAwayReply.c_str(), msgAwayReply.length(), 0);
+		msg = " " + tokenDest + " : No such nick/channel";
+		replyMsg(ERR_NOSUCHNICK, msg, usr);
 	}
 }
 

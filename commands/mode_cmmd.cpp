@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 20:11:02 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/25 11:15:27 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/27 18:18:12 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ bool is_channel(std::string const &str)
 void	Server::modeCmmd(std::vector<std::string> const &tokens, User *usr, Server &serv)
 {
 	if(tokens.size() < 2)
-		return replyMsg(ERR_NEEDMOREPARAMS, "MODE", usr);
+		return replyMsg(ERR_NEEDMOREPARAMS, " MODE :Not enough parameters", usr);
 	if(is_channel(tokens[1]))
 	{
 		Channel *channel = serv.getChannel(tokens[1]);
@@ -33,7 +33,7 @@ void	Server::modeCmmd(std::vector<std::string> const &tokens, User *usr, Server 
 		if(!channel->isOperator(usr))
 			return replyMsg(ERR_CHANOPRIVSNEEDED, ":You're not channel operator", usr);
 		if(tokens[2].size() > 4)
-			return replyMsg(ERR_NEEDMOREPARAMS, "MODE", usr);
+			return replyMsg(ERR_NEEDMOREPARAMS, " MODE :Not enough parameters", usr);
 
 		if((tokens[2][0] == '-' || tokens[2][0] == '+') && tokens[2].size() > 1)
 		{
@@ -49,8 +49,8 @@ void	Server::modeCmmd(std::vector<std::string> const &tokens, User *usr, Server 
 				else if(tokens[2][i] == 'k')
 				{
 					//channel->setMode('k', mode_set);
-					if(tokens.size() == 3)
-						return replyMsg(ERR_NEEDMOREPARAMS, "MODE", usr);
+					if(tokens.size() != 4)
+						return replyMsg(ERR_NEEDMOREPARAMS, " MODE :Not enough parameters", usr);
 					if(mode_set)
 						channel->setKey(tokens[3]);
 					else
@@ -58,6 +58,8 @@ void	Server::modeCmmd(std::vector<std::string> const &tokens, User *usr, Server 
 				}
 				else if(tokens[2][i] == 'o')
 				{
+					if(tokens.size() != 4)
+						return replyMsg(ERR_NEEDMOREPARAMS, " MODE :Not enough parameters", usr);
 					User *user = channel->getNick(tokens[3]);
 					if(!user)
 						return replyMsg(ERR_USERNOTINCHANNEL, tokens[3], usr);
@@ -71,6 +73,8 @@ void	Server::modeCmmd(std::vector<std::string> const &tokens, User *usr, Server 
 				}
 				else if(tokens[2][i] == 'b')
 				{
+					if(tokens.size() != 4)
+						return replyMsg(ERR_NEEDMOREPARAMS, "MODE :Not enough parameters", usr);
 					std::cout << "b" << std::endl;
 					User *banned = channel->getNick(tokens[3]);
 					if(!banned)
