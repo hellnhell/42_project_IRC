@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:50 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/27 11:32:42 by javrodri         ###   ########.fr       */
+/*   Updated: 2022/01/27 12:44:44 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,9 +138,6 @@
 
 # define RPL_YOUREOPER				"381"
 
-
-
-class User;
 class Channel;
 
 typedef std::list<std::string>::iterator	it_str_list;
@@ -208,12 +205,8 @@ class Server
  		void 							removeChannel(Channel *channel);
 
 		void							deleteUser(User *usr);
-void   initMsg(int const & fd);
-
-
-		void    join_channel(std::string str1, User *usr);
-
-
+		
+		void  						initMsg(int const & fd);
 
 		void						userCmmd(std::vector<std::string> const &tokens, User *usr);
 		void						timeCmmd(User *usr, int fd_usr);

@@ -6,13 +6,12 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 12:37:10 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/26 15:41:40 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/27 13:15:50 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../server.hpp"
 
- // ERR_TOOMANYMATCHES              ERR_NOSUCHSERVER       RPL_NAMREPLY                    RPL_ENDOFNAMES
 void    Server::namesCmmd(std::vector<std::string> const& tokens, User *usr, Server &serv)
 {
 

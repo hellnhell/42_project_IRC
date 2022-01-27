@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 12:38:04 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/26 13:30:01 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/27 14:09:45 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	Server::quitCmmd(std::vector<std::string> const &tokens, User *usr)
 {
 	std::string msg;
 
-std::cout << "	QUITTTTTTTTTT" << std::endl;
 	if (tokens.size() > 1)
 		msg = ": QUIT :" + tokens[1] + "\n";
 	else

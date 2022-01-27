@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 12:39:06 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/20 13:44:47 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/27 12:44:27 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ class User
 		void		                joinChannel(Channel *channel);
 		void		                leaveChannel(Channel *channel);
 		std::vector<Channel*> 		&getChannels();
+
 
 
 

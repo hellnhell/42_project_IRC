@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 13:15:28 by emartin-          #+#    #+#             */
-/*   Updated: 2022/01/26 13:45:35 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/27 13:07:11 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,7 @@ void Server::nickCmmd(std::vector<std::string> const &tokens, User *usr)
             return msgToChannel(msg, usr, *it);
     }
 	usr->setCheckedNick(true);
+	if (usr->getCheckedRegist())
+		usr->setTimePing(0);
 	actionDisplay( "Nick created", "", usr);
 }

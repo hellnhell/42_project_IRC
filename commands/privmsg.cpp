@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   privmsg.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 12:58:34 by javrodri          #+#    #+#             */
-/*   Updated: 2022/01/27 12:00:43 by javrodri         ###   ########.fr       */
+/*   Updated: 2022/01/27 13:11:23 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,7 @@ void    Server::privmsgCmmd(std::vector<std::string> const& tokens, User* usr){
 					break;
 				}
 				else{
-					std::cout << GREEN <<tokenDest << " aaaaaaaaaaaaaa2 " << std::endl;
-					msg = tokens[1] + " :No such nick/channel";
+					msg = " " + tokenDest + " :No such nick/channel";
 					replyMsg(ERR_NOSUCHNICK, msg, usr);
 				}
 			}
@@ -82,7 +81,6 @@ void    Server::privmsgCmmdToChannel(std::vector<std::string> const& tokens, Use
 			if ((*it2)->getName() == tokenDest){
 				destChannel = *it2;
 				msg = usr->getNickMask() + " PRIVMSG " + destChannel->getName() + " :" + tokens[2];
-				std::cout << RED << "enviamensajeachannel" << WHITE << std::endl;
 				msgToChannel(msg, usr, destChannel);
 				break;
 			}

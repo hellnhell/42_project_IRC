@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 12:56:36 by emartin-          #+#    #+#             */
-/*   Updated: 2022/01/25 11:33:25 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/27 14:18:53 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 
 void    Server::parseCommands(std::vector<std::string> const &tokens, User *usr, int fd)
 {
-
-	// if (!usr->getCheckedRegist())
-	// {
+	if (!usr->getCheckedRegist())
+	{
 		if(tokens[0] == "USER" || tokens[0] == "user")
 		{
 			usr = this->list_users[this->_list_connected_user[fd]];
@@ -31,17 +30,17 @@ void    Server::parseCommands(std::vector<std::string> const &tokens, User *usr,
 			return this->passCmmd(tokens, usr);
 		else if((tokens[0] == "PONG" || tokens[0] == "pong"))
 			return this->pongCmmd(tokens, usr);
-		// else
-		// 	return replyMsg(ERR_NOTREGISTERED, ":You should enter <USER> and <NICK> command to register", usr);
-	// }
-	// else if (usr->getCheckedRegist())
-	// {
-	// 	if(tokens[0] == "USER" || tokens[0] == "user")
-	// 		return this->userCmmd(tokens, usr);
-	// 	else if(tokens[0] == "NICK" || tokens[0] == "nick")
-	// 		return this->nickCmmd(tokens, usr);
-	// 	else if(tokens[0] == "PASS" || tokens[0] == "pass")
-	// 		return this->passCmmd(tokens, usr);
+		else
+			return replyMsg(ERR_NOTREGISTERED, ":You should enter <USER> and <NICK> command to register", usr);
+	}
+	else if (usr->getCheckedRegist())
+	{
+		if(tokens[0] == "USER" || tokens[0] == "user")
+			return this->userCmmd(tokens, usr);
+		else if(tokens[0] == "NICK" || tokens[0] == "nick")
+			return this->nickCmmd(tokens, usr);
+		else if(tokens[0] == "PASS" || tokens[0] == "pass")
+			return this->passCmmd(tokens, usr);
 		else if(tokens[0] == "PRIVMSG" || tokens[0] == "privmsg")
 			return this->privmsgCmmd(tokens, usr);
 		else if(tokens[0] == "TIME" || tokens[0] == "time")
@@ -76,7 +75,7 @@ void    Server::parseCommands(std::vector<std::string> const &tokens, User *usr,
 		 	return this->kickCmmd(tokens, usr);
 		return replyMsg(ERR_UNKNOWNCOMMAND, tokens[0] + " :Unkown command", usr);
 	}
-// }
+}
 bool 	BothAreSpaces(char lhs, char rhs) { return (lhs == rhs) && (lhs == ' '); }
 
 std::vector<std::string>   Server::parseMessage(std::string buffer)
