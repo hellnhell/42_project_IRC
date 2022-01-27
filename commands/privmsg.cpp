@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   privmsg.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 12:58:34 by javrodri          #+#    #+#             */
-/*   Updated: 2022/01/26 18:04:54 by nazurmen         ###   ########.fr       */
+/*   Updated: 2022/01/27 12:00:43 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,14 @@
 void    Server::privmsgCmmd(std::vector<std::string> const& tokens, User* usr){
 
 	User            *destUser;
-	Channel         *destChannel;
 	std::string     tokenDest;
 
 	it_usr_list     beginUsrList = this->users_on.begin();
 	it_usr_list     endUsrList = this->users_on.end();
 
-	std::vector<Channel *>::const_iterator it2;
-	std::vector<Channel *>::const_iterator it3;
-
-	bool asdasd = 0;
-
 	destUser = NULL;
-	it2 = this->getChannels().begin();
-	it3 = this->getChannels().end();
+	
 	std::string     msg;
-	// std::cout << "tokens.size(): " << tokens.size() << "\n" << std::cout;
 	if (tokens.size() > 3)
 		replyMsg(ERR_TOOMANYTARGETS, ":Too many targets", usr);
 	if (tokens.size() < 2)
@@ -38,22 +30,8 @@ void    Server::privmsgCmmd(std::vector<std::string> const& tokens, User* usr){
 	else{
 		tokenDest = tokens[1];
 		if (tokenDest[0] == '#' || tokenDest[0] == '&' || tokenDest[0] == '!' || tokenDest[0] == '+'){
-				for (;it2 != it3; ++it2){
-					if ((*it2)->getName() == tokenDest){
-						destChannel = *it2;
-						msg = usr->getNickMask() + " PRIVMSG " + destChannel->getName() + " :" + tokens[2];
-						std::cout << RED << "enviamensajeachannel" << WHITE << std::endl;
-						msgToChannel(msg, usr, destChannel);
-						asdasd = 1;
-						break;
-					}
-					if(!asdasd)
-					{
-
-				msg = " " + tokenDest + " :No such nick/channel";
-				replyMsg(ERR_NOSUCHNICK, msg, usr);
-					}
-		}
+			privmsgCmmdToChannel(tokens, usr);
+			return;
 		}
 		else{
 			for(;beginUsrList != endUsrList; ++beginUsrList){
@@ -81,4 +59,42 @@ void    Server::privmsgCmmd(std::vector<std::string> const& tokens, User* usr){
 		send(usr->getFD(), msgAwayReply.c_str(), msgAwayReply.length(), 0);
 	}
 }
+
+void    Server::privmsgCmmdToChannel(std::vector<std::string> const& tokens, User* usr){
+
+	User            *destUser;
+	Channel         *destChannel;
+	std::string     tokenDest;
+
+	it_usr_list     beginUsrList = this->users_on.begin();
+	it_usr_list     endUsrList = this->users_on.end();
+
+	std::vector<Channel *>::const_iterator it2;
+	std::vector<Channel *>::const_iterator it3;
+
+	destUser = NULL;
+	it2 = this->getChannels().begin();
+	it3 = this->getChannels().end();
+	std::string     msg;
+	tokenDest = tokens[1];
+	if (tokenDest[0] == '#' || tokenDest[0] == '&' || tokenDest[0] == '!' || tokenDest[0] == '+'){
+		for (;it2 != it3; ++it2){
+			if ((*it2)->getName() == tokenDest){
+				destChannel = *it2;
+				msg = usr->getNickMask() + " PRIVMSG " + destChannel->getName() + " :" + tokens[2];
+				std::cout << RED << "enviamensajeachannel" << WHITE << std::endl;
+				msgToChannel(msg, usr, destChannel);
+				break;
+			}
+			msg = " " + tokenDest + " :No such nick/channel";
+			replyMsg(ERR_NOSUCHNICK, msg, usr);
+		}
+	}
+	if (destUser && destUser->getAwayOn()){
+		std::string msgAwayReply;
+		msgAwayReply.append("AWAY " + destUser->getNickMask() + " :" + destUser->getAway()) + "\n";
+		send(usr->getFD(), msgAwayReply.c_str(), msgAwayReply.length(), 0);
+	}
+}
+
 

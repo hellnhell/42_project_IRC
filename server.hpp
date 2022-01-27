@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:50 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/26 13:51:34 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/27 11:32:42 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,6 +219,7 @@ void   initMsg(int const & fd);
 		void						timeCmmd(User *usr, int fd_usr);
 		//void						privmsg(std::vector<std::string> const& tokens, User* usr);
 		void						privmsgCmmd(std::vector<std::string> const& tokens, User* usr);
+		void    					privmsgCmmdToChannel(std::vector<std::string> const& tokens, User* usr);
 		void						nickCmmd(std::vector<std::string> const &tokens, User *usr);
 		void						passCmmd(std::vector<std::string> const &tokens, User* usr);
 		void						joinCmmd(std::vector<std::string> const &tokens, User* usr);
