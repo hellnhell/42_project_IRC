@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 14:11:46 by emartin-          #+#    #+#             */
-/*   Updated: 2022/01/27 15:47:09 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/28 11:50:17 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,11 +119,7 @@ int main(int argc, char **argv)
 			signal(SIGINT, signal_kill);
 			server.buildSelectList();
 			if((set_read = server.getReadSocks()) < 0)
-			{
-				std::cout << RED "mal" WHITE << std::endl;
 				throw Server::ServerException();
-			}
-			// std::cout << RED << set_read << WHITE << std::endl;
 
 			if(set_read == 0)
 			{

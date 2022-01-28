@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:52 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/27 17:39:15 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/28 11:49:55 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -255,7 +255,7 @@ void Server::sendBuffMsg(User *usr)
 			messages[511] = '\n';
 		}
 		len = send(usr->getFD(), messages.c_str(), messages.length(), 0);
-		std::cout << BLUE << messages << WHITE << std::endl;
+		// std::cout << BLUE << messages << WHITE << std::endl;
 		diff = messages.length() - len;
 		if ( diff > 0 )
 		{

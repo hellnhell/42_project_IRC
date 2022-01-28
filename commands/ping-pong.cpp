@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 12:37:45 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/27 14:30:19 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/28 11:40:26 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,12 @@ void    Server::checkPing()
 			if ((usr->getCheckedRegist() == false || usr->getPingOn() == true)
 			 && (getTime() - usr->getTimeZero() > usr->getTimePing() + 100000))
 			{
-				if (usr->getPingOn() && !usr->getCheckedRegist())
-					replyMsg(ERR_NOORIGIN, " [Connection aborted]", usr);
-				else
-					replyMsg(ERR_NOORIGIN, " [Connection aborted]", usr);
+				std::string aux =  ":ft_irc.com  409:[Connection aborted]";
+				send(usr->getFD(),  aux.c_str(), aux.length(), 0);
+				// if (usr->getPingOn() && !usr->getCheckedRegist())
+				// 	replyMsg(ERR_NOORIGIN, " [Connection aborted]", usr);
+				// else
+					// replyMsg(ERR_NOORIGIN, " [Connection aborted]", usr);
 		  		actionDisplay("Connection lost", "", usr);
 				this->deleteUser(usr);
 				return ;
