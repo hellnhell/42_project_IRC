@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 12:37:45 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/28 11:40:26 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/28 18:18:40 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void    Server::checkPing()
 			if ((usr->getCheckedRegist() == false || usr->getPingOn() == true)
 			 && (getTime() - usr->getTimeZero() > usr->getTimePing() + 100000))
 			{
-				std::string aux =  ":ft_irc.com  409:[Connection aborted]";
+				std::string aux =  ":ft_irc.com  409 :[Connection aborted]";
 				send(usr->getFD(),  aux.c_str(), aux.length(), 0);
 				// if (usr->getPingOn() && !usr->getCheckedRegist())
 				// 	replyMsg(ERR_NOORIGIN, " [Connection aborted]", usr);
@@ -43,7 +43,7 @@ void    Server::checkPing()
 				usr->setPingOn(true);
 				usr->setPing(pingpass);
 				pingpass = usr->getPing() + "\n";
-				send(usr->getFD(),"PING ", strlen("PING "), 0);
+				send(usr->getFD(),"PING :", strlen("PING "), 0);
 				send(usr->getFD(),pingpass.c_str(), pingpass.length(), 0);
 				actionDisplay("Pinged", "", usr);
 			}
@@ -56,7 +56,7 @@ void    Server::pongCmmd(std::vector<std::string> const &tokens, User *usr)
 {
 	if (tokens.size() <= 1 || tokens[1] != usr->getPing())
 	{
-		std::string aux =  ":ft_irc.com  409:[Connection aborted]";
+		std::string aux =  ":ft_irc.com  409 :[Connection aborted]";
 		send(usr->getFD(),  aux.c_str(), aux.length(), 0);
 		this->deleteUser(usr); //PUEDE Q PETE
 		return;

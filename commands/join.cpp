@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:41 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/26 16:08:08 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/28 16:40:49 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,14 @@ void Server::joinCmmd(std::vector<std::string> const &tokens, User* usr)
 					{
 						return replyMsg(ERR_BADCHANNELKEY, ":Cannot join channel (+k)", usr);
 					}
+					std::vector<User *>::const_iterator it2;
+					if ((it2 = std::find((*it)->getBans().begin(), (*it)->getBans().end(), usr)) != (*it)->getBans().end())
+						return this->replyMsg(ERR_BANNEDFROMCHAN, (*it)->getName() + " :Cannot join channel (+b)", usr);
+
 					(*it)->joinUser(usr);
 					usr->joinChannel(*it);
 					dataMsg("JOIN :" + tokens2[i], usr, usr);
 					replyMsg(RPL_TOPIC, ":" + (*it)->getTopic(), usr);
-                    // usr->getChannels().push_back(*it);
 					msg = usr->getNickMask() + " JOIN " + (*it)->getName() + "\n";
  					msgToChannel(msg, usr, (*it));
 					finded = 1;
@@ -99,17 +102,13 @@ void Server::joinCmmd(std::vector<std::string> const &tokens, User* usr)
 					{
 						(*it)->joinUser(usr);
 						usr->joinChannel(*it);
-						// replyMsg(RPL_TOPIC, ":" + (*it)->getTopic(), usr);
+							 replyMsg(RPL_TOPIC, ":" + (*it)->getTopic(), usr);
 							std::cout << "Joined channel " << (*it)->getName() << std::endl;
 							std::cout << "Available commands: /msg <user> <message>, /leave, /list, /users, /help" << std::endl;
 						// return ;
 					}
 					else
-					{
 						return replyMsg(ERR_BADCHANNELKEY, ":Cannot join channel (+k)", usr);
-						//std::cout << "Wrong key" << std::endl;
-						// return ;
-					}
 				}
 			}
 		}

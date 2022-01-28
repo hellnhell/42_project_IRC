@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 12:35:45 by emartin-          #+#    #+#             */
-/*   Updated: 2022/01/27 13:07:03 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/28 14:09:38 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void Server::userCmmd(std::vector<std::string> const &tokens, User *usr)
 	//Salen todos los mensajes de error??
 
 	if (!usr->getConnectionPswd())
-		return replyMsg(ERR_PASSWDMISMATCH, " :Password mismatch", usr);
+		return ;
 	if (tokens.size() < 4)
 		return replyMsg(ERR_NEEDMOREPARAMS, tokens[0] + " :Not enough parameters", usr);
 	if (usr->getUser()[0])

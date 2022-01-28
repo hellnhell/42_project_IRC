@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   privmsg.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 12:58:34 by javrodri          #+#    #+#             */
-/*   Updated: 2022/01/28 11:11:15 by javrodri         ###   ########.fr       */
+/*   Updated: 2022/01/28 14:47:19 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void    Server::privmsgCmmd(std::vector<std::string> const& tokens, User* usr){
 		}
 		std::cout << GREEN << "\n----->> sended: " << sended << WHITE <<std::endl;
 		if (sended == false){
-			msg = tokens[1] + " : No such nick/channel";
+			msg = tokens[1] + " :No such nick/channel";
 			replyMsg(ERR_NOSUCHNICK, msg, usr);
 		}
 
@@ -89,6 +89,7 @@ void    Server::privmsgCmmdToChannel(std::vector<std::string> const& tokens, Use
 				return;
 			}
 		}
+		std::cout << "patataaaaaaaaaaaaaaaa\n\n" << std::endl;
 		msg = " " + tokenDest + " : No such nick/channel";
 		replyMsg(ERR_NOSUCHNICK, msg, usr);
 	}

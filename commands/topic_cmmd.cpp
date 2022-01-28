@@ -6,13 +6,13 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 18:40:47 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/27 18:48:07 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/28 17:25:33 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../server.hpp"
 
-void Server::topicCmmd(std::vector<std::string> const &tokens, User *usr, Server &serv)
+void Server::topicCmmd(std::vector<std::string> const &tokens, User *usr)
 {
 	std::string msg;
 	Channel *channel;
@@ -53,7 +53,7 @@ void Server::topicCmmd(std::vector<std::string> const &tokens, User *usr, Server
 		replyMsg(ERR_NOTEXTTOSEND, "", usr);
 	else if (tokens.size() == 2)
 	{
-		channel = serv.getChannel(tokens[1]);
+		channel = this->getChannel(tokens[1]);
 		if (channel)
 			replyMsg(RPL_TOPIC,  channel->getTopic() + " TOPIC :", usr);
 		else
@@ -61,7 +61,7 @@ void Server::topicCmmd(std::vector<std::string> const &tokens, User *usr, Server
 	}
 	else if (tokens.size() == 3)
 	{
-		channel = serv.getChannel(tokens[1]);
+		channel = this->getChannel(tokens[1]);
 		if (channel)
 		{
 			//if(std::find(usr->getChannels().begin(), usr->getChannels().end(), channel) != usr->getChannels().end())

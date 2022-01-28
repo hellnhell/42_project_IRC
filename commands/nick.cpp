@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 13:15:28 by emartin-          #+#    #+#             */
-/*   Updated: 2022/01/27 13:07:11 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/28 14:10:17 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,16 @@ void Server::nickCmmd(std::vector<std::string> const &tokens, User *usr)
 
 
 	if (!usr->getConnectionPswd()) //No se si es necesario
-		return replyMsg(ERR_PASSWDMISMATCH ,"Password mismatch", usr);
+		return ;
 	if(tokens.size() != 2)
-		return replyMsg(ERR_NONICKNAMEGIVEN, ": No nickname given", usr);
+		return replyMsg(ERR_NONICKNAMEGIVEN, " :No nickname given", usr);
 	if(tokens[1] == usr->getNick())
-		return replyMsg(ERR_NICKNAMEINUSE, tokens[1] + "Unauthorized command (already registered)", usr);
+		return replyMsg(ERR_NICKNAMEINUSE, tokens[1] + " :Unauthorized command (already registered)", usr);
 	if(tokens[1].size() > 9)
-		return replyMsg(ERR_ERRONEUSNICKNAME, tokens[1] + " Erroneus nickname", usr);
+		return replyMsg(ERR_ERRONEUSNICKNAME, tokens[1] + " :Erroneus nickname", usr);
 	if(tokens[1][0] == '-' ||
 		tokens[1].find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789`|^_-{}[]\\") != std::string::npos)
-		return replyMsg(ERR_ERRONEUSNICKNAME, tokens[1] + " Erroneus nickname", usr);
+		return replyMsg(ERR_ERRONEUSNICKNAME, tokens[1] + " :Erroneus nickname", usr);
 
 	for(it = this->list_users.begin(); it != this->list_users.end(); it++)
 	{
@@ -49,7 +49,7 @@ void Server::nickCmmd(std::vector<std::string> const &tokens, User *usr)
 			if((*it).second->getNick() == tokens[1])
 			{
 				std::cout << "Error nickname " << tokens[1] << " is invalid" << std::endl;
-				send(usr->getFD(), "Not a valid nickname\n", 21, 0); //esto no cumple nada pero por ver algo en el cliente
+				send(usr->getFD(), "Not a valid nickname\n", 21, 0); //esto no cumple nada pero por ver algo en el cliente //LO VAMOS A MANTENER?
 				std::cout << std::endl << "Nick: " << usr->getNick();
 				return ;
 			}

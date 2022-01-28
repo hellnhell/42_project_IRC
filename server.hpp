@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:50 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/28 11:10:35 by javrodri         ###   ########.fr       */
+/*   Updated: 2022/01/28 17:25:18 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,9 +234,9 @@ class Server
         void	                    partCmmd(std::vector<std::string> const& tokens, User *usr);
 		void					    noticeCmmd(std::vector<std::string> const& tokens, User* usr);
 		void						awayCmmd(std::vector<std::string> const &tokens, User *usr);
-		void						namesCmmd(std::vector<std::string> const& tokens, User *usr, Server &Serv);
-		void						topicCmmd(std::vector<std::string> const& tokens, User *usr, Server &Serv);
-		void						modeCmmd(std::vector<std::string> const& tokens, User *usr, Server &Serv);
+		void						namesCmmd(std::vector<std::string> const& tokens, User *usr);
+		void						topicCmmd(std::vector<std::string> const& tokens, User *usr);
+		void						modeCmmd(std::vector<std::string> const& tokens, User *usr);
 		void                        whoCmmd( std::vector<std::string> const &tokens, User *usr );
 		void						operCmmd(std::vector<std::string> const &tokens, User *usr);
 		void						killCmmd(std::vector<std::string>const &tokens, User *usr);

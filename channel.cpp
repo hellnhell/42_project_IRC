@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:34 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/27 18:36:18 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/28 18:48:56 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,10 @@ Channel::Channel(Server *server, User *creator, const std::string &name)
 		this->_type = initType(name);
 		this->_modes.O = creator->getUser();
 		this->_max_users = 1024;
-		this->_ops.push_back(creator);
+		this->_ops.push_back(creator); //esto lo cambio de ops
 		this->_current_users = 0;
 	}
+	
 
 	std::cout << "Channel " << name << " created" << std::endl;
 }
@@ -128,15 +129,12 @@ void Channel::joinUser(User *user)
 	std::vector<User *>::iterator it;
 
 	if ((it = std::find(_bans.begin(), _bans.end(), user)) != _bans.end())
-	{
-		perror("User is banned from this channel");
-		return ;
-	}
+		return this->_server->replyMsg(ERR_BANNEDFROMCHAN, this->getName() + " :Cannot join channel (+b)", user);
 
 	if((it = std::find(_users.begin(), _users.end(), user)) != _users.end())
 	{
 		perror("User is already in this channel");
-		return ;
+		return;
 	}
 	_users.push_back(user);
 	this->_current_users++;

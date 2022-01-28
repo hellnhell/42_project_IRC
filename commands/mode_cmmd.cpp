@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 20:11:02 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/27 18:18:12 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/28 17:25:11 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ bool is_channel(std::string const &str)
 	return false;
 }
 
-void	Server::modeCmmd(std::vector<std::string> const &tokens, User *usr, Server &serv)
+void	Server::modeCmmd(std::vector<std::string> const &tokens, User *usr)
 {
 	if(tokens.size() < 2)
 		return replyMsg(ERR_NEEDMOREPARAMS, " MODE :Not enough parameters", usr);
 	if(is_channel(tokens[1]))
 	{
-		Channel *channel = serv.getChannel(tokens[1]);
+		Channel *channel = this->getChannel(tokens[1]);
 		if(!channel)
 			return replyMsg(ERR_NOSUCHCHANNEL, tokens[1], usr);
 		if(tokens.size() == 2)

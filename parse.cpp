@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 12:56:36 by emartin-          #+#    #+#             */
-/*   Updated: 2022/01/27 14:18:53 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/28 17:26:06 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void    Server::parseCommands(std::vector<std::string> const &tokens, User *usr,
 		else if(tokens[0] == "MOTD" || tokens[0] == "motd")
 			return this->motdCmmd(fd);
 		else if(tokens[0] == "NAMES" || tokens[0] == "names")
-			return this->namesCmmd(tokens, usr, *this);
+			return this->namesCmmd(tokens, usr);
 		else if(tokens[0] == "PONG" || tokens[0] == "pong")
 		 	return this->pongCmmd(tokens, usr);
 		else if(tokens[0] == "QUIT" || tokens[0] == "quit")
@@ -62,9 +62,9 @@ void    Server::parseCommands(std::vector<std::string> const &tokens, User *usr,
 		else if(tokens[0] == "PART" || tokens[0] == "part")
 		 	return this->partCmmd(tokens, usr);
 		else if(tokens[0] == "TOPIC" || tokens[0] == "topic")
-			return this->topicCmmd(tokens, usr, *this);
+			return this->topicCmmd(tokens, usr);
 		else if(tokens[0] == "MODE" || tokens[0] == "mode")
-			return this->modeCmmd(tokens, usr, *this);
+			return this->modeCmmd(tokens, usr);
         else if(tokens[0] == "WHO" || tokens[0] == "who")
 		 	return this->whoCmmd(tokens, usr);
 		else if(tokens[0] == "OPER" || tokens[0] == "oper")

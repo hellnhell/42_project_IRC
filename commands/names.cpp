@@ -6,13 +6,13 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 12:37:10 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/27 13:15:50 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/28 17:24:17 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../server.hpp"
 
-void    Server::namesCmmd(std::vector<std::string> const& tokens, User *usr, Server &serv)
+void    Server::namesCmmd(std::vector<std::string> const& tokens, User *usr)
 {
 
 	std::vector<std::string>	tok;
@@ -29,7 +29,7 @@ void    Server::namesCmmd(std::vector<std::string> const& tokens, User *usr, Ser
 		std::vector<Channel *>::const_iterator it2;
 		std::vector<User *>::const_iterator it3;
 		msg = "";
-		for (it2 = serv.getChannels().begin(); it2 != serv.getChannels().end(); it2++)
+		for (it2 = this->getChannels().begin(); it2 != this->getChannels().end(); it2++)
 		{
 			msg += " = " + (*it2)->getName() + " ";
 			for(it3 = (*it2)->getUsers().begin(); it3 != (*it2)->getUsers().end(); it3++)
@@ -46,7 +46,7 @@ void    Server::namesCmmd(std::vector<std::string> const& tokens, User *usr, Ser
 			replyMsg(RPL_ENDOFNAMES," " +  (*it2)->getName() + " :End of /NAMES list.", usr);
 		}
 		std::map<int, User *>::const_iterator it;
-		for (it = serv.getUsers().begin(); serv.getUsers().size() >= 0 && it != serv.getUsers().end(); ++it)
+		for (it = this->getUsers().begin(); this->getUsers().size() >= 0 && it != this->getUsers().end(); ++it)
 		{
 			if(it->second->getChannels().size() <= 0)
 			{
@@ -70,7 +70,7 @@ void    Server::namesCmmd(std::vector<std::string> const& tokens, User *usr, Ser
 		{
 			std::vector<Channel *>::const_iterator it2;
 			std::vector<User *>::const_iterator it3;
-			for (it2 = serv.getChannels().begin(); it2 != serv.getChannels().end(); it2++)
+			for (it2 = this->getChannels().begin(); it2 != this->getChannels().end(); it2++)
 			{
 				if(tok[i] == (*it2)->getName())
 				{
