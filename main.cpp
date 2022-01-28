@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 14:11:46 by emartin-          #+#    #+#             */
-/*   Updated: 2022/01/27 10:56:04 by javrodri         ###   ########.fr       */
+/*   Updated: 2022/01/27 15:47:09 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,8 @@ int main(int argc, char **argv)
 	try
 	{
 		port = getPort(argv[1]);
-		Server server;
-		gservptr = &server; //??
+		Server server(port);
+		gservptr = &server;
 		int set_read = 0;
 		server.setPassword(psswd);
 		while(1)
@@ -120,7 +120,7 @@ int main(int argc, char **argv)
 			server.buildSelectList();
 			if((set_read = server.getReadSocks()) < 0)
 			{
-				// std::cout << RED "mal" WHITE << std::endl;
+				std::cout << RED "mal" WHITE << std::endl;
 				throw Server::ServerException();
 			}
 			// std::cout << RED << set_read << WHITE << std::endl;

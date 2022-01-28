@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:34 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/25 11:21:39 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/27 18:36:18 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -344,6 +344,11 @@ User *Channel::getNick(std::string nickName) const
 	std::vector<User *>::const_iterator it;
 
 	for (it = this->_users.begin(); it != this->_users.end(); it++)
+	{
+		if ((*it)->getNick() == nickName)
+			return (*it);
+	}
+	for (it = this->_ops.begin(); it != this->_ops.end(); it++)
 	{
 		if ((*it)->getNick() == nickName)
 			return (*it);

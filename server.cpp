@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:52 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/26 14:02:00 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/27 17:39:15 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ const char* Server::ServerException::what() const throw ()
 	return "Server Exception: Something went wrong\n";
 }
 
-Server::Server()
+Server::Server(int port)
 {
 	std::cout << "Server Constructor:" << std::endl;
 	int reuse_addr = 1;
@@ -55,7 +55,7 @@ Server::Server()
 	memset((char *)&this->server_address, 0, sizeof(this->server_address));
 	this->server_address.sin_family = AF_INET;
 	this->server_address.sin_addr.s_addr = htonl(INADDR_ANY);
-	this->server_address.sin_port = htons(PORT);
+	this->server_address.sin_port = htons(port);
 	setsockopt(this->listening_socket, SOL_SOCKET, SO_REUSEADDR, &reuse_addr, sizeof(int));
 	if(bind(this->listening_socket, (struct sockaddr *) &this->server_address, sizeof(this->server_address)) == -1 )
 	{

@@ -6,16 +6,16 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 12:37:45 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/26 14:11:22 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/27 14:30:19 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../server.hpp"
 
-
 void    Server::checkPing()
 {
-	User* usr;
+	User* usr
+	;
 	std::string ping[] = {"5@·Run/mtf/run/@·5", "222@++222@++", "5#55Read/more5#55", "5.-You/would/have/studied.-5"};
 	std::string pingpass = ping[rand() % 4];
 	std::map<int, User*>::iterator it = this->list_users.begin();
@@ -29,9 +29,9 @@ void    Server::checkPing()
 			 && (getTime() - usr->getTimeZero() > usr->getTimePing() + 100000))
 			{
 				if (usr->getPingOn() && !usr->getCheckedRegist())
-					replyMsg("ERROR :Registration timeout ", " [Connection aborted]", usr);
+					replyMsg(ERR_NOORIGIN, " [Connection aborted]", usr);
 				else
-					replyMsg("ERROR :Ping timeout ", " [Connection aborted]", usr);
+					replyMsg(ERR_NOORIGIN, " [Connection aborted]", usr);
 		  		actionDisplay("Connection lost", "", usr);
 				this->deleteUser(usr);
 				return ;
@@ -52,29 +52,25 @@ void    Server::checkPing()
 
 void    Server::pongCmmd(std::vector<std::string> const &tokens, User *usr)
 {
-	if (tokens.size() > 1 && tokens[1] == usr->getPing())
+	if (tokens.size() <= 1 || tokens[1] != usr->getPing())
 	{
-		if (usr->getTimePing() == 0)
-			this->initMsg( usr->getFD() );
-		usr->setPingOn(false);
-		usr->setTimePing(120000);
-		actionDisplay("Ping introduced", "", usr);
-		std::string msg = "396 " + usr->getNick() + " " + usr->getClientAdd() + " :is now your displayed host\n";
-		send(usr->getFD(), msg.c_str(), msg.size(), 0);
-		send(usr->getFD(), "396 ---WELCOME---\n", 18, 0);
+		std::string aux =  ":ft_irc.com  409:[Connection aborted]";
+		send(usr->getFD(),  aux.c_str(), aux.length(), 0);
+		this->deleteUser(usr); //PUEDE Q PETE
+		return;
 	}
-	else
-	{
-		replyMsg("ERROR :Wrong reply, sorry! ", " [Connection aborted]", usr);
-		deleteUser(usr);
-	}
+	if (usr->getTimePing() == 0)
+		this->initMsg(usr->getFD());
+	usr->setPingOn(false);
+	usr->setTimePing(120000);
+	actionDisplay("Ping introduced", "", usr);
+	return ;
 }
 
 
 void    Server::initMsg(int const & fd)
 {
 	User *usr = this->list_users[fd];
-
 
 	std::string s1 = " .-./`)  .-------.           _______            _______   .-./`) ,---------.     _______     .---.  .---.  ";
 	std::string s2 = " \\ .-.') |  _ _   \\        /   __  \\           \\  ____ \\  \\ .-.')\\          \\  /   __   \\    |   |  |_ _|  ";
@@ -84,7 +80,7 @@ void    Server::initMsg(int const & fd)
 	std::string s6 = "  |   |  |  |\\  \\  |    | > (_)  )  __         |  ( ' )  \\ |   |     (_I_)  >  (_)   )  __   | _ _--.   |  ";
 	std::string s7 = "  |   |  |  | \\  `'    / (  .  .-'_/  )        | (_{;}_) | |   |    (_(=)_) (  .   .-'/   )  |( ' ) |   |  ";
 	std::string s8 = "  |   |  |  |  \\     /     `-'`-'     /        |  (_,_)  / |   |     (_I_)   `-'`-'      /   (_{;}_)|   |  ";
-	std::string s9 = "  '---'  ''-'   `'-'       `._____.'           /_______.'  '---'     '---'      `._____.'     (_,_) '---'  ";                           
+	std::string s9 = "  '---'  ''-'   `'-'       `._____.'           /_______.'  '---'     '---'      `._____.'     (_,_) '---'  ";
 
 
 	std::string s10 = "         Welcome: " + usr->getNick();
@@ -109,5 +105,6 @@ void    Server::initMsg(int const & fd)
 	replyMsg(RPL_MOTD, " :"  , usr);
 	replyMsg(RPL_MOTD, " :"  , usr);
 	replyMsg(RPL_ENDOFMOTD, " :End of welcome message", this->list_users[fd]);
+
 }
 

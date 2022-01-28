@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replies.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 13:07:11 by emartin-          #+#    #+#             */
-/*   Updated: 2022/01/27 11:05:34 by javrodri         ###   ########.fr       */
+/*   Updated: 2022/01/27 13:54:30 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,7 @@ void	Server::replyMsg(std::string rep, std::string str, User *usr)
 {
 	std::string msg;
 	//Comprobar q hay mensaje
-	msg.assign(":ft_irc.com ");
-	msg.append(rep);
-	msg.append(" " + usr->getNick());
-	msg.append(str);
-	msg.append("\r\n");
-	// msg  = rep  + " " + SERVER_MASK + " " + str + "\r\n";
+	msg += ":ft_irc.com " + rep +  " " + usr->getNick() + str + "\r\n";
 	usr->setReply(msg);
 
 	std::vector<User *>::iterator it;
