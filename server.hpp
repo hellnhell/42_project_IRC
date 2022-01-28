@@ -6,7 +6,7 @@
 /*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:50 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/27 11:32:42 by javrodri         ###   ########.fr       */
+/*   Updated: 2022/01/27 12:36:39 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,10 @@
 # define RPL_TIME 					"391"		//"<server> :<string showing server's local time>""
 
 # define RPL_YOUREOPER				"381"
+
+# define RPL_AWAY					"301" //    "<nick> :<away message>"
+# define RPL_UNAWAY					"305" //    ":You are no longer marked as being away"
+# define RPL_NOWAWAY				"306" //    ":You have been marked as being away"
 
 
 
