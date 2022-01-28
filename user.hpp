@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   user.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 12:39:06 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/27 12:44:27 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/28 11:11:03 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ class User
 		const uint64_t		&getTimePing() const;
 		void				setTimePing(uint64_t const & time_ping);
 
-		const bool		*getAwayOn() const;
+		const bool		&getAwayOn() const;
 		void			setAwayOn(bool po);
 
 		const std::string 	&getAway() const;

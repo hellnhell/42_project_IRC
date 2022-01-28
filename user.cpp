@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   user.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 12:39:03 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/27 14:13:19 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/28 11:10:52 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +181,7 @@ void				User::setPingOn(bool po) { this->ping_on = po; }
 const std::string 	&User::getPing() const { return this->ping; }
 void				User::setPing(std::string p) {this->ping.clear(); this->ping = p; }
 
-const bool			*User::getAwayOn() const { return (&this->away_on); }
+const bool			&User::getAwayOn() const { return (this->away_on); }
 void				User::setAwayOn(bool po) { this->away_on = po; }
 
 const std::string 	&User::getAway() const { return this->away; }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   privmsg.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 12:58:34 by javrodri          #+#    #+#             */
-/*   Updated: 2022/01/27 18:50:45 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/28 11:11:15 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void    Server::privmsgCmmd(std::vector<std::string> const& tokens, User* usr){
 				std::cout << GREEN << "\n----->> sended: " << sended << WHITE <<std::endl;
 				if (((*beginUsrList)->getNick() == tokenDest) || ((*beginUsrList)->getNickMask() == tokenDest)){
 					destUser = *beginUsrList;
-					msg += usr->getNickMask() + " PRIVMSG " + destUser->getNick() + " :" + tokens[2] + "\n";
+					msg += usr->getNickMask() + " PRIVMSG " + destUser->getNick() + " :" + tokens[2];
 					send(destUser->getFD(), msg.c_str(), msg.length(), 0);
 					sended = true;
 					break;

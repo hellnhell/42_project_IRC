@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:50 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/27 18:12:16 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/28 11:10:35 by javrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,13 @@
 # define RPL_UNAWAY					"305" //    ":You are no longer marked as being away"
 # define RPL_NOWAWAY				"306" //    ":You have been marked as being away"
 
+# define RPL_AWAY					"301" //    "<nick> :<away message>"
+# define RPL_UNAWAY					"305" //    ":You are no longer marked as being away"
+# define RPL_NOWAWAY				"306" //    ":You have been marked as being away"
+
+
+
+class User;
 class Channel;
 class User;
 
