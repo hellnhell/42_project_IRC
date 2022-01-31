@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 12:37:39 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/28 16:22:09 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/31 11:14:58 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	Server::partCmmd(std::vector<std::string>const &tokens, User *usr)
 	std::string::size_type		pos;
 	Channel						*chan;
 
-	if (tokens.size() == 1 ) //se puede meter el quit
+	if (tokens.size() == 1 )
 		return this->replyMsg(ERR_NEEDMOREPARAMS,  tokens[0] + " :Not enough parameters", usr);
 
 	std::cout << "\n\n\n token1: " << tokens[1] << std::endl;
@@ -33,7 +33,6 @@ void	Server::partCmmd(std::vector<std::string>const &tokens, User *usr)
 	 	std::cout << tmp << std::endl;
 	 	tok.push_back(tmp);
 	}
-	//print tok content
 	for(int i = 0; i < tok.size(); i++)
 		std::cout << "tok[" << i << "]: " << tok[i] << std::endl;
 	for(int i = 0; i < tok.size(); i++)
@@ -52,17 +51,15 @@ void	Server::partCmmd(std::vector<std::string>const &tokens, User *usr)
 					this->dataMsg("PART " + (chan)->getName() + " :has left the channel", usr, usr);
 					leave_msg += usr->getNickMask() + " PART " + (chan)->getName() + "\n";;
 					msgToChannel(leave_msg, usr, chan);
-				//send leve_msg to all users in channel
 			}
 			else
 			{
 					this->dataMsg("PART " + (chan)->getName() + " :has left the channel", usr, usr);
 					leave_msg = usr->getNickMask() + " PART " + (chan)->getName() + "\n";;
 					msgToChannel(leave_msg, usr, chan);
-				// ???? send generic msg to all users in channel
 			}
 			(chan)->disconnectUser(usr);
-			usr->leaveChannel(chan); // NO se va del canal why?
+			usr->leaveChannel(chan);
 			
 		}
 		replyMsg(ERR_NOSUCHCHANNEL, tok[i]  + " :Not such channel", usr);

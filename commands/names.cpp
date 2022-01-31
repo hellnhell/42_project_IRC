@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 12:37:10 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/28 17:24:17 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/31 11:13:58 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void    Server::namesCmmd(std::vector<std::string> const& tokens, User *usr)
 
 	if(tokens.size() == 1)
 	{
-		//channels con contenido
 		std::vector<Channel *>::const_iterator it2;
 		std::vector<User *>::const_iterator it3;
 		msg = "";
@@ -34,7 +33,6 @@ void    Server::namesCmmd(std::vector<std::string> const& tokens, User *usr)
 			msg += " = " + (*it2)->getName() + " ";
 			for(it3 = (*it2)->getUsers().begin(); it3 != (*it2)->getUsers().end(); it3++)
 			{
-				// msg += "\nUser: ";
 				std::vector<User *>::const_iterator it4;
 				for(it4 = (*it2)->getOps().begin(); it4 != (*it2)->getOps().end(); it4++)
 				{
@@ -77,7 +75,6 @@ void    Server::namesCmmd(std::vector<std::string> const& tokens, User *usr)
 					msg = " = " + (*it2)->getName() + " ";
 					for(it3 = (*it2)->getUsers().begin(); it3 != (*it2)->getUsers().end(); it3++)
 					{
-						// msg += "\nUser: ";
 						std::vector<User *>::const_iterator it4;
 						for(it4 = (*it2)->getOps().begin(); it4 != (*it2)->getOps().end(); it4++)
 						{
@@ -88,10 +85,8 @@ void    Server::namesCmmd(std::vector<std::string> const& tokens, User *usr)
 					}
 					replyMsg(RPL_NAMREPLY, msg, usr);
 					replyMsg(RPL_ENDOFNAMES," " +  (*it2)->getName() + " :End of /NAMES list.", usr);
-    				// replyMsg(RPL_ENDOFNAMES, usr->getUser() + " :End of /NAMES list.", usr); //?
 				}
 			}
 		}
-		// replyMsg(RPL_ENDOFNAMES, "=  End of /NAMES list", usr);
 	}
 }

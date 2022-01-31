@@ -6,17 +6,11 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:41 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/28 16:40:49 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/31 11:13:22 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../server.hpp"
-    //  ERR_NEEDMOREPARAMS              ERR_BANNEDFROMCHAN
-    //        ERR_INVITEONLYCHAN              ERR_BADCHANNELKEY
-    //        ERR_CHANNELISFULL               ERR_BADCHANMASK
-    //        ERR_NOSUCHCHANNEL               ERR_TOOMANYCHANNELS
-    //        ERR_TOOMANYTARGETS              ERR_UNAVAILRESOURCE
-    //       RPL_TOPIC
 
 static bool checkIfChannel(const std::string &str)
 {
@@ -63,7 +57,6 @@ void Server::joinCmmd(std::vector<std::string> const &tokens, User* usr)
 					msg = usr->getNickMask() + " JOIN " + (*it)->getName() + "\n";
  					msgToChannel(msg, usr, (*it));
 					finded = 1;
-					// return ;
 				}
 			}
 			try
@@ -74,24 +67,20 @@ void Server::joinCmmd(std::vector<std::string> const &tokens, User* usr)
 					this->channels.push_back(chan);
 					this->channels.back()->joinUser(usr);
 					usr->joinChannel(chan);
-					dataMsg("JOIN :" + tokens2[i], usr, usr); //mirar ahora xq imprime dos veces el join
+					dataMsg("JOIN :" + tokens2[i], usr, usr);
 					msg = " JOIN " + chan->getName() + "\n";
 					msgToChannel(msg, usr, chan);
 					replyMsg(RPL_TOPIC, ":" + this->channels.back()->getTopic(), usr);
-					// return ;
 				}
 			}
 			catch(const std::exception& e)
 			{
-				//estover
 				replyMsg(ERR_UNAVAILRESOURCE, "Error: " + std::string(e.what()), usr);
-				//std::cerr << e.what() << '\n';
 				return ;
 			}
 		}
 		else if (checkIfChannel(tokens2[i - 1]))
 		{
-			//key
 			std::string key = tokens2[i];
 			std::vector<Channel*>::iterator it;
 			for(it = channels.begin(); it != channels.end(); ++it)
@@ -105,7 +94,6 @@ void Server::joinCmmd(std::vector<std::string> const &tokens, User* usr)
 							 replyMsg(RPL_TOPIC, ":" + (*it)->getTopic(), usr);
 							std::cout << "Joined channel " << (*it)->getName() << std::endl;
 							std::cout << "Available commands: /msg <user> <message>, /leave, /list, /users, /help" << std::endl;
-						// return ;
 					}
 					else
 						return replyMsg(ERR_BADCHANNELKEY, ":Cannot join channel (+k)", usr);
@@ -119,7 +107,6 @@ void Server::joinCmmd(std::vector<std::string> const &tokens, User* usr)
 			{
 				(*it)->disconnectUser(usr);
 				usr->leaveChannel(*it);
-				//meter aqui part directamente(?)
 				std::cout << "Left channel " << (*it)->getName() << std::endl;
 			}
 		}

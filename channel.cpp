@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:34 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/28 18:48:56 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/31 11:12:33 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,10 @@ Channel::Channel(Server *server, User *creator, const std::string &name)
 		this->_server = server;
 		this->_name = name;
 		this->_topic = "";
-//		this->_password = "";
 		this->_type = initType(name);
 		this->_modes.O = creator->getUser();
 		this->_max_users = 1024;
-		this->_ops.push_back(creator); //esto lo cambio de ops
+		this->_ops.push_back(creator);
 		this->_current_users = 0;
 	}
 	
@@ -94,12 +93,10 @@ Channel::~Channel() {}
 
 Channel &Channel::operator=(const Channel &rhs)
 {
-//updatear asignaciones
 	if (this != &rhs)
 	{
 		this->_name = rhs._name;
 		this->_topic = rhs._topic;
-//		this->_password = rhs._password;
 		this->_type = rhs._type;
 		this->_modes = rhs._modes;
 		this->_max_users = rhs._max_users;
@@ -185,7 +182,6 @@ int Channel::banUser(User *user, User *banned)
 		return -1;
 	}
 	_bans.push_back(banned);
-	//kick user
 	std::vector<std::string>		tok_aux;
 	tok_aux.push_back("KICK");
 	tok_aux.push_back(this->_name);

@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 14:11:46 by emartin-          #+#    #+#             */
-/*   Updated: 2022/01/28 11:50:17 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/31 11:15:31 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ void displayDev(Server *serv)
 	std::vector<User *>::const_iterator it3;
 	for (it2 = serv->getChannels().begin(); it2 != serv->getChannels().end(); it2++)
 	{
-
-		//print ops on channel
 		std::cout << "Channel: " << (*it2)->getName() << "\tOps: ";
 		for (it3 = (*it2)->getOps().begin(); it3 != (*it2)->getOps().end(); it3++)
 		{
@@ -59,7 +57,6 @@ void displayDev(Server *serv)
 
 			std::cout << (*it3)->getNick() << " ";
 			std::cout << (*it3)->getFD() << std::endl;
-			//std::cout << (*it3)->getUser() << " IP: " << (*it3)->getClientAdd() << " Socket: " << (*it3)->getFD() << std::endl;
 		}
 	}
 }
@@ -78,7 +75,7 @@ int	getPort(std::string str)
 
 void signal_kill ( int number )
 {
-	if ( number == SIGINT) //  number == SIGQUIT || number == SIGTERM???
+	if ( number == SIGINT)
 	{
 		std::cout << RED "\n💀  KILLED 💀 \n" << WHITE;
 		gservptr->~Server();
@@ -131,7 +128,7 @@ int main(int argc, char **argv)
 				 switch (i)
 				 {
 				 	case 1:
-				 		std::cout << "\t☁️\t" ; // "** O" << " O **" 🌎 POSIBILIDADES VARIAS
+				 		std::cout << "\t☁️\t" ; // "** O" << " O **" 🌎 
 				 		break;
 				 	case 2:
 				 		std::cout << "\t🌧️\t"; // "** ^" << " ^ **" 🌏

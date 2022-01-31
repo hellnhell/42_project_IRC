@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:52 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/28 15:02:54 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/31 11:14:42 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ Server::Server(int port)
 	FD_ZERO(&this->reads);
 	FD_ZERO(&this->writes);
 	this->highsock = 0;
-	// this->flag = 0;
 	this->buffCommand = "";
 	this->listening_socket = 0;
 	this->listening_socket = socket(AF_INET, SOCK_STREAM, 0);
@@ -113,22 +112,15 @@ void Server::buildSelectList()
 	std::vector<User *>::iterator it;
 	for(it = this->buff_users.begin(); it != buff_users.end(); ++it)
 	{
-		FD_SET((*it)->getFD(), &this->writes);//cambiar fd
+		FD_SET((*it)->getFD(), &this->writes);
 	}
 }
 
 int Server::getReadSocks()
 {
-// std::cout << "getReadSocks " << std::endl;
-// int temp;
-
 	this->timeout.tv_sec = 1;
 	this->timeout.tv_usec = 0;
 
-	// temp = select((this->highsock + 1 ), &this->reads, &this->writes, (fd_set *) 0 , &this->timeout);
-	// if(temp)
-	// 	std::cout << ""
-// std::cout << "fd read: " << *(int *)&this->reads << " fd write: " << *(int *)&this->writes << std::endl;
 	return select((this->highsock + 1 ), &this->reads, &this->writes, (fd_set *) 0 , &this->timeout);
 }
 
@@ -137,13 +129,10 @@ void Server::handleNewConnection()
 	int connection;
 	struct sockaddr_in client_address;
 
-	//mio
 	memset( (char *) &client_address, 0, sizeof(client_address));
 	socklen_t sock_len = sizeof(client_address);
 	connection = accept(this->listening_socket, (struct sockaddr *)&client_address, &sock_len);
 	
-	//endmio
-//	connection = accept(this->listening_socket, NULL, NULL);
 	if (connection < 0)
 	{
 		perror("accept");
@@ -155,7 +144,7 @@ void Server::handleNewConnection()
 		if(this->_list_connected_user[listnum] == 0)
 		{
 			this->_list_connected_user[listnum] = connection;
-			this->list_users[connection] = new User(connection, client_address); // no pillamos sockaddress en ningun momento
+			this->list_users[connection] = new User(connection, client_address);
 			std::cout << "New connection: " << connection << "\nclient address: " << this->list_users[connection]->getClientAdd() << std::endl;
 			if (this->getPassword().empty())
 				this->list_users[connection]->setConnectionPswd(1);
@@ -163,7 +152,6 @@ void Server::handleNewConnection()
 				this->list_users[connection]->setConnectionPswd(0);
 			this->list_users[this->_list_connected_user[listnum]]->setTimeZero(getTime());
 			std::cout << "\r";
-			// printf("Connection accepted: fd=%d Slot=%lu\n", connection, listnum);
 			actionDisplay("Connection accepted", "", list_users[connection]);
 			connection = -1;
 		}
@@ -293,9 +281,6 @@ void Server::readSocks()
 		}
 	}
 }
-
-
-//SETTERs-GETTERs
 
 void Server::setPassword(std::string psswd) { this->password = psswd; }
 std::string	Server::getPassword() const { return this->password; };

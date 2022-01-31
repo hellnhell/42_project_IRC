@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 12:37:45 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/28 18:18:40 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/31 11:13:43 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,6 @@ void    Server::checkPing()
 			{
 				std::string aux =  ":ft_irc.com  409 :[Connection aborted]";
 				send(usr->getFD(),  aux.c_str(), aux.length(), 0);
-				// if (usr->getPingOn() && !usr->getCheckedRegist())
-				// 	replyMsg(ERR_NOORIGIN, " [Connection aborted]", usr);
-				// else
-					// replyMsg(ERR_NOORIGIN, " [Connection aborted]", usr);
 		  		actionDisplay("Connection lost", "", usr);
 				this->deleteUser(usr);
 				return ;
@@ -58,7 +54,7 @@ void    Server::pongCmmd(std::vector<std::string> const &tokens, User *usr)
 	{
 		std::string aux =  ":ft_irc.com  409 :[Connection aborted]";
 		send(usr->getFD(),  aux.c_str(), aux.length(), 0);
-		this->deleteUser(usr); //PUEDE Q PETE
+		this->deleteUser(usr);
 		return;
 	}
 	if (usr->getTimePing() == 0)

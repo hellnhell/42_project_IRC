@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 13:07:11 by emartin-          #+#    #+#             */
-/*   Updated: 2022/01/28 16:21:41 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/31 11:15:05 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 void	Server::replyMsg(std::string rep, std::string str, User *usr)
 {
 	std::string msg;
-	//Comprobar q hay mensaje
+	
 	msg += ":ft_irc.com " + rep +  " " + usr->getNick() + str + "\r\n";
 	usr->setReply(msg);
 
