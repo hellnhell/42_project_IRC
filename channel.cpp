@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:34 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/31 13:48:50 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/31 14:56:30 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,10 +118,7 @@ void Channel::joinUser(User *user)
 		return this->_server->replyMsg(ERR_BANNEDFROMCHAN, this->getName() + " :Cannot join channel (+b)", user);
 
 	if((it = std::find(_users.begin(), _users.end(), user)) != _users.end())
-	{
-		perror("User is already in this channel");
 		return;
-	}
 	_users.push_back(user);
 	this->_current_users++;
 }
@@ -161,15 +158,9 @@ int Channel::banUser(User *user, User *banned)
 	std::vector<User *>::iterator it;
 
 	if((it = std::find(_bans.begin(), _bans.end(), banned)) != _bans.end())
-	{
-		perror("User is already banned");
 		return -1;
-	}
 	if((it = std::find(_users.begin(), _users.end(), banned)) == _users.end())
-	{
-		perror("User not in channel");
 		return -1;
-	}
 	_bans.push_back(banned);
 	std::vector<std::string>		tok_aux;
 	tok_aux.push_back("KICK");
@@ -194,15 +185,9 @@ int Channel::opUser(User *user)
 	std::vector<User *>::iterator it;
 
 	if((it = std::find(_ops.begin(), _ops.end(), user)) != _ops.end())
-	{
-		perror("User is already op");
 		return -1;
-	}
 	if((it = std::find(_users.begin(), _users.end(), user)) == _users.end())
-	{
-		perror("User not in channel");
 		return -1;
-	}
 	_ops.push_back(user);
 	return 0;
 }
