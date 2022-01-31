@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 12:37:15 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/28 14:00:44 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/31 14:04:44 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	Server::kickCmmd(std::vector<std::string>const &tokens, User *usr)
 {
 	std::istringstream         		ss;
-	std::string                 	tmp;
+	std::string						tmp;
 	std::vector<std::string>		tok_chan;
 	std::vector<std::string>		tok_usr;
 	std::vector<std::string>		tok_aux;
@@ -45,7 +45,6 @@ void	Server::kickCmmd(std::vector<std::string>const &tokens, User *usr)
 				return replyMsg(ERR_USERNOTINCHANNEL, tok_usr[j] + " " + tok_chan[i] + " :They aren't on that channel", usr);
 			tok_aux.push_back("part");
 			tok_aux.push_back(tok_chan[i]);
-		//	if (!tokens[3].empty())
 			if (tokens.size() > 3)
 				tok_aux.push_back(tokens[3]);
 			this->partCmmd(tok_aux, usr2);

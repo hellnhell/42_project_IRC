@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 13:15:28 by emartin-          #+#    #+#             */
-/*   Updated: 2022/01/28 14:10:17 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/31 12:38:28 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,12 @@
 void Server::nickCmmd(std::vector<std::string> const &tokens, User *usr)
 {
 
-	std::map<int, User*>::iterator it;
-    std::string                    old_nick;
-    std::string                    msg;
+	std::map<int, User*>::iterator	it;
+	std::string						old_nick;
+	std::string						msg;
 
 
-	if (!usr->getConnectionPswd()) //No se si es necesario
-		return ;
+	if (!usr->getConnectionPswd())
 	if(tokens.size() != 2)
 		return replyMsg(ERR_NONICKNAMEGIVEN, " :No nickname given", usr);
 	if(tokens[1] == usr->getNick())
@@ -42,29 +41,18 @@ void Server::nickCmmd(std::vector<std::string> const &tokens, User *usr)
 		return replyMsg(ERR_ERRONEUSNICKNAME, tokens[1] + " :Erroneus nickname", usr);
 
 	for(it = this->list_users.begin(); it != this->list_users.end(); it++)
-	{
-		std::cout << it->first << " fds chekeados" << std::endl;
-		if(it->first >= 4) //N: esto es una chapuza por que no se usar mapas y hay mapas con fds < 4 que peta por no inicializarse maybe
-		{
-			if((*it).second->getNick() == tokens[1])
-			{
-				std::cout << "Error nickname " << tokens[1] << " is invalid" << std::endl;
-				send(usr->getFD(), "Not a valid nickname\n", 21, 0); //esto no cumple nada pero por ver algo en el cliente //LO VAMOS A MANTENER?
-				std::cout << std::endl << "Nick: " << usr->getNick();
-				return ;
-			}
-		}
-	}
-    old_nick = usr->getNickMask();
+		if((*it).second->getNick() == tokens[1]) 
+			return replyMsg(ERR_NICKNAMEINUSE,  "NICK :" + tokens[1] + " :Already in use", usr);
+	old_nick = usr->getNickMask();
 	usr->setNick(tokens[1]);
 	usr->setNickMask(":" + usr->getNick() + "!" + usr->getUser() + "@" + usr->getClientAdd());
-    if (!usr->getNick().empty())
-    {
-        std::vector<Channel *>::iterator it;
-        msg = old_nick + " NOW IS " + usr->getNickMask() + "\n";
+	if (!usr->getNick().empty())
+	{
+		std::vector<Channel *>::iterator it;
+		msg = old_nick + " NOW IS " + usr->getNickMask() + "\n";
 		for (it = usr->getChannels().begin(); usr->getChannels().size() > 1 && it != usr->getChannels().end(); it++)
-            return msgToChannel(msg, usr, *it);
-    }
+			return msgToChannel(msg, usr, *it);
+	}
 	usr->setCheckedNick(true);
 	if (usr->getCheckedRegist())
 		usr->setTimePing(0);

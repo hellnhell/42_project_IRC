@@ -6,13 +6,13 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 12:37:45 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/31 11:13:43 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/31 13:53:51 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../server.hpp"
 
-void    Server::checkPing()
+void	Server::checkPing()
 {
 	User* usr
 	;
@@ -38,7 +38,7 @@ void    Server::checkPing()
 			{
 				usr->setPingOn(true);
 				usr->setPing(pingpass);
-				pingpass = usr->getPing() + "\n";
+				pingpass = ":" + usr->getPing() + "\n";
 				send(usr->getFD(),"PING :", strlen("PING "), 0);
 				send(usr->getFD(),pingpass.c_str(), pingpass.length(), 0);
 				actionDisplay("Pinged", "", usr);
@@ -48,7 +48,7 @@ void    Server::checkPing()
 	}
 }
 
-void    Server::pongCmmd(std::vector<std::string> const &tokens, User *usr)
+void	Server::pongCmmd(std::vector<std::string> const &tokens, User *usr)
 {
 	if (tokens.size() <= 1 || tokens[1] != usr->getPing())
 	{
@@ -66,7 +66,7 @@ void    Server::pongCmmd(std::vector<std::string> const &tokens, User *usr)
 }
 
 
-void    Server::initMsg(int const & fd)
+void	Server::initMsg(int const & fd)
 {
 	User *usr = this->list_users[fd];
 

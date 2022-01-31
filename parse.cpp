@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 12:56:36 by emartin-          #+#    #+#             */
-/*   Updated: 2022/01/28 17:26:06 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/31 14:53:12 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ void    Server::parseCommands(std::vector<std::string> const &tokens, User *usr,
 		 	return this->killCmmd(tokens, usr);
 		else if(tokens[0] == "KICK" || tokens[0] == "kick")
 		 	return this->kickCmmd(tokens, usr);
+		else if(tokens[0] == "ISON" || tokens[0] == "ison")
+		 	return this->isonCmmd(tokens, usr);
 		return replyMsg(ERR_UNKNOWNCOMMAND, tokens[0] + " :Unkown command", usr);
 	}
 }
@@ -80,14 +82,14 @@ bool 	BothAreSpaces(char lhs, char rhs) { return (lhs == rhs) && (lhs == ' '); }
 
 std::vector<std::string>   Server::parseMessage(std::string buffer)
 {
-	std::vector<std::string>    tok_tmp;
-	std::vector<std::string>    tokens;
-	size_t                      pos;
-	std::string                 tmps;
-	std::stringstream           s(buffer);
-	std::istringstream          ss;
+	std::vector<std::string>	tok_tmp;
+	std::vector<std::string>	tokens;
+	size_t						pos;
+	std::string					tmps;
+	std::stringstream			s(buffer);
+	std::istringstream			ss;
 
-	if (buffer[0] == '\n' || buffer[0] == '\r' )
+	if (buffer[0] == '\n' || buffer[0] == '\r')
 		tokens.push_back("");
 
 	std::string::iterator new_end = std::unique(buffer.begin(), buffer.end(), BothAreSpaces);
@@ -100,11 +102,7 @@ std::vector<std::string>   Server::parseMessage(std::string buffer)
 	{
 		ss.str(tok_tmp[1]);
 		while(ss >> tmps)
-		{
 			tokens.push_back(tmps);
-			std::cout << "*" << tmps << std::endl;
-		}
-
 		tokens.erase(tokens.begin());
 		if (tok_tmp.size() > 2)
 			tokens.push_back(tok_tmp[2]);

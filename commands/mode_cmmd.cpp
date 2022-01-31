@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 20:11:02 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/28 17:25:11 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/31 14:54:08 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	Server::modeCmmd(std::vector<std::string> const &tokens, User *usr)
 					channel->setMode('t', mode_set);
 				else if(tokens[2][i] == 'k')
 				{
-					//channel->setMode('k', mode_set);
 					if(tokens.size() != 4)
 						return replyMsg(ERR_NEEDMOREPARAMS, " MODE :Not enough parameters", usr);
 					if(mode_set)
@@ -75,28 +74,23 @@ void	Server::modeCmmd(std::vector<std::string> const &tokens, User *usr)
 				{
 					if(tokens.size() != 4)
 						return replyMsg(ERR_NEEDMOREPARAMS, "MODE :Not enough parameters", usr);
-					std::cout << "b" << std::endl;
-					User *banned = channel->getNick(tokens[3]);
-					if(!banned)
-						return replyMsg(ERR_USERNOTINCHANNEL, tokens[3], usr);
 					if(mode_set)
 					{
-						std::cout << "baneame esta" << std::endl;
+						User *banned = channel->getNick(tokens[3]);
+						if(!banned)
+							return replyMsg(ERR_USERNOTINCHANNEL, tokens[3], usr);
 						if(channel->banUser(usr, banned) == -1)
 							return replyMsg(ERR_USERSDONTMATCH, ":Cannot change mode for other users", usr);
 					}
 					else
+					{
+						User *banned = channel->getBan(tokens[3]);
 						channel->unbanUser(banned);
+					}
 				}
 				else
 					return replyMsg(ERR_UNKNOWNMODE, &tokens[2][i], usr);
 			}
 		}
 	}
-	else
-	{
-		//user
-	}
-
-
 }

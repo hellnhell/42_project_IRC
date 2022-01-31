@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 12:37:10 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/31 11:13:58 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/31 14:54:31 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,12 @@
 
 void    Server::namesCmmd(std::vector<std::string> const& tokens, User *usr)
 {
-
 	std::vector<std::string>	tok;
-	std::istringstream          ss;
-	std::string                 tmp;
-	std::string                 msg;
+	std::istringstream			ss;
+	std::string					tmp;
+	std::string					msg;
 	Channel						*channel;
-	int pos;
+	int							pos;
 	bool						users_no_channel = 0;
 
 	if(tokens.size() == 1)
@@ -54,16 +53,12 @@ void    Server::namesCmmd(std::vector<std::string> const& tokens, User *usr)
 			}
 		}
 		replyMsg(RPL_NAMREPLY, msg, usr);
-
 	}
 	else
 	{
 		ss.str(tokens[1]);
 		while(getline(ss, tmp, ','))
-		{
-			std::cout << tmp << std::endl;
 			tok.push_back(tmp);
-		}
 		for (int i = 0; i < tok.size(); i++)
 		{
 			std::vector<Channel *>::const_iterator it2;

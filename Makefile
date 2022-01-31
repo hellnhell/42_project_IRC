@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+         #
+#    By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/22 11:59:14 by emartin-          #+#    #+#              #
-#    Updated: 2022/01/12 18:11:32 by javrodri         ###   ########.fr        #
+#    Updated: 2022/01/31 13:09:32 by emartin-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,7 @@ SRCS			= main.cpp \
 					commands/ping-pong.cpp \
 					commands/away.cpp \
 					commands/notice.cpp \
+					commands/ison.cpp \
 					utils.cpp
 
 OBJS_DIR = objects/

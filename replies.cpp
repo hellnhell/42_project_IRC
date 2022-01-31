@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 13:07:11 by emartin-          #+#    #+#             */
-/*   Updated: 2022/01/31 11:15:05 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/31 14:51:47 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,7 @@ void	Server::dataMsg(std::string rep, User *usr, User *usr2)
 	usr2->setReply(msg);
 	std::vector<User *>::iterator it;
 	if ((it = std::find(buff_users.begin(), buff_users.end(), usr2)) != buff_users.end())
-	{
-		std::cout <<GREEN << usr2->getNickMask()  << WHITE << std::endl;
 		return ;
-	}
 	buff_users.push_back(usr);
 }
 
@@ -47,13 +44,10 @@ void	Server::msgToChannel(std::string msg,  User *usr, Channel *chnl)
 	std::vector<User *>::const_iterator it2;
 	std::vector<User *>::const_iterator it3;
 
-	if(!chnl->getNick(usr->getNick()))
-		return ;
 	it2 = chnl->getUsers().begin();
 	it3 = chnl->getUsers().end();
 
-	for (;it2 != it3; ++it2){
+	for (;it2 != it3; ++it2)
 		if(*it2 != usr)
 			send((*it2)->getFD(), msg.c_str(), msg.length(), 0);
-	}
 }

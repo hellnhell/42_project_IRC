@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 14:04:16 by emartin-          #+#    #+#             */
-/*   Updated: 2022/01/26 12:04:11 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/31 12:22:12 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void	timerDisplay()
 		<< WHITE << std::setfill(' ') << std::setw(5);
 }
 
-
 uint64_t	getTime(void)
 {
 	static struct timeval	st;
@@ -40,7 +39,6 @@ uint64_t	getTime(void)
 	gettimeofday(&st, NULL);
 	return ((st.tv_sec * (uint64_t)1000) + (st.tv_usec / 1000));
 }
-
 
 std::string		toUpper(std::string str)
 {

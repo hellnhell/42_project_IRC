@@ -6,43 +6,24 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 12:39:03 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/28 15:17:07 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/31 13:27:49 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "user.hpp"
 
-
-static void user_modes_init(t_user_modes *modes)
-{
-	modes->a = 0;
-	modes->i = 0;
-	modes->w = 0;
-	modes->r = 0;
-	modes->o = 0;
-	modes->co = 0;
-}
-
 User::User(int &_fd, struct sockaddr_in const &client_addr) : fd(_fd)
 {
-	// this->user = "";
-	// this->nick = "";
-	// this->password = "";
-	// this->realName = "";
 	this->t_ping = 10000;
 	this->ping_on = false;
 	this->away_on = false;
 	this->address = client_addr;
-	this->address = client_addr; // dos veces
-	this->address = client_addr; // 3
 	this->connection_pswd = 0;
 	this->check_user = false;
 	this->check_nick = false;
 	this->check_regist = false;
 	this->op_mode = false;
 	this->connection_pswd = 0;
-	std::cout << "User created with fd: " << this->fd  <<std::endl;
-	user_modes_init(&this->modes);
 }
 
 User::~User()
@@ -54,10 +35,7 @@ User::~User()
 		this->leaveChannel(*it);
 		it--;
 	}
-} //Puedes meter aquí el actionDispl
-
-
-//getters setters
+}
 
 int 	User::getFD() {  return (this->fd); }
 
@@ -73,35 +51,6 @@ void	User::setNick(std::string _nick) {	this->nick = _nick; }
 const 	std::string User::getNickMask() const { return (this->nickMask); }
 void 	User::setNickMask(std::string _nickMask) {	this->nickMask = _nickMask; }
 
-const 	std::string User::getModes() const
-{
-	std::string ret;
-
-	if(this->modes.a)
-		ret.append("a");
-	if(this->modes.i)
-		ret.append("i");
-	if(this->modes.w)
-		ret.append("w");
-	if(this->modes.r)
-		ret.append("r");
-	if(this->modes.o)
-		ret.append("o");
-	if(this->modes.co)
-		ret.append("co");
-	return (ret);
-}
-
-void User::setModes(int modes)
-{
-	std::bitset<16> modesbit(modes);
-
-//	modesbit = std::BitSet.valueOf(modes);
-	if(modesbit.test(3))
-		this->modes.i = 1;
-	if(modesbit.test(2))
-		this->modes.w = 1;
-}
 
 bool	User::getOper() const { return (this->op_mode); }
 void	User::setOper(bool op) { this->op_mode = op; }
@@ -139,22 +88,22 @@ std::string User::getClientAdd() const
 {
 	struct in_addr clientIP;
 	clientIP = this->address.sin_addr;
-	char ipStr[INET_ADDRSTRLEN]; //??
+	char ipStr[INET_ADDRSTRLEN];
 	return inet_ntop(AF_INET, &clientIP, ipStr, INET_ADDRSTRLEN);
 }
 
-std::vector<Channel*> 		&User::getChannels() { return this->channels; };
+std::vector<Channel*>		&User::getChannels() { return this->channels; };
 
-void User::joinChannel(Channel *channel)
+int User::joinChannel(Channel *channel)
 {
 	std::vector<Channel *>::iterator it;
 
 	if((it = std::find(channels.begin(), channels.end(), channel)) != channels.end())
 	{
-		perror("channel is already in this channel");
-		return ;
+		return 1;
 	}
 	this->channels.push_back(channel);
+	return 0;
 }
 
 void User::leaveChannel(Channel *channel)

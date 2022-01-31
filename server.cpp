@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:52 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/31 11:14:42 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/31 14:53:58 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ const char* Server::ServerException::what() const throw ()
 
 Server::Server(int port)
 {
-	std::cout << "Server Constructor:" << std::endl;
 	int reuse_addr = 1;
 	FD_ZERO(&this->reads);
 	FD_ZERO(&this->writes);
@@ -79,7 +78,7 @@ Server::~Server()
 	while (it != this->list_users.end() )
 	{
 		std::cout << "\r";
-		actionDisplay("Connection closed", "", this->list_users[it->first] );
+		actionDisplay("Connection closed", "", this->list_users[it->first]);
 		delete it->second;
 		close(it->first);
 		FD_CLR(it->first, &this->reads);
@@ -100,8 +99,10 @@ void Server::buildSelectList()
 	FD_ZERO(&this->reads);
 	FD_ZERO(&this->writes);
 	FD_SET(this->listening_socket, &this->reads);
-	for (listnum = 0; listnum < FD_SETSIZE; listnum++) {
-		if (this->_list_connected_user[listnum] != 0) {
+	for (listnum = 0; listnum < FD_SETSIZE; listnum++)
+	{
+		if (this->_list_connected_user[listnum] != 0)
+		{
 			FD_SET(this->_list_connected_user[listnum], &this->reads);
 			if (this->_list_connected_user[listnum] > this->highsock)
 				this->highsock = this->_list_connected_user[listnum];
@@ -111,9 +112,7 @@ void Server::buildSelectList()
 		return ;
 	std::vector<User *>::iterator it;
 	for(it = this->buff_users.begin(); it != buff_users.end(); ++it)
-	{
 		FD_SET((*it)->getFD(), &this->writes);
-	}
 }
 
 int Server::getReadSocks()
@@ -179,7 +178,6 @@ void Server::dealWithData(int listnum)
 		buffer[verify] = 0;
 		recived += buffer;
 	}
-	std::cout << std::endl << "recived:  " << recived << std::endl;
 	if(recived.length() <= 0)
 	{
 		actionDisplay("Connection lost", "", this->list_users[this->_list_connected_user[listnum]]);
@@ -207,7 +205,6 @@ void Server::dealWithData(int listnum)
 						return;
 					actionDisplay("Attend client", " CMD:" + tokens[0], tmpuser);
 					parseCommands(tokens, tmpuser, listnum);
-					std::cout << std::endl << "Received:  " << recived2 << std::endl;
 				}
 				this->buffCommand.clear();
 			}
@@ -217,11 +214,8 @@ void Server::dealWithData(int listnum)
 				recived.clear();
 			}
 		}
-
 	}
 }
-
-
 
 void Server::sendBuffMsg(User *usr)
 {
@@ -233,7 +227,6 @@ void Server::sendBuffMsg(User *usr)
 	diff = 0;
 	len = 0;
 
-
 	while ( ( messages = usr->getReply() ).size() != 0)
 	{
 		if ( messages.length() > 512 )
@@ -243,7 +236,6 @@ void Server::sendBuffMsg(User *usr)
 			messages[511] = '\n';
 		}
 		len = send(usr->getFD(), messages.c_str(), messages.length(), 0);
-		std::cout << BLUE << messages << WHITE << std::endl;
 		diff = messages.length() - len;
 		if ( diff > 0 )
 		{

@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 12:38:13 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/31 11:13:32 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/31 13:49:31 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void Server::whoCmmd(std::vector<std::string>const& tokens, User *usr)
 							for(it4 = (*it2)->getOps().begin(); it4 != (*it2)->getOps().end(); it4++)
 							{
 								if((*it3)->getNick() == (*it4)->getNick())	
-								    msg +=  (*it2)->getName() + " " + (*it3)->getUser() + " " + (*it3)->getClientAdd() + " "  + (*it3)->getNick() + " H@ :0 " + (*it3)->getRealName();
+									msg +=  (*it2)->getName() + " " + (*it3)->getUser() + " " + (*it3)->getClientAdd() + " "  + (*it3)->getNick() + " H@ :0 " + (*it3)->getRealName();
 							}
 						}
 					} 
@@ -44,13 +44,11 @@ void Server::whoCmmd(std::vector<std::string>const& tokens, User *usr)
 						for(it3 = (*it2)->getUsers().begin(); it3 != (*it2)->getUsers().end(); it3++)
 							msg += (*it2)->getName() + " " + (*it3)->getUser() + " " + (*it3)->getClientAdd() + " " + (*it3)->getNick() + " H + :0 " + (*it3)->getRealName() ;
 					}
-					
-				    replyMsg(RPL_WHOREPLY, " " + msg, usr);
-				    replyMsg(RPL_ENDOFWHO,  (*it2)->getName() + " :End of /WHO list.", usr); //?
+					replyMsg(RPL_WHOREPLY, " :" + msg, usr);
+					replyMsg(RPL_ENDOFWHO,  (*it2)->getName() + " :End of /WHO list.", usr);
 				}
 				return ;
 			}
 		}
 	}
-
 }

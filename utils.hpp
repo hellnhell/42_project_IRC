@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 14:04:23 by emartin-          #+#    #+#             */
-/*   Updated: 2022/01/12 12:39:15 by nazurmen         ###   ########.fr       */
+/*   Updated: 2022/01/31 12:22:03 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,22 +48,11 @@
 class Server;
 class User;
 
-// green=$'\e[0;92;40m'
-// green_b=$'\e[0;30;102m'
-// green_d=$'\e[0;2;92;40m'
-// red=$'\e[0;92;31m'
-// green_b=$'\e[0;92;102m'
-// blue=$'\e[0;34;40m'
-// cyan=$'\e[0;1;36;40m'
-// magenta=$'\e[0;1;95;40m'
-// yellow=$'\e[0;92;33m'
-// nc=$'\e[0m'
-
 
 void						timerDisplay( void );
 void						actionDisplay(std::string const &action, std::string const &cmd, User *usr);
 
-uint64_t	                getTime(void);
+uint64_t					getTime(void);
 
 std::string					toUpper(std::string str);
 

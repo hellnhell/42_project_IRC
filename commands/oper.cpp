@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   oper.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 12:37:35 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/12 12:37:36 by nazurmen         ###   ########.fr       */
+/*   Updated: 2022/01/31 13:37:50 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../server.hpp"
 
-//gestionar el -o en modes??
 void	Server::operCmmd(std::vector<std::string> const &tokens, User *usr)
 {
 	if (tokens.size() < 3)

@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:34 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/31 11:12:33 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/31 13:48:50 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,19 +27,10 @@ static int initType(const std::string &name)
 
 static void initModes(t_modes *modes)
 {
-	modes->a = 0;
-	modes->i = 0;
-	modes->m = 0;
-	modes->n = 0;
-	modes->p = 0;
-	modes->s = 0;
 	modes->t = 1;
-	modes->r = 0;
 	modes->k = "";
-	modes->l = 0;
 	modes->b = 0;
-	modes->e = 0;
-	modes->I = 0;
+	modes->n = 0;
 }
 
 Channel::Channel(Server *server, User *creator, const std::string &name)
@@ -66,8 +57,6 @@ Channel::Channel(Server *server, User *creator, const std::string &name)
 		this->_ops.push_back(creator);
 		this->_current_users = 0;
 	}
-	
-
 	std::cout << "Channel " << name << " created" << std::endl;
 }
 
@@ -223,10 +212,8 @@ void Channel::deopUser(User *user)
 	std::vector<User *>::iterator it;
 
 	if((it = std::find(_ops.begin(), _ops.end(), user)) != _ops.end())
-	{
-	//	_users.push_back(*it);
 		_ops.erase(it);
-	}
+
 }
 
 
@@ -347,6 +334,16 @@ User *Channel::getNick(std::string nickName) const
 		if ((*it)->getNick() == nickName)
 			return (*it);
 	}
+	return (NULL);
+}
+
+User *Channel::getBan(std::string nickName) const
+{
+	std::vector<User *>::const_iterator it;
+
+	for (it = this->_bans.begin(); it != this->_bans.end(); it++)
+		if ((*it)->getNick() == nickName)
+			return (*it);
 	return (NULL);
 }
 

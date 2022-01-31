@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nazurmen <nazurmen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 20:43:47 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/12 12:54:07 by nazurmen         ###   ########.fr       */
+/*   Updated: 2022/01/31 13:48:21 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,36 +24,17 @@
 class User;
 class Server;
 
-//types: 0 -> # disponible en el IRC network
-//       1 -> & local server
-//       2 -> + modeless channel
-//       3 -> ! timestamped channel en no timestamped network
-
 typedef std::vector<std::string>::iterator	it_str_list_chnl;
 typedef std::vector<User *>::iterator			it_usr_list_chnl;
 
 typedef struct s_modes
 {
-		std::string					O; // give "channel creator" status;
-		bool o; // give/take channel operator privilege;
-		std::vector<std::string>	v; // give/take the voice privilege;
-
-		bool a; // toggle the anonymous channel flag; &puede ser toggleado por op. !puede settearse pero no unset por el channel creator, no disponible en #+.
-		bool i; // toggle the invite-only channel flag; mask matches invite list o invited by op
-		bool m; // toggle the moderated channel; solo mv
-		bool n; // toggle the no messages to channel from clients on theoutside;
-		bool q; // toggle the quiet channel flag;
-		bool p; // toggle the private channel flag;
-		bool s; // toggle the secret channel flag;
-		bool r; // toggle the server reop channel flag;
-		bool t; // toggle the topic settable by channel operator only flag;
-
-		std::string k; // set/remove the channel key (password);
-		bool l; // set/remove the user limit to channel;
-
-		bool b; // set/remove ban mask to keep users out;
-		bool e; // set/remove an exception mask to override a ban mask;
-		bool I; // set/remove an invitation mask to automatically override the invite-only flag;
+		std::string		k;
+		std::string		O; 
+		bool 			o; 
+		bool 			t; 
+		bool 			b; 
+		bool 			n;
 } t_modes;
 
 class Channel
@@ -65,13 +46,11 @@ class Channel
 		std::vector<User *>	_bans;
 		std::string			_name;
 		std::string			_topic;
-//		std::string			_password;
+
 		int					_type;
 		t_modes				_modes;
 		unsigned int 		_max_users;
 		unsigned int 		_current_users;
-
-		//std::string			_password; // TODO
 
 		Channel(Channel const &src);
 	public:
@@ -97,7 +76,6 @@ class Channel
 		int						opUser(User *user);
 		void					deopUser(User *user);
 
-
 		std::string				getName() const;
 		std::string				getTopic() const;
 		unsigned int			getMaxUsers() const;
@@ -107,10 +85,11 @@ class Channel
 		std::vector<User *>		const &getOps() const;
 		std::vector<User *>		const &getBans() const;
 		User *					getNick(std::string userName) const;
+		User *					getBan(std::string userName) const;
 
 		std::string				const getModes() const;
 		bool					const getMode(char mode) const;
 		bool					const isOperator(User *usr) const;
 };
 
-#endif // CHANNEL_HPP
+#endif

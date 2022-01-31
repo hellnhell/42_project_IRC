@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 12:37:18 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/27 16:15:28 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/01/31 13:59:36 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,8 @@ void	Server::killCmmd(std::vector<std::string>const &tokens, User *usr)
 
 	std::list<User *>::iterator it;
 	for (it = users_on.begin(); it != users_on.end(); it++)
-	{
 		if (tokens[1].compare((*it)->getNick()) == 0)
 			killed = (*it);
-	}
 	if(!killed)
 		return replyMsg(ERR_NOSUCHNICK, tokens[1] + " :Nickname incorrect", usr);
 	std::vector<Channel *>::iterator it2;
@@ -38,7 +36,7 @@ void	Server::killCmmd(std::vector<std::string>const &tokens, User *usr)
 		it2--;
 	}
 	if (!tokens[3].empty())
-		msg += killed->getNickMask() + " KILLED "  + " :for controversial reasons\n";
+		msg += killed->getNickMask() + " KILLED " + " :for controversial reasons\n";
 	else
 		msg += killed->getNickMask() + " KILLED :" + tokens[3] +"\n";  
 	send(killed->getFD(), msg.c_str(), msg.length(), 0);

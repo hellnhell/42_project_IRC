@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   time.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javrodri <javrodri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 12:36:46 by javrodri          #+#    #+#             */
-/*   Updated: 2021/12/10 10:35:26 by javrodri         ###   ########.fr       */
+/*   Updated: 2022/01/31 13:50:50 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,5 @@ void Server::timeCmmd(User *usr, int fd_user)
 	std::string message;
 	dt = ctime(&ttime);
 	message = usr->getUser() + " " + dt + " " + "\r\n";
-    replyMsg(RPL_TIME, message, usr);
+	replyMsg(RPL_TIME, message, usr);
 }
