@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 12:37:18 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/31 13:59:36 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/02/04 12:07:56 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	Server::killCmmd(std::vector<std::string>const &tokens, User *usr)
 
 	if (usr->getOper() == false)
 		return replyMsg(ERR_NOPRIVILEGES, " :No IRC-Operator privileges", usr);
-	if (tokens.size() < 3)
+	if (tokens.size() < 2)
 		return replyMsg(ERR_NEEDMOREPARAMS, tokens[0] + " :Not enough parameters", usr);
 
 	std::list<User *>::iterator it;
@@ -35,10 +35,10 @@ void	Server::killCmmd(std::vector<std::string>const &tokens, User *usr)
 		killed->leaveChannel(*it2);
 		it2--;
 	}
-	if (!tokens[3].empty())
-		msg += killed->getNickMask() + " KILLED " + " :for controversial reasons\n";
+	if (tokens.size() < 3)
+		msg += killed->getNickMask() + " KILLED " + " :for controversial reasons";
 	else
-		msg += killed->getNickMask() + " KILLED :" + tokens[3] +"\n";  
+		msg += killed->getNickMask() + " KILLED :" + tokens[2];  
 	send(killed->getFD(), msg.c_str(), msg.length(), 0);
 	this->deleteUser(killed);
 	return;

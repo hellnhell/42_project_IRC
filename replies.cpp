@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 13:07:11 by emartin-          #+#    #+#             */
-/*   Updated: 2022/01/31 14:51:47 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/02/04 11:54:11 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	Server::replyMsg(std::string rep, std::string str, User *usr)
 {
 	std::string msg;
 	
-	msg += ":ft_irc.com " + rep +  " " + usr->getNick() + str + "\r\n";
+	msg += ":ft_irc.com " + rep +  " " + usr->getNick() + " " + str + "\r\n";
 	usr->setReply(msg);
 
 	std::vector<User *>::iterator it;

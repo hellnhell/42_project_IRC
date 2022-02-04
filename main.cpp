@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 14:11:46 by emartin-          #+#    #+#             */
-/*   Updated: 2022/01/31 13:34:57 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/02/04 11:37:45 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,45 +15,6 @@
 #include "utils.hpp"
 
 Server *gservptr;
-
-void displayDev(Server *serv)
-{
-	std::cout << "\n\n\t DISPLAY" << "\n";
-	std::cout << "Users connected to the server: " << serv->getUsers().size() << "\n";
-
-	std::map<int, User *>::const_iterator it;
-	for (it = serv->getUsers().begin(); serv->getUsers().size() >= 0 && it != serv->getUsers().end(); ++it)
-		std::cout << "Socket: " << it->first << "\tIP: " << it->second->getClientAdd() << "\tUser: " << it->second->getUser() << "\n";
-	std::cout << "Channels: " << serv->getChannels().size() << std::endl;
-	std::vector<Channel *>::const_iterator it2;
-	std::vector<User *>::const_iterator it3;
-	for (it2 = serv->getChannels().begin(); it2 != serv->getChannels().end(); it2++)
-	{
-		std::cout << "Channel: " << (*it2)->getName() << "\tOps: ";
-		for (it3 = (*it2)->getOps().begin(); it3 != (*it2)->getOps().end(); it3++)
-			std::cout << (*it3)->getNick() << " ";
-		std::cout << std::endl;
-
-		std::cout << "Channel: " << (*it2)->getName() << " Users: " << (*it2)->getUsers().size() << std::endl;
-		for(it3 = (*it2)->getUsers().begin(); it3 != (*it2)->getUsers().end(); it3++)
-		{
-			std::cout << "nick: ";
-
-			std::vector<User *>::const_iterator it4;
-			for (it4 = (*it2)->getOps().begin(); it4 != (*it2)->getOps().end(); it4++)
-			{
-				if ((*it3)->getNick() == (*it4)->getNick())
-				{
-					std::cout << "*";
-					it4 = (*it2)->getOps().end();
-					it4--;
-				}
-			}
-			std::cout << (*it3)->getNick() << " ";
-			std::cout << (*it3)->getFD() << std::endl;
-		}
-	}
-}
 
 int	getPort(std::string str)
 {
@@ -140,7 +101,6 @@ int main(int argc, char **argv)
 			{
 				std::cout << "\n";
 				server.readSocks();
-				displayDev(&server);
 			}
 		}
 		return(0);

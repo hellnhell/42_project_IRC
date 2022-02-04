@@ -6,7 +6,7 @@
 /*   By: emartin- <emartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 12:37:45 by nazurmen          #+#    #+#             */
-/*   Updated: 2022/01/31 13:53:51 by emartin-         ###   ########.fr       */
+/*   Updated: 2022/02/04 11:46:23 by emartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	Server::checkPing()
 				pingpass = ":" + usr->getPing() + "\n";
 				send(usr->getFD(),"PING :", strlen("PING "), 0);
 				send(usr->getFD(),pingpass.c_str(), pingpass.length(), 0);
-				actionDisplay("Pinged", "", usr);
+				actionDisplay("\nPinged", "", usr);
 			}
 		}
 		it++;
