@@ -11,3 +11,5 @@ In this project we create our own IRC server tested with a real IRC client.
   * Make && ./irc-server [port]
   * Make && ./irc-server [port] [password]
   * Connection with : nc/telnet localhost [port] or Textual Irc client.
+
+<img src="https://github.com/hellnhell/42_project_IRC/blob/main/cover_img/cover1.png"></img>
